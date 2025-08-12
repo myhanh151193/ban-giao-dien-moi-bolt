@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Search, ShoppingCart, Menu, X, User, Heart } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 
@@ -11,9 +12,20 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ onCartClick, selectedCategory, onCategoryChange }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { getTotalItems } = useCart();
+  const location = useLocation();
   const totalItems = getTotalItems();
 
   const categories = ['All', 'Smartphones', 'Laptops', 'Tablets', 'Audio', 'Wearables'];
+
+  const navLinks = [
+    { path: '/', label: 'Trang chủ' },
+    { path: '/about', label: 'Về chúng tôi' },
+    { path: '/contact', label: 'Liên hệ' }
+  ];
+
+  const isActivePath = (path: string) => {
+    return location.pathname === path;
+  };
 
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
@@ -22,14 +34,35 @@ const Header: React.FC<HeaderProps> = ({ onCartClick, selectedCategory, onCatego
           {/* Logo */}
           <div className="flex items-center">
             <div className="flex-shrink-0">
-              <h1 className="text-2xl font-bold text-blue-600">TechStore</h1>
+              <Link to="/" className="text-2xl font-bold text-blue-600 hover:text-blue-700 transition-colors duration-200">
+                TechStore
+              </Link>
             </div>
           </div>
 
           {/* Navigation - Desktop */}
-          <nav className="hidden md:block">
-            <div className="flex items-center space-x-8">
-              {categories.map((category) => (
+          <nav className="hidden lg:block">
+            <div className="flex items-center space-x-1">
+              {/* Main Navigation */}
+              {navLinks.map((link) => (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
+                    isActivePath(link.path)
+                      ? 'text-blue-600 bg-blue-50'
+                      : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+
+              {/* Divider */}
+              <div className="w-px h-6 bg-gray-300 mx-2"></div>
+
+              {/* Categories - only show on home page */}
+              {location.pathname === '/' && categories.map((category) => (
                 <button
                   key={category}
                   onClick={() => onCategoryChange(category)}
@@ -46,7 +79,7 @@ const Header: React.FC<HeaderProps> = ({ onCartClick, selectedCategory, onCatego
           </nav>
 
           {/* Search Bar */}
-          <div className="hidden md:block flex-1 max-w-md mx-8">
+          <div className="hidden md:block flex-1 max-w-md mx-4">
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <Search className="h-5 w-5 text-gray-400" />
@@ -82,7 +115,7 @@ const Header: React.FC<HeaderProps> = ({ onCartClick, selectedCategory, onCatego
             {/* Mobile menu button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2 text-gray-700 hover:text-blue-600 transition-colors duration-200"
+              className="lg:hidden p-2 text-gray-700 hover:text-blue-600 transition-colors duration-200"
             >
               {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
@@ -91,24 +124,49 @@ const Header: React.FC<HeaderProps> = ({ onCartClick, selectedCategory, onCatego
 
         {/* Mobile menu */}
         {isMenuOpen && (
-          <div className="md:hidden">
+          <div className="lg:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 bg-gray-50 rounded-lg mt-2">
-              {categories.map((category) => (
-                <button
-                  key={category}
-                  onClick={() => {
-                    onCategoryChange(category);
-                    setIsMenuOpen(false);
-                  }}
+              {/* Main Navigation Links */}
+              {navLinks.map((link) => (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  onClick={() => setIsMenuOpen(false)}
                   className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 ${
-                    selectedCategory === category
+                    isActivePath(link.path)
                       ? 'text-blue-600 bg-blue-100'
                       : 'text-gray-700 hover:text-blue-600 hover:bg-white'
                   }`}
                 >
-                  {category}
-                </button>
+                  {link.label}
+                </Link>
               ))}
+
+              {/* Categories - only show on home page */}
+              {location.pathname === '/' && (
+                <>
+                  <div className="border-t border-gray-200 my-2"></div>
+                  <div className="px-3 py-1 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    Danh mục sản phẩm
+                  </div>
+                  {categories.map((category) => (
+                    <button
+                      key={category}
+                      onClick={() => {
+                        onCategoryChange(category);
+                        setIsMenuOpen(false);
+                      }}
+                      className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 ${
+                        selectedCategory === category
+                          ? 'text-blue-600 bg-blue-100'
+                          : 'text-gray-700 hover:text-blue-600 hover:bg-white'
+                      }`}
+                    >
+                      {category}
+                    </button>
+                  ))}
+                </>
+              )}
             </div>
             {/* Mobile search */}
             <div className="mt-4 mb-4">
