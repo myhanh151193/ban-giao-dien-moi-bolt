@@ -54,23 +54,6 @@ const Header: React.FC<HeaderProps> = ({ onCartClick }) => {
                 </Link>
               ))}
 
-              {/* Divider */}
-              <div className="w-px h-6 bg-gray-300 mx-2"></div>
-
-              {/* Categories - only show on home page */}
-              {location.pathname === '/' && categories.map((category) => (
-                <button
-                  key={category}
-                  onClick={() => onCategoryChange(category)}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
-                    selectedCategory === category
-                      ? 'text-blue-600 bg-blue-50'
-                      : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
-                  }`}
-                >
-                  {category}
-                </button>
-              ))}
             </div>
           </nav>
 
