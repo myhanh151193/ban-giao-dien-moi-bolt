@@ -1,11 +1,12 @@
 import React from 'react';
-import { Facebook, Twitter, Instagram, Youtube, Mail, Phone, MapPin } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Facebook, Twitter, Instagram, Youtube, Mail, Phone, MapPin, Clock, CreditCard } from 'lucide-react';
 
 const Footer: React.FC = () => {
   return (
     <footer className="bg-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Company Info */}
           <div className="space-y-4">
             <h3 className="text-2xl font-bold text-blue-400">TechStore</h3>
@@ -13,19 +14,31 @@ const Footer: React.FC = () => {
               Cửa hàng công nghệ hàng đầu với các sản phẩm chính hãng, 
               chất lượng cao và dịch vụ tuyệt vời.
             </p>
-            <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors duration-200">
+            <div className="flex space-x-4 mb-6">
+              <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors duration-200 p-2 bg-gray-800 rounded-full hover:bg-gray-700">
                 <Facebook className="h-5 w-5" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors duration-200">
+              <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors duration-200 p-2 bg-gray-800 rounded-full hover:bg-gray-700">
                 <Twitter className="h-5 w-5" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors duration-200">
+              <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors duration-200 p-2 bg-gray-800 rounded-full hover:bg-gray-700">
                 <Instagram className="h-5 w-5" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors duration-200">
+              <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors duration-200 p-2 bg-gray-800 rounded-full hover:bg-gray-700">
                 <Youtube className="h-5 w-5" />
               </a>
+            </div>
+
+            {/* Payment methods */}
+            <div className="space-y-3">
+              <h5 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Phương thức thanh toán</h5>
+              <div className="flex flex-wrap gap-2">
+                <div className="bg-gray-800 px-3 py-1 rounded text-xs text-gray-300">VISA</div>
+                <div className="bg-gray-800 px-3 py-1 rounded text-xs text-gray-300">MASTERCARD</div>
+                <div className="bg-gray-800 px-3 py-1 rounded text-xs text-gray-300">ATM</div>
+                <div className="bg-gray-800 px-3 py-1 rounded text-xs text-gray-300">MOMO</div>
+                <div className="bg-gray-800 px-3 py-1 rounded text-xs text-gray-300">VNPAY</div>
+              </div>
             </div>
           </div>
 
@@ -33,16 +46,54 @@ const Footer: React.FC = () => {
           <div className="space-y-4">
             <h4 className="text-lg font-semibold">Liên kết nhanh</h4>
             <ul className="space-y-2">
-              {['Trang chủ', 'Sản phẩm', 'Về chúng tôi', 'Liên hệ', 'Blog', 'FAQ'].map((link) => (
-                <li key={link}>
-                  <a 
-                    href="#" 
-                    className="text-gray-300 hover:text-white transition-colors duration-200 hover:translate-x-1 transform inline-block"
-                  >
-                    {link}
-                  </a>
-                </li>
-              ))}
+              <li>
+                <Link
+                  to="/"
+                  className="text-gray-300 hover:text-white transition-colors duration-200 hover:translate-x-1 transform inline-block"
+                >
+                  Trang chủ
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/about"
+                  className="text-gray-300 hover:text-white transition-colors duration-200 hover:translate-x-1 transform inline-block"
+                >
+                  Về chúng tôi
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/contact"
+                  className="text-gray-300 hover:text-white transition-colors duration-200 hover:translate-x-1 transform inline-block"
+                >
+                  Liên hệ
+                </Link>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="text-gray-300 hover:text-white transition-colors duration-200 hover:translate-x-1 transform inline-block"
+                >
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="text-gray-300 hover:text-white transition-colors duration-200 hover:translate-x-1 transform inline-block"
+                >
+                  FAQ
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="text-gray-300 hover:text-white transition-colors duration-200 hover:translate-x-1 transform inline-block"
+                >
+                  Tuyển dụng
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -63,33 +114,95 @@ const Footer: React.FC = () => {
             </ul>
           </div>
 
+          {/* Hỗ trợ khách hàng */}
+          <div className="space-y-4">
+            <h4 className="text-lg font-semibold">Hỗ trợ khách hàng</h4>
+            <ul className="space-y-2">
+              {['Hướng dẫn mua hàng', 'Chính sách bảo hành', 'Chính sách đổi trả', 'Phương thức thanh toán', 'Vận chuyển', 'FAQ'].map((link) => (
+                <li key={link}>
+                  <a
+                    href="#"
+                    className="text-gray-300 hover:text-white transition-colors duration-200 hover:translate-x-1 transform inline-block"
+                  >
+                    {link}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
           {/* Contact Info */}
           <div className="space-y-4">
-            <h4 className="text-lg font-semibold">Liên hệ</h4>
+            <h4 className="text-lg font-semibold">Thông tin liên hệ</h4>
             <div className="space-y-3">
-              <div className="flex items-center space-x-3">
-                <MapPin className="h-5 w-5 text-blue-400 flex-shrink-0" />
-                <span className="text-gray-300">123 Phố Technology, Quận 1, TP.HCM</span>
+              <div className="flex items-start space-x-3">
+                <MapPin className="h-5 w-5 text-blue-400 flex-shrink-0 mt-0.5" />
+                <div>
+                  <span className="text-gray-300">123 Phố Technology, Quận 1, TP.HCM</span>
+                  <br />
+                  <span className="text-gray-400 text-sm">Trụ sở chính</span>
+                </div>
               </div>
               <div className="flex items-center space-x-3">
                 <Phone className="h-5 w-5 text-blue-400 flex-shrink-0" />
-                <span className="text-gray-300">+84 123 456 789</span>
+                <div>
+                  <span className="text-gray-300">Hotline: 1900 9999</span>
+                  <br />
+                  <span className="text-gray-400 text-sm">+84 123 456 789</span>
+                </div>
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="h-5 w-5 text-blue-400 flex-shrink-0" />
-                <span className="text-gray-300">info@techstore.com</span>
+                <div>
+                  <span className="text-gray-300">info@techstore.com</span>
+                  <br />
+                  <span className="text-gray-400 text-sm">support@techstore.com</span>
+                </div>
+              </div>
+              <div className="flex items-center space-x-3">
+                <Clock className="h-5 w-5 text-blue-400 flex-shrink-0" />
+                <div>
+                  <span className="text-gray-300">8:00 - 22:00</span>
+                  <br />
+                  <span className="text-gray-400 text-sm">Tất cả các ngày trong tuần</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Bottom Bar */}
+        {/* Newsletter Signup */}
         <div className="border-t border-gray-800 mt-12 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <p className="text-gray-400 text-sm">
-              © 2024 TechStore. Tất cả quyền được bảo lưu.
-            </p>
-            <div className="flex space-x-6 text-sm">
+          <div className="bg-gray-800 rounded-lg p-6 mb-8">
+            <div className="text-center">
+              <h4 className="text-lg font-semibold text-white mb-2">Đăng ký nhận tin khuyến mãi</h4>
+              <p className="text-gray-400 mb-4">Nhận ưu đãi độc quyền và tin tức mới nhất từ TechStore</p>
+              <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+                <input
+                  type="email"
+                  placeholder="Nhập email của bạn..."
+                  className="flex-1 px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+                />
+                <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium">
+                  Đăng ký
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom Bar */}
+          <div className="flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0">
+            <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-6 text-sm">
+              <p className="text-gray-400">
+                © 2024 TechStore. Tất cả quyền được bảo lưu.
+              </p>
+              <div className="flex items-center space-x-1 text-gray-400">
+                <span>MST: 0123456789 |</span>
+                <span>Ngày cấp: 01/01/2015</span>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap justify-center gap-4 text-sm">
               <a href="#" className="text-gray-400 hover:text-white transition-colors duration-200">
                 Chính sách bảo mật
               </a>
@@ -98,6 +211,9 @@ const Footer: React.FC = () => {
               </a>
               <a href="#" className="text-gray-400 hover:text-white transition-colors duration-200">
                 Chính sách đổi trả
+              </a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors duration-200">
+                Sitemap
               </a>
             </div>
           </div>
