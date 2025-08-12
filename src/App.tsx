@@ -41,8 +41,6 @@ function App() {
         <div className="min-h-screen bg-white">
           <Header
             onCartClick={handleCartClick}
-            selectedCategory={selectedCategory}
-            onCategoryChange={handleCategoryChange}
           />
 
           <main>
