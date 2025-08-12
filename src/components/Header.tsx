@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Search, ShoppingCart, Menu, X, User, Heart } from 'lucide-react';
+import { ShoppingCart, Menu, X, User, Heart } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 
 interface HeaderProps {
   onCartClick: () => void;
-  selectedCategory: string;
-  onCategoryChange: (category: string) => void;
 }
 
 const Header: React.FC<HeaderProps> = ({ onCartClick, selectedCategory, onCategoryChange }) => {
