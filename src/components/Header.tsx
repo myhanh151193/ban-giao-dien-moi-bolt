@@ -108,44 +108,6 @@ const Header: React.FC<HeaderProps> = ({ onCartClick }) => {
                 </Link>
               ))}
 
-              {/* Categories - only show on home page */}
-              {location.pathname === '/' && (
-                <>
-                  <div className="border-t border-gray-200 my-2"></div>
-                  <div className="px-3 py-1 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    Danh mục sản phẩm
-                  </div>
-                  {categories.map((category) => (
-                    <button
-                      key={category}
-                      onClick={() => {
-                        onCategoryChange(category);
-                        setIsMenuOpen(false);
-                      }}
-                      className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 ${
-                        selectedCategory === category
-                          ? 'text-blue-600 bg-blue-100'
-                          : 'text-gray-700 hover:text-blue-600 hover:bg-white'
-                      }`}
-                    >
-                      {category}
-                    </button>
-                  ))}
-                </>
-              )}
-            </div>
-            {/* Mobile search */}
-            <div className="mt-4 mb-4">
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Search className="h-5 w-5 text-gray-400" />
-                </div>
-                <input
-                  type="text"
-                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="Tìm kiếm sản phẩm..."
-                />
-              </div>
             </div>
           </div>
         )}
