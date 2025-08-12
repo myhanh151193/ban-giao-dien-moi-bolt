@@ -7,13 +7,11 @@ interface HeaderProps {
   onCartClick: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ onCartClick, selectedCategory, onCategoryChange }) => {
+const Header: React.FC<HeaderProps> = ({ onCartClick }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { getTotalItems } = useCart();
   const location = useLocation();
   const totalItems = getTotalItems();
-
-  const categories = ['All', 'Smartphones', 'Laptops', 'Tablets', 'Audio', 'Wearables'];
 
   const navLinks = [
     { path: '/', label: 'Trang chủ' },
