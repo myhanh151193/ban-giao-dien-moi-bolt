@@ -33,7 +33,10 @@ function AppContent() {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
-  const { isApiAvailable, error } = useApiStatus();
+
+  // Static API status for now since API is known to be down
+  const isApiAvailable = false;
+  const error = 'API không khả dụng - sử dụng dữ liệu offline';
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
