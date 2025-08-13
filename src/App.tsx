@@ -27,7 +27,6 @@ import Users from './pages/admin/Users';
 import Settings from './pages/admin/Settings';
 import AdminLogin from './pages/admin/Login';
 import ProtectedRoute from './components/ProtectedRoute';
-import { useApiStatus } from './hooks/useApiStatus';
 
 function AppContent() {
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -124,7 +123,7 @@ function App() {
   React.useEffect(() => {
     console.log('%c🚀 TemplateHub App Started', 'color: #2563eb; font-size: 16px; font-weight: bold;');
     console.log('%c📡 Đang kết nối với API: https://medisosoft.com/path/api', 'color: #64748b;');
-    console.log('%c💡 Nếu API không khả dụng, app sẽ tự động chuyển sang chế độ offline', 'color: #64748b;');
+    console.log('%c💡 Nếu API kh��ng khả dụng, app sẽ tự động chuyển sang chế độ offline', 'color: #64748b;');
     console.log('%c🛡️ Tất cả dữ liệu fallback đã sẵn sàng', 'color: #16a34a;');
   }, []);
 
