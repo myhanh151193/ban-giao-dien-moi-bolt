@@ -19,6 +19,7 @@ import {
 const AdminLayout: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
+  const { settings } = useSettings();
 
   const navigation = [
     { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
