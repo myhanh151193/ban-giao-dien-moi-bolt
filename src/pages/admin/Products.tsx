@@ -212,7 +212,7 @@ const Products: React.FC = () => {
             <Package className="mx-auto h-12 w-12 text-gray-400" />
             <h3 className="mt-2 text-sm font-medium text-gray-900">Không có sản phẩm</h3>
             <p className="mt-1 text-sm text-gray-500">
-              Không tìm thấy sản phẩm nào phù hợp với bộ lọc.
+              Không tìm thấy sản phẩm nào phù hợp với bộ l���c.
             </p>
           </div>
         )}
@@ -239,7 +239,7 @@ const Products: React.FC = () => {
             <div>
               <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
                 <button className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                  Trước
+                  Trư���c
                 </button>
                 <button className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-blue-50 text-sm font-medium text-blue-600">
                   1
@@ -263,7 +263,9 @@ const Products: React.FC = () => {
 
 const CreateProductModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { addProduct } = useProducts();
+  const [activeTab, setActiveTab] = useState('basic');
   const [formData, setFormData] = useState({
+    // Basic Info
     name: '',
     description: '',
     price: 0,
@@ -274,15 +276,49 @@ const CreateProductModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     reviews: 0,
     features: [] as string[],
     inStock: true,
-    badge: ''
+    badge: '',
+    // SEO Fields
+    slug: '',
+    seoTitle: '',
+    seoDescription: '',
+    seoKeywords: [] as string[],
+    altText: '',
+    openGraphTitle: '',
+    openGraphDescription: '',
+    openGraphImage: '',
   });
+
+  const [keywordInput, setKeywordInput] = useState('');
+
+  const generateSlug = (name: string) => {
+    return name
+      .toLowerCase()
+      .replace(/[àáạảãâầấậẩẫăằắặẳẵ]/g, 'a')
+      .replace(/[èéẹẻẽêềếệểễ]/g, 'e')
+      .replace(/[ìíịỉĩ]/g, 'i')
+      .replace(/[òóọỏõôồốộổỗơờớợởỡ]/g, 'o')
+      .replace(/[ùúụủũưừứựửữ]/g, 'u')
+      .replace(/[ỳýỵỷỹ]/g, 'y')
+      .replace(/đ/g, 'd')
+      .replace(/[^a-z0-9\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .trim();
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (formData.name && formData.description && formData.price > 0) {
       addProduct({
         ...formData,
-        image: formData.image || 'https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg?auto=compress&cs=tinysrgb&w=500'
+        image: formData.image || 'https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg?auto=compress&cs=tinysrgb&w=500',
+        slug: formData.slug || generateSlug(formData.name),
+        seoTitle: formData.seoTitle || formData.name,
+        seoDescription: formData.seoDescription || formData.description.substring(0, 160),
+        altText: formData.altText || formData.name,
+        openGraphTitle: formData.openGraphTitle || formData.seoTitle || formData.name,
+        openGraphDescription: formData.openGraphDescription || formData.seoDescription || formData.description.substring(0, 160),
+        openGraphImage: formData.openGraphImage || formData.image,
       });
       onClose();
     }
@@ -290,11 +326,55 @@ const CreateProductModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
+    setFormData(prev => {
+      const updated = {
+        ...prev,
+        [name]: name === 'price' || name === 'originalPrice' ? Number(value) : value
+      };
+
+      // Auto-generate related fields
+      if (name === 'name') {
+        updated.slug = updated.slug || generateSlug(value);
+        updated.seoTitle = updated.seoTitle || value;
+        updated.altText = updated.altText || value;
+        updated.openGraphTitle = updated.openGraphTitle || value;
+      }
+
+      if (name === 'description') {
+        updated.seoDescription = updated.seoDescription || value.substring(0, 160);
+        updated.openGraphDescription = updated.openGraphDescription || value.substring(0, 160);
+      }
+
+      if (name === 'image') {
+        updated.openGraphImage = updated.openGraphImage || value;
+      }
+
+      return updated;
+    });
+  };
+
+  const addKeyword = () => {
+    if (keywordInput.trim() && !formData.seoKeywords.includes(keywordInput.trim())) {
+      setFormData(prev => ({
+        ...prev,
+        seoKeywords: [...prev.seoKeywords, keywordInput.trim()]
+      }));
+      setKeywordInput('');
+    }
+  };
+
+  const removeKeyword = (keyword: string) => {
     setFormData(prev => ({
       ...prev,
-      [name]: name === 'price' || name === 'originalPrice' ? Number(value) : value
+      seoKeywords: prev.seoKeywords.filter(k => k !== keyword)
     }));
   };
+
+  const tabs = [
+    { id: 'basic', name: 'Thông tin cơ bản' },
+    { id: 'seo', name: 'SEO & Metadata' },
+    { id: 'social', name: 'Social Media' }
+  ];
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto">
