@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useOrders } from '../../context/OrderContext';
+import { OrderAdmin } from '../../types';
 import { 
   Search, 
   Filter, 
@@ -12,9 +14,10 @@ import {
 } from 'lucide-react';
 
 const Orders: React.FC = () => {
+  const { orders, updateOrderStatus, deleteOrder } = useOrders();
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
-  const [selectedOrder, setSelectedOrder] = useState<any>(null);
+  const [selectedOrder, setSelectedOrder] = useState<OrderAdmin | null>(null);
 
   const orders = [
     {
@@ -103,7 +106,7 @@ const Orders: React.FC = () => {
       paymentMethod: 'cod',
       notes: ''
     }
-  ];
+  ]; // Now using context instead
 
   const statusOptions = [
     { value: 'all', label: 'Tất cả trạng thái' },
@@ -132,9 +135,14 @@ const Orders: React.FC = () => {
     return matchesSearch && matchesStatus;
   });
 
-  const updateOrderStatus = (orderId: string, newStatus: string) => {
-    console.log(`Update order ${orderId} to status: ${newStatus}`);
-    // Here you would implement the status update logic
+  const handleUpdateOrderStatus = (orderId: string, newStatus: OrderAdmin['status']) => {
+    updateOrderStatus(orderId, newStatus);
+  };
+
+  const handleDeleteOrder = (orderId: string) => {
+    if (window.confirm('Bạn có chắc chắn muốn xóa đơn hàng này?')) {
+      deleteOrder(orderId);
+    }
   };
 
   return (
