@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, CreditCard, Smartphone, Truck, Building2, Wallet, Shield, CheckCircle } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import { useSettings } from '../context/SettingsContext';
 import { CheckoutFormData } from '../types';
 
 interface CheckoutModalProps {
@@ -10,6 +11,7 @@ interface CheckoutModalProps {
 
 const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
   const { items, getTotalPrice, clearCart } = useCart();
+  const { settings } = useSettings();
   const [currentStep, setCurrentStep] = useState(1);
   const [isProcessing, setIsProcessing] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
@@ -32,7 +34,7 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
   });
 
   const subtotal = getTotalPrice();
-  const shippingFee = subtotal > 1000000 ? 0 : 50000;
+  const shippingFee = subtotal >= settings.payments.freeShippingThreshold ? 0 : settings.payments.shippingFee;
   const discount = 0;
   const finalAmount = subtotal + shippingFee - discount;
 
@@ -78,9 +80,20 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
 
   if (!isOpen) return null;
 
-  const paymentMethods = [
-    { id: 'cod', name: 'Thanh toán khi nhận hàng', icon: Truck, description: 'Trả tiền mặt khi giao hàng' }
-  ];
+  // Generate available payment methods based on settings
+  const paymentMethods = [];
+  if (settings.payments.enableCOD) {
+    paymentMethods.push({ id: 'cod', name: 'Thanh toán khi nhận hàng', icon: Truck, description: 'Trả tiền mặt khi giao hàng' });
+  }
+  if (settings.payments.enableBankTransfer) {
+    paymentMethods.push({ id: 'bank', name: 'Chuyển khoản ngân hàng', icon: Building2, description: 'Chuyển tiền qua tài khoản ngân hàng' });
+  }
+  if (settings.payments.enableMomo) {
+    paymentMethods.push({ id: 'momo', name: 'Ví điện tử MoMo', icon: Smartphone, description: 'Thanh toán qua ví MoMo' });
+  }
+  if (settings.payments.enableZaloPay) {
+    paymentMethods.push({ id: 'zalopay', name: 'ZaloPay', icon: Wallet, description: 'Thanh toán qua ZaloPay' });
+  }
 
   return (
     <>
@@ -311,8 +324,14 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
                       <div className="space-y-6">
                         <h3 className="text-xl font-semibold text-gray-900 mb-4">Phương thức thanh toán</h3>
                         
-                        <div className="space-y-3">
-                          {paymentMethods.map((method) => {
+                        {paymentMethods.length === 0 ? (
+                          <div className="text-center py-8">
+                            <p className="text-gray-500">Chưa có phương thức thanh toán nào được kích hoạt.</p>
+                            <p className="text-sm text-gray-400 mt-2">Vui lòng liên hệ quản trị viên để cấu hình thanh toán.</p>
+                          </div>
+                        ) : (
+                          <div className="space-y-3">
+                            {paymentMethods.map((method) => {
                             const IconComponent = method.icon;
                             return (
                               <label
@@ -347,8 +366,9 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
                                 </div>
                               </label>
                             );
-                          })}
-                        </div>
+                            })}
+                          </div>
+                        )}
 
                         <div className="flex space-x-4">
                           <button
@@ -361,7 +381,8 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
                           <button
                             type="button"
                             onClick={() => setCurrentStep(3)}
-                            className="flex-1 bg-blue-600 text-white py-3 rounded-xl font-semibold hover:bg-blue-700 transition-colors duration-200"
+                            disabled={paymentMethods.length === 0}
+                            className="flex-1 bg-blue-600 text-white py-3 rounded-xl font-semibold hover:bg-blue-700 transition-colors duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed"
                           >
                             Tiếp tục
                           </button>
