@@ -36,7 +36,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onQuickView }) => {
   };
 
   return (
-    <div className="group relative bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden">
+    <div className="group relative bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden flex flex-col h-full">
       {/* Badge */}
       {product.badge && (
         <div className="absolute top-4 left-4 z-10">
@@ -84,7 +84,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onQuickView }) => {
       </div>
 
       {/* Product Info */}
-      <div className="p-6">
+      <div className="p-6 flex flex-col flex-1">
         <div className="mb-2">
           <span className="text-sm text-blue-600 font-medium">{product.category}</span>
         </div>
@@ -127,18 +127,18 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onQuickView }) => {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex space-x-3">
+        <div className="flex space-x-3 mt-auto">
           <button
             onClick={handleAddToCart}
             disabled={!product.inStock}
-            className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center ${
+            className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center space-x-2 ${
               product.inStock
                 ? 'bg-blue-600 hover:bg-blue-700 text-white transform hover:scale-105 active:scale-95'
                 : 'bg-gray-300 text-gray-500 cursor-not-allowed'
             }`}
-            title={product.inStock ? 'Mua ngay' : 'Hết hàng'}
           >
-            <ShoppingCart className="h-5 w-5" />
+            <ShoppingCart className="h-4 w-4" />
+            <span>{product.inStock ? 'Mua hàng' : 'Hết hàng'}</span>
           </button>
 
           <button
