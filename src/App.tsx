@@ -28,7 +28,6 @@ import Settings from './pages/admin/Settings';
 import AdminLogin from './pages/admin/Login';
 import ProtectedRoute from './components/ProtectedRoute';
 import { useApiStatus } from './hooks/useApiStatus';
-import { BlogPost } from './types';
 
 function AppContent() {
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -57,6 +56,68 @@ function AppContent() {
   };
 
   return (
+    <Router>
+      <div className="min-h-screen bg-white">
+        <Header onCartClick={handleCartClick} />
+
+        <main>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Home
+                  selectedCategory={selectedCategory}
+                  onCategoryChange={handleCategoryChange}
+                />
+              }
+            />
+            <Route path="/templates" element={<Templates />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+
+            {/* Admin Routes */}
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin" element={
+              <ProtectedRoute>
+                <AdminLayout />
+              </ProtectedRoute>
+            }>
+              <Route index element={<Dashboard />} />
+              <Route path="products" element={<Products />} />
+              <Route path="orders" element={<Orders />} />
+              <Route path="posts" element={<Posts />} />
+              <Route path="reviews" element={<Reviews />} />
+              <Route path="users" element={<Users />} />
+              <Route path="settings" element={<Settings />} />
+            </Route>
+          </Routes>
+        </main>
+
+        <Footer />
+
+        <CartSidebar
+          isOpen={isCartOpen}
+          onClose={handleCartClose}
+          onCheckout={handleCheckoutOpen}
+        />
+
+        <CheckoutModal
+          isOpen={isCheckoutOpen}
+          onClose={handleCheckoutClose}
+        />
+
+        <ApiStatusNotification 
+          isApiAvailable={isApiAvailable}
+          error={error}
+        />
+      </div>
+    </Router>
+  );
+}
+
+function App() {
+  return (
     <ProductProvider>
       <OrderProvider>
         <PostProvider>
@@ -64,60 +125,7 @@ function AppContent() {
             <SettingsProvider>
               <TestimonialProvider>
                 <CartProvider>
-      <Router>
-        <div className="min-h-screen bg-white">
-          <Header
-            onCartClick={handleCartClick}
-          />
-
-          <main>
-            <Routes>
-              <Route
-                path="/"
-                element={
-                  <Home
-                    selectedCategory={selectedCategory}
-                    onCategoryChange={handleCategoryChange}
-                  />
-                }
-              />
-              <Route path="/templates" element={<Templates />} />
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
-
-              {/* Admin Routes */}
-              <Route path="/admin/login" element={<AdminLogin />} />
-              <Route path="/admin" element={
-                <ProtectedRoute>
-                  <AdminLayout />
-                </ProtectedRoute>
-              }>
-                <Route index element={<Dashboard />} />
-                <Route path="products" element={<Products />} />
-                <Route path="orders" element={<Orders />} />
-                <Route path="posts" element={<Posts />} />
-                <Route path="reviews" element={<Reviews />} />
-                <Route path="users" element={<Users />} />
-                <Route path="settings" element={<Settings />} />
-              </Route>
-            </Routes>
-          </main>
-
-          <Footer />
-
-          <CartSidebar
-            isOpen={isCartOpen}
-            onClose={handleCartClose}
-            onCheckout={handleCheckoutOpen}
-          />
-
-          <CheckoutModal
-            isOpen={isCheckoutOpen}
-            onClose={handleCheckoutClose}
-          />
-        </div>
-      </Router>
+                  <AppContent />
                 </CartProvider>
               </TestimonialProvider>
             </SettingsProvider>
