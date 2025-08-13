@@ -1093,7 +1093,7 @@ const ViewProductModal: React.FC<{ product: Product; onClose: () => void }> = ({
   );
 };
 
-const EditProductModal: React.FC<{ product: any; onClose: () => void }> = ({ product, onClose }) => {
+const EditProductModal: React.FC<{ product: Product; onClose: () => void }> = ({ product, onClose }) => {
   const { updateProduct } = useProducts();
   const [activeTab, setActiveTab] = useState('basic');
   const [formData, setFormData] = useState({
