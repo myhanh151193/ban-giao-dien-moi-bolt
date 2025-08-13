@@ -12,13 +12,13 @@ class ApiService {
     };
 
     // Add auth token if available
-    const token = localStorage.getItem('adminToken');
-    if (token && token !== 'fake-jwt-token') {
-      defaultOptions.headers = {
-        ...defaultOptions.headers,
-        'Authorization': `Bearer ${token}`,
-      };
-    }
+    // const token = localStorage.getItem('adminToken');
+    // if (token && token !== 'fake-jwt-token') {
+    //   defaultOptions.headers = {
+    //     ...defaultOptions.headers,
+    //     'Authorization': `Bearer ${token}`,
+    //   };
+    // }
 
     const response = await fetch(url, { ...defaultOptions, ...options });
 
