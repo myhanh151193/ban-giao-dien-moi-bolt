@@ -228,8 +228,6 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ product, isOpen
                     <div>
                       <a
                         href={product.demoLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
                         className="w-full inline-flex items-center justify-center py-3 px-6 rounded-xl font-semibold transition-all duration-200 bg-green-600 hover:bg-green-700 text-white transform hover:scale-105 active:scale-95"
                       >
                         <span className="mr-2">🔗</span>
