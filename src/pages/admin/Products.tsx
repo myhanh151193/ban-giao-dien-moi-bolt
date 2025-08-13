@@ -309,7 +309,7 @@ const CreateProductModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.name && formData.description && formData.price > 0) {
+    if (formData.name && formData.description && formData.price > 0 && formData.demoLink) {
       addProduct({
         ...formData,
         image: formData.image || 'https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg?auto=compress&cs=tinysrgb&w=500',
@@ -322,6 +322,11 @@ const CreateProductModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         openGraphImage: formData.openGraphImage || formData.image,
       });
       onClose();
+    } else {
+      // Show validation message
+      if (!formData.demoLink) {
+        alert('Vui lòng nhập link demo cho sản phẩm!');
+      }
     }
   };
 
