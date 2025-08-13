@@ -76,7 +76,10 @@ const Settings: React.FC = () => {
 
   const handleSave = () => {
     saveSettings();
-    alert('Cài đặt đã được lưu thành công! Thay đổi sẽ được áp dụng ngay lập tức trên website.');
+    alert('Cài đặt đã được lưu thành công! Trang sẽ được làm mới để áp dụng thay đổi.');
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
   };
 
   return (
