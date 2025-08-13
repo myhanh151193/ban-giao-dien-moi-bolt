@@ -114,13 +114,10 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       return;
     }
 
-    try {
-      setError(null);
-      const item = items.find(item => item.product.id === productId);
-      if (item) {
-        await apiService.updateCartItem(item.id?.toString() || productId.toString(), quantity);
-      }
-      
+    setError(null);
+
+    // In offline mode, work directly with local state
+    if (error?.includes('offline') || error?.includes('không khả dụng')) {
       setItems(prevItems =>
         prevItems.map(item =>
           item.product.id === productId
@@ -128,11 +125,27 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
             : item
         )
       );
-    } catch (error) {
-      console.error('Error updating cart quantity:', error);
-      setError('Không thể cập nhật số lượng');
-      
-      // Fallback to local state if API fails
+      return;
+    }
+
+    // Try API first, but don't show errors - just fallback silently
+    try {
+      const item = items.find(item => item.product.id === productId);
+      if (item) {
+        await apiService.updateCartItem(item.id?.toString() || productId.toString(), quantity);
+      }
+
+      setItems(prevItems =>
+        prevItems.map(item =>
+          item.product.id === productId
+            ? { ...item, quantity }
+            : item
+        )
+      );
+    } catch (apiError) {
+      // Silent fallback to local state
+      console.log('🛒 API không khả dụng - cập nhật giỏ hàng offline');
+
       setItems(prevItems =>
         prevItems.map(item =>
           item.product.id === productId
