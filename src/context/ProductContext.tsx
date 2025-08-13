@@ -38,14 +38,16 @@ export const ProductProvider: React.FC<ProductProviderProps> = ({ children }) =>
       setError(null);
       const response = await apiService.getProducts();
       setProducts(response.data || response);
-    } catch (error) {
-      console.error('Error fetching products:', error);
-      console.log('Using fallback products data');
+    } catch (error: any) {
+      console.warn('⚠️ API không khả dụng - chuyển sang dữ liệu offline');
+      console.log('📁 Đang tải dữ liệu sản phẩm từ fallback...');
 
       // Import fallback data dynamically
       const { products: fallbackProducts } = await import('../data/products');
       setProducts(fallbackProducts);
       setError('API không khả dụng - sử dụng dữ liệu offline');
+
+      console.log(`✅ Đã tải ${fallbackProducts.length} sản phẩm từ dữ liệu offline`);
     } finally {
       setLoading(false);
     }
@@ -61,7 +63,7 @@ export const ProductProvider: React.FC<ProductProviderProps> = ({ children }) =>
       .replace(/[àáạảãâầấậẩẫăằắặẳẵ]/g, 'a')
       .replace(/[èéẹẻẽêềếệểễ]/g, 'e')
       .replace(/[ìíịỉĩ]/g, 'i')
-      .replace(/[òóọỏõôồốộổỗơờớợởỡ]/g, 'o')
+      .replace(/[òóọỏõôồốộổ��ơờớợởỡ]/g, 'o')
       .replace(/[ùúụủũưừứựửữ]/g, 'u')
       .replace(/[ỳýỵỷỹ]/g, 'y')
       .replace(/đ/g, 'd')
