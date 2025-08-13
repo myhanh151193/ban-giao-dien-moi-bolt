@@ -11,6 +11,7 @@ import {
   Package
 } from 'lucide-react';
 import { useProducts } from '../../context/ProductContext';
+import { Product } from '../../types';
 
 const Products: React.FC = () => {
   const { products, deleteProduct, updateProduct } = useProducts();
