@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { X, CreditCard, Smartphone, Truck, Building2, Wallet, Shield, CheckCircle } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useSettings } from '../context/SettingsContext';
-import { CheckoutFormData } from '../types';
+import { useOrders } from '../context/OrderContext';
+import { CheckoutFormData, OrderAdmin } from '../types';
 
 interface CheckoutModalProps {
   isOpen: boolean;
@@ -12,9 +13,11 @@ interface CheckoutModalProps {
 const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
   const { items, getTotalPrice, clearCart } = useCart();
   const { settings } = useSettings();
+  const { addOrder } = useOrders();
   const [currentStep, setCurrentStep] = useState(1);
   const [isProcessing, setIsProcessing] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
+  const [orderId, setOrderId] = useState<string>('');
   
   const [formData, setFormData] = useState<CheckoutFormData>({
     email: '',
@@ -45,13 +48,46 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsProcessing(true);
-    
-    // Simulate payment processing
-    await new Promise(resolve => setTimeout(resolve, 3000));
-    
-    setIsProcessing(false);
-    setOrderComplete(true);
-    clearCart();
+
+    try {
+      // Simulate payment processing
+      await new Promise(resolve => setTimeout(resolve, 3000));
+
+      // Create order data for admin
+      const orderData: Omit<OrderAdmin, 'id'> = {
+        customer: {
+          name: formData.fullName,
+          email: formData.email,
+          phone: formData.phone
+        },
+        products: items.map(item => ({
+          name: item.product.name,
+          quantity: item.quantity,
+          price: item.product.price
+        })),
+        total: finalAmount,
+        status: 'pending',
+        createdAt: new Date().toLocaleString('vi-VN'),
+        shippingAddress: `${formData.address}, ${formData.district}, ${formData.city}`,
+        paymentMethod: formData.paymentMethod,
+        notes: formData.notes || ''
+      };
+
+      // Add order to admin context
+      addOrder(orderData);
+
+      // Generate order ID for display
+      const newOrderId = `DH${Date.now().toString().slice(-6)}`;
+      setOrderId(newOrderId);
+
+      setIsProcessing(false);
+      setOrderComplete(true);
+      clearCart();
+    } catch (error) {
+      console.error('Error processing order:', error);
+      setIsProcessing(false);
+      alert('Có lỗi xảy ra khi xử lý đơn hàng. Vui lòng thử lại.');
+    }
   };
 
   const resetAndClose = () => {
@@ -125,14 +161,14 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
                 <div className="mb-6">
                   <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
                   <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                    Cảm ơn bạn đã đặt hàng!
+                    Cảm ơn b���n đã đặt hàng!
                   </h3>
                   <p className="text-gray-600 mb-6">
                     Đơn hàng của bạn đã được xác nhận và sẽ được xử lý trong thời gian sớm nhất.
                   </p>
                   <div className="bg-gray-50 rounded-lg p-4 mb-6">
                     <p className="text-sm text-gray-600 mb-2">Mã đơn hàng</p>
-                    <p className="text-lg font-bold text-blue-600">#DH{Date.now().toString().slice(-6)}</p>
+                    <p className="text-lg font-bold text-blue-600">#{orderId}</p>
                   </div>
                 </div>
                 <button
