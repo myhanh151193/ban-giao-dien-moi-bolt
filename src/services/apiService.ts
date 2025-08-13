@@ -11,14 +11,7 @@ class ApiService {
       },
     };
 
-    // Add auth token if available
-    const token = localStorage.getItem('adminToken');
-    if (token && token !== 'fake-jwt-token') {
-      defaultOptions.headers = {
-        ...defaultOptions.headers,
-        'Authorization': `Bearer ${token}`,
-      };
-    }
+    // Simple auth - no token needed
 
     const response = await fetch(url, { ...defaultOptions, ...options });
 
