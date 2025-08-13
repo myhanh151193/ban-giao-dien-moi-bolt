@@ -24,13 +24,24 @@ const Login: React.FC = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simulate login process
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    try {
+      // Try API login first
+      const response = await apiService.login(username, password);
 
-    // Simple validation (in real app, this would be server-side)
+      if (response.token) {
+        localStorage.setItem('adminToken', response.token);
+        const from = location.state?.from?.pathname || '/admin';
+        navigate(from, { replace: true });
+        return;
+      }
+    } catch (error) {
+      // Fallback to local validation if API fails
+      console.log('API login failed, using local validation:', error);
+    }
+
+    // Local fallback validation
     if (username === 'admin' && password === 'Admin@@2025') {
       localStorage.setItem('adminToken', 'fake-jwt-token');
-      // Redirect to the page they were trying to access, or default to /admin
       const from = location.state?.from?.pathname || '/admin';
       navigate(from, { replace: true });
     } else {
