@@ -15,6 +15,8 @@ const Header: React.FC<HeaderProps> = ({ onCartClick }) => {
 
   const navLinks = [
     { path: '/', label: 'Trang chủ' },
+    { path: '/templates', label: 'Template' },
+    { path: '/blog', label: 'Bài viết' },
     { path: '/about', label: 'Về chúng tôi' },
     { path: '/contact', label: 'Liên hệ' }
   ];
