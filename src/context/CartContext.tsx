@@ -27,13 +27,15 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       setError(null);
       const response = await apiService.getCart();
       setItems(response.data || response || []);
-    } catch (error) {
-      console.error('Error fetching cart:', error);
-      console.log('Using empty cart for offline mode');
+    } catch (error: any) {
+      console.warn('⚠️ API không khả dụng - chuyển sang chế độ offline');
+      console.log('🛒 Sử dụng giỏ hàng trống cho chế độ offline');
 
       // Use empty cart when API fails
       setItems([]);
       setError('API không khả dụng - chế độ offline');
+
+      console.log('✅ Giỏ hàng offline đã sẵn sàng');
     } finally {
       setLoading(false);
     }
@@ -113,7 +115,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       );
     } catch (error) {
       console.error('Error updating cart quantity:', error);
-      setError('Không thể cập nhật số lượng');
+      setError('Kh��ng thể cập nhật số lượng');
       
       // Fallback to local state if API fails
       setItems(prevItems =>
