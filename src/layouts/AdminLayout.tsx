@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import { Link, useLocation, Outlet } from 'react-router-dom';
-import { 
-  LayoutDashboard, 
-  Package, 
-  ShoppingCart, 
-  FileText, 
-  Users, 
-  Settings, 
-  Menu, 
+import {
+  LayoutDashboard,
+  Package,
+  ShoppingCart,
+  FileText,
+  Users,
+  Settings,
+  Menu,
   X,
   LogOut,
   Bell,
-  Search
+  Search,
+  Star
 } from 'lucide-react';
 
 const AdminLayout: React.FC = () => {
@@ -23,6 +24,7 @@ const AdminLayout: React.FC = () => {
     { name: 'Sản phẩm', href: '/admin/products', icon: Package },
     { name: 'Đơn hàng', href: '/admin/orders', icon: ShoppingCart },
     { name: 'Bài viết', href: '/admin/posts', icon: FileText },
+    { name: 'Đánh giá', href: '/admin/reviews', icon: Star },
     { name: 'Người dùng', href: '/admin/users', icon: Users },
     { name: 'Cài đặt', href: '/admin/settings', icon: Settings },
   ];
