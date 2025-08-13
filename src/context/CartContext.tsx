@@ -164,18 +164,25 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   };
 
   const clearCart = async () => {
+    setError(null);
+
+    // In offline mode, work directly with local state
+    if (error?.includes('offline') || error?.includes('không khả dụng')) {
+      setItems([]);
+      return;
+    }
+
+    // Try API first, but don't show errors - just fallback silently
     try {
-      setError(null);
       // Clear cart on server
-      await Promise.all(items.map(item => 
+      await Promise.all(items.map(item =>
         apiService.removeFromCart(item.id?.toString() || item.product.id.toString())
       ));
       setItems([]);
-    } catch (error) {
-      console.error('Error clearing cart:', error);
-      setError('Không thể xóa giỏ hàng');
-      
-      // Fallback to local state if API fails
+    } catch (apiError) {
+      // Silent fallback to local state
+      console.log('🛒 API không khả dụng - xóa giỏ hàng offline');
+
       setItems([]);
     }
   };
