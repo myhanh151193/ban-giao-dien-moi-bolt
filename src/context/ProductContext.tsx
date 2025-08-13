@@ -40,15 +40,9 @@ export const ProductProvider: React.FC<ProductProviderProps> = ({ children }) =>
       const response = await apiService.getProducts();
       setProducts(response.data || response || []);
     } catch (error: any) {
-      console.warn('⚠️ API không khả dụng - chuyển sang dữ liệu offline');
-      console.log('📁 Đang tải dữ liệu sản phẩm từ fallback...');
-
-      // Import fallback data dynamically
-      const { products: fallbackProducts } = await import('../data/products');
-      setProducts(fallbackProducts);
-      setError('API không khả dụng - sử dụng dữ liệu offline');
-
-      console.log(`✅ Đã tải ${fallbackProducts.length} sản phẩm từ dữ liệu offline`);
+      console.error('❌ Lỗi kết nối API sản phẩm:', error);
+      setError('Không thể tải dữ liệu sản phẩm từ API');
+      setProducts([]);
     } finally {
       setLoading(false);
     }
