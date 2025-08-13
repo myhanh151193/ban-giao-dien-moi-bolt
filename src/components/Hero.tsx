@@ -11,24 +11,24 @@ const Hero: React.FC = () => {
             <div className="space-y-6 lg:space-y-8 text-center lg:text-left">
               <div className="space-y-4">
                 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-                  Công nghệ
+                  Website
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500">
-                    {" "}Tương lai
+                    {" "}Hoàn hảo
                   </span>
                 </h1>
                 <p className="text-base sm:text-lg lg:text-xl text-blue-100 leading-relaxed max-w-lg mx-auto lg:mx-0">
-                  Khám phá bộ sưu tập các sản phẩm công nghệ hàng đầu với giá tốt nhất.
-                  Từ smartphone đến laptop cao cấp.
+                  Khám phá bộ sưu tập mẫu website chuyên nghiệp với thiết kế hiện đại.
+                  Từ e-commerce đến portfolio sáng tạo.
                 </p>
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
                 <button className="bg-white text-blue-600 px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 flex items-center justify-center group">
-                  Mua sắm ngay
+                  Xem mẫu website
                   <ArrowRight className="ml-2 h-4 sm:h-5 w-4 sm:w-5 group-hover:translate-x-1 transition-transform duration-300" />
                 </button>
                 <button className="border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold hover:bg-white hover:text-blue-600 transition-all duration-300">
-                  Xem catalog
+                  Demo miễn phí
                 </button>
               </div>
             </div>
@@ -36,8 +36,8 @@ const Hero: React.FC = () => {
             <div className="relative mt-8 lg:mt-0 order-first lg:order-last">
               <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-2xl sm:rounded-3xl transform rotate-3 lg:rotate-6 opacity-20"></div>
               <img
-                src="https://images.pexels.com/photos/788946/pexels-photo-788946.jpeg?auto=compress&cs=tinysrgb&w=800"
-                alt="Latest Technology"
+                src="https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=800"
+                alt="Website Templates"
                 className="relative rounded-2xl sm:rounded-3xl shadow-2xl transform hover:scale-105 transition-transform duration-500 w-full h-auto"
               />
             </div>
@@ -53,24 +53,24 @@ const Hero: React.FC = () => {
               <div className="bg-emerald-100 w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 group-hover:bg-emerald-200 transition-colors duration-300">
                 <Truck className="h-6 w-6 sm:h-8 sm:w-8 text-emerald-600" />
               </div>
-              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">Miễn phí vận chuyển</h3>
-              <p className="text-sm sm:text-base text-gray-600">Giao hàng miễn phí cho đơn hàng trên 500k</p>
+              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">Tải về ngay lập tức</h3>
+              <p className="text-sm sm:text-base text-gray-600">Download mẫu website ngay sau khi thanh toán</p>
             </div>
 
             <div className="text-center group p-4">
               <div className="bg-blue-100 w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 group-hover:bg-blue-200 transition-colors duration-300">
                 <Shield className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600" />
               </div>
-              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">Bảo hành chính hãng</h3>
-              <p className="text-sm sm:text-base text-gray-600">Bảo hành 12-24 tháng cho tất cả sản phẩm</p>
+              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">Code chất lượng cao</h3>
+              <p className="text-sm sm:text-base text-gray-600">Code sạch, tối ưu và chuẩn SEO</p>
             </div>
 
             <div className="text-center group p-4 sm:col-span-2 lg:col-span-1">
               <div className="bg-orange-100 w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 group-hover:bg-orange-200 transition-colors duration-300">
                 <Zap className="h-6 w-6 sm:h-8 sm:w-8 text-orange-600" />
               </div>
-              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">Hỗ trợ 24/7</h3>
-              <p className="text-sm sm:text-base text-gray-600">Đội ngũ hỗ trợ luôn sẵn sàng giúp đỡ bạn</p>
+              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">Hỗ trợ kỹ thuật</h3>
+              <p className="text-sm sm:text-base text-gray-600">Hướng dẫn cài đặt và tùy chỉnh chi tiết</p>
             </div>
           </div>
         </div>
