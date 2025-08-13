@@ -33,9 +33,9 @@ function AppContent() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
 
-  // Static API status for now since API is known to be down
+  // API-only mode - show real status
   const isApiAvailable = false;
-  const error = 'API không khả dụng - sử dụng dữ liệu offline';
+  const error = 'Chế độ API-ONLY: Cần kết nối API để hiển thị dữ liệu';
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
