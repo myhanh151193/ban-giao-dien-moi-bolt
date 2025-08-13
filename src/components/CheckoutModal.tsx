@@ -513,7 +513,7 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
                           <p className="text-gray-500 text-sm">Số lượng: {item.quantity}</p>
                         </div>
                         <p className="font-semibold text-gray-900">
-                          ${(item.product.price * item.quantity).toFixed(2)}
+                          {(item.product.price * item.quantity).toLocaleString('vi-VN')}₫
                         </p>
                       </div>
                     ))}
@@ -523,21 +523,21 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
                   <div className="space-y-2 border-t pt-4">
                     <div className="flex justify-between text-gray-600">
                       <span>Tạm tính:</span>
-                      <span>${subtotal.toFixed(2)}</span>
+                      <span>{subtotal.toLocaleString('vi-VN')}₫</span>
                     </div>
                     <div className="flex justify-between text-gray-600">
                       <span>Phí vận chuyển:</span>
-                      <span>{shippingFee === 0 ? 'Miễn phí' : `$${shippingFee.toFixed(2)}`}</span>
+                      <span>{shippingFee === 0 ? 'Miễn phí' : `${shippingFee.toLocaleString('vi-VN')}₫`}</span>
                     </div>
                     {discount > 0 && (
                       <div className="flex justify-between text-green-600">
                         <span>Giảm giá:</span>
-                        <span>-${discount.toFixed(2)}</span>
+                        <span>-{discount.toLocaleString('vi-VN')}₫</span>
                       </div>
                     )}
                     <div className="flex justify-between text-lg font-bold text-gray-900 border-t pt-2">
                       <span>Tổng cộng:</span>
-                      <span>${finalAmount.toFixed(2)}</span>
+                      <span>{finalAmount.toLocaleString('vi-VN')}₫</span>
                     </div>
                   </div>
 
