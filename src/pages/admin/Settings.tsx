@@ -78,7 +78,13 @@ const Settings: React.FC = () => {
     saveSettings();
     alert('Cài đặt đã được lưu thành công! Trang sẽ được làm mới để áp dụng thay đổi.');
     setTimeout(() => {
-      window.location.reload();
+      // Clear any cached data and force reload
+      if ('caches' in window) {
+        caches.keys().then(names => {
+          names.forEach(name => caches.delete(name));
+        });
+      }
+      window.location.reload(true);
     }, 1000);
   };
 
