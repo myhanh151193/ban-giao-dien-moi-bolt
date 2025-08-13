@@ -12,6 +12,7 @@ import {
 import { useSettings } from '../../context/SettingsContext';
 
 const Dashboard: React.FC = () => {
+  const { settings } = useSettings();
   const stats = [
     {
       name: 'Doanh thu tháng này',
