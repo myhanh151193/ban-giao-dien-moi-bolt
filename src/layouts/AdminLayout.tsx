@@ -164,9 +164,7 @@ const SidebarContent: React.FC<{
                     isActivePage(item.href) ? 'text-blue-500' : 'text-gray-400 group-hover:text-gray-500'
                   }`}
                 />
-                <span>
-                  {item.name === 'Bài viết' ? <p>Bài viết</p> : item.name}
-                </span>
+                {item.name === 'Bài viết' ? <p>Bài viết</p> : item.name}
               </Link>
             );
           })}
