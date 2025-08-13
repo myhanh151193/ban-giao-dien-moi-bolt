@@ -1,23 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useOrders } from '../../context/OrderContext';
 import { OrderAdmin } from '../../types';
-import { 
-  Search, 
-  Filter, 
-  Eye, 
+import {
+  Search,
+  Filter,
+  Eye,
   Download,
   Calendar,
   Clock,
   Check,
   X,
-  Package
+  Package,
+  RefreshCw
 } from 'lucide-react';
 
 const Orders: React.FC = () => {
-  const { orders, updateOrderStatus, deleteOrder } = useOrders();
+  const { orders, updateOrderStatus, deleteOrder, refreshOrders } = useOrders();
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [selectedOrder, setSelectedOrder] = useState<OrderAdmin | null>(null);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  // Auto-refresh orders when component mounts
+  useEffect(() => {
+    refreshOrders();
+  }, []);
+
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    refreshOrders();
+    // Add a small delay for UX
+    setTimeout(() => setIsRefreshing(false), 500);
+  };
 
   // Orders now come from context via useOrders hook
 
