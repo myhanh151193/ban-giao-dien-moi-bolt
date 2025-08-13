@@ -1,5 +1,5 @@
 // Fallback data when API is unavailable
-// Data is normally fetched from: https://medisosoft.com/path/api/users
+// Data is normally fetched from: https://medisosoft.com/path/api/controllers/UserController.php
 
 export const users = [
   {
