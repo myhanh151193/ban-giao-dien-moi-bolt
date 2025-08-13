@@ -338,7 +338,7 @@ const CreateProductModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const generateSlug = (name: string) => {
     return name
       .toLowerCase()
-      .replace(/[àáạảãâầấậẩẫăằắặẳẵ]/g, 'a')
+      .replace(/[àáạả��âầấậẩẫăằắặẳẵ]/g, 'a')
       .replace(/[èéẹẻẽêềếệểễ]/g, 'e')
       .replace(/[ìíịỉĩ]/g, 'i')
       .replace(/[òóọỏõôồốộổỗơờớợởỡ]/g, 'o')
@@ -1042,8 +1042,6 @@ const ViewProductModal: React.FC<{ product: Product; onClose: () => void }> = ({
               <div>
                 <a
                   href={product.demoLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
                 >
                   👁️ Xem Demo
