@@ -30,10 +30,11 @@ import ProtectedRoute from './components/ProtectedRoute';
 import { useApiStatus } from './hooks/useApiStatus';
 import { BlogPost } from './types';
 
-function App() {
+function AppContent() {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const { isApiAvailable, error } = useApiStatus();
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
