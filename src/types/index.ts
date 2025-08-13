@@ -83,6 +83,21 @@ export interface OrderAdmin {
   notes: string;
 }
 
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+  avatar: string | null;
+  status: 'active' | 'inactive' | 'suspended';
+  role: 'admin' | 'customer';
+  joinDate: string;
+  lastLogin: string;
+  totalOrders: number;
+  totalSpent: number;
+  address: string;
+}
+
 export interface Order {
   id: string;
   items: CartItem[];
