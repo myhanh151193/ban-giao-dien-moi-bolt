@@ -36,21 +36,21 @@ const Contact: React.FC = () => {
 
   const offices = [
     {
-      name: "TemplateHub Hỗ trợ Khách hàng",
+      name: `${settings.general.siteName} Hỗ trợ Khách hàng`,
       address: "123 Phố Digital, Quận 1, TP.HCM",
       phone: "+84 123 456 789",
       email: "support@templatehub.com",
       hours: "8:00 - 18:00 (Thứ 2 - Thứ 6)"
     },
     {
-      name: "TemplateHub Studio Design",
+      name: `${settings.general.siteName} Studio Design`,
       address: "456 Đường Creative, Quận 7, TP.HCM",
       phone: "+84 123 456 790",
       email: "design@templatehub.com",
       hours: "9:00 - 17:00 (Thứ 2 - Thứ 6)"
     },
     {
-      name: "TemplateHub Dev Center",
+      name: `${settings.general.siteName} Dev Center`,
       address: "789 Phố Tech Hub, Quận Cầu Giấy, Hà Nội",
       phone: "+84 123 456 791",
       email: "dev@templatehub.com",

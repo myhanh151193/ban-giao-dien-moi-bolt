@@ -120,7 +120,7 @@ const About: React.FC = () => {
             <div className="relative">
               <img
                 src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=800"
-                alt="TemplateHub team"
+                alt={`${settings.about.companyName} team`}
                 className="rounded-lg shadow-xl"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-lg"></div>
