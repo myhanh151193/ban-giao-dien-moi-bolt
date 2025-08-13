@@ -145,7 +145,7 @@ const Users: React.FC = () => {
       <div className="sm:flex sm:items-center sm:justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Quản lý người dùng</h1>
-          <p className="mt-2 text-gray-600">Quản lý tài khoản v�� thông tin khách hàng</p>
+          <p className="mt-2 text-gray-600">Quản lý tài khoản và thông tin khách hàng</p>
         </div>
         <div className="mt-4 sm:mt-0">
           <button className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
@@ -274,7 +274,7 @@ const Users: React.FC = () => {
       <div className="bg-white shadow rounded-lg overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-200">
           <h3 className="text-lg leading-6 font-medium text-gray-900">
-            Danh sách người dùng ({filteredUsers.length})
+            Danh sách người d��ng ({filteredUsers.length})
           </h3>
         </div>
         
@@ -369,9 +369,9 @@ const Users: React.FC = () => {
                         <button className="text-green-600 hover:text-green-900" title="Chỉnh sửa">
                           <Edit className="h-4 w-4" />
                         </button>
-                        <button 
-                          onClick={() => deleteUser(user.id)}
-                          className="text-red-600 hover:text-red-900" 
+                        <button
+                          onClick={() => handleDeleteUser(user.id)}
+                          className="text-red-600 hover:text-red-900"
                           title="Xóa"
                         >
                           <Trash2 className="h-4 w-4" />
@@ -398,21 +398,22 @@ const Users: React.FC = () => {
 
       {/* User Detail Modal */}
       {selectedUser && (
-        <UserDetailModal 
-          user={selectedUser} 
+        <UserDetailModal
+          user={selectedUser}
           onClose={() => setSelectedUser(null)}
-          onUpdateStatus={updateUserStatus}
+          onUpdateStatus={handleUpdateUserStatus}
         />
       )}
     </div>
   );
 };
 
-const UserDetailModal: React.FC<{ 
-  user: any, 
+const UserDetailModal: React.FC<{
+  user: User | null,
   onClose: () => void,
-  onUpdateStatus: (userId: number, status: string) => void 
+  onUpdateStatus: (userId: number, status: User['status']) => void
 }> = ({ user, onClose, onUpdateStatus }) => {
+  if (!user) return null;
   const statusConfig = {
     active: { bg: 'bg-green-100', text: 'text-green-800', label: 'Hoạt động' },
     inactive: { bg: 'bg-gray-100', text: 'text-gray-800', label: 'Không hoạt động' },
@@ -463,7 +464,7 @@ const UserDetailModal: React.FC<{
 
               {/* User Details */}
               <div>
-                <h4 className="text-sm font-medium text-gray-900 mb-2">Thông tin chi ti��t</h4>
+                <h4 className="text-sm font-medium text-gray-900 mb-2">Thông tin chi tiết</h4>
                 <div className="bg-gray-50 rounded-lg p-4 space-y-2">
                   <p><strong>Ngày tham gia:</strong> {user.joinDate}</p>
                   <p><strong>Lần đăng nhập cuối:</strong> {user.lastLogin}</p>
