@@ -66,8 +66,7 @@ export interface BlogPost {
 
 export interface CheckoutFormData {
   email: string;
-  firstName: string;
-  lastName: string;
+  fullName: string;
   phone: string;
   address: string;
   city: string;
