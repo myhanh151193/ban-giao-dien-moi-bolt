@@ -1,5 +1,5 @@
 import React from 'react';
-import { Star, ShoppingCart, Heart, Eye } from 'lucide-react';
+import { Star, ShoppingCart, Heart, Eye, ExternalLink } from 'lucide-react';
 import { Product } from '../types';
 import { useCart } from '../context/CartContext';
 
@@ -14,6 +14,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onQuickView }) => {
   const handleAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation();
     addToCart(product);
+  };
+
+  const handleDemo = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    // Open demo in new tab
+    window.open(`https://demo.templatehub.com/${product.id}`, '_blank');
   };
 
   const renderStars = (rating: number) => {
@@ -120,19 +126,30 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onQuickView }) => {
           )}
         </div>
 
-        {/* Add to Cart Button */}
-        <button
-          onClick={handleAddToCart}
-          disabled={!product.inStock}
-          className={`w-full py-3 px-4 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center space-x-2 ${
-            product.inStock
-              ? 'bg-blue-600 hover:bg-blue-700 text-white transform hover:scale-105 active:scale-95'
-              : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-          }`}
-        >
-          <ShoppingCart className="h-5 w-5" />
-          <span>{product.inStock ? 'Thêm vào giỏ' : 'Hết hàng'}</span>
-        </button>
+        {/* Action Buttons */}
+        <div className="flex space-x-3">
+          <button
+            onClick={handleAddToCart}
+            disabled={!product.inStock}
+            className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center space-x-2 ${
+              product.inStock
+                ? 'bg-blue-600 hover:bg-blue-700 text-white transform hover:scale-105 active:scale-95'
+                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+            }`}
+          >
+            <ShoppingCart className="h-4 w-4" />
+            <span>{product.inStock ? 'Mua ngay' : 'Hết hàng'}</span>
+          </button>
+
+          <button
+            onClick={handleDemo}
+            className="flex-shrink-0 py-3 px-4 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center space-x-2 bg-gray-100 hover:bg-gray-200 text-gray-700 transform hover:scale-105 active:scale-95"
+            title="Xem demo"
+          >
+            <ExternalLink className="h-4 w-4" />
+            <span>Demo</span>
+          </button>
+        </div>
       </div>
     </div>
   );
