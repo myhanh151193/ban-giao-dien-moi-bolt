@@ -22,78 +22,7 @@ const Users: React.FC = () => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
-  const users = [
-    {
-      id: 1,
-      name: 'Nguyễn Văn A',
-      email: 'nguyenvana@email.com',
-      phone: '0123456789',
-      avatar: 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=100',
-      status: 'active',
-      role: 'customer',
-      joinDate: '2024-01-15',
-      lastLogin: '2024-01-20 10:30',
-      totalOrders: 5,
-      totalSpent: 12450000,
-      address: '123 Đường ABC, Quận 1, TP.HCM'
-    },
-    {
-      id: 2,
-      name: 'Trần Thị B',
-      email: 'tranthib@email.com',
-      phone: '0987654321',
-      avatar: 'https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=100',
-      status: 'active',
-      role: 'customer',
-      joinDate: '2024-01-10',
-      lastLogin: '2024-01-19 15:45',
-      totalOrders: 3,
-      totalSpent: 7580000,
-      address: '456 Đường XYZ, Quận 3, TP.HCM'
-    },
-    {
-      id: 3,
-      name: 'Lê Minh C',
-      email: 'leminhc@email.com',
-      phone: '0369852147',
-      avatar: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=100',
-      status: 'inactive',
-      role: 'customer',
-      joinDate: '2024-01-05',
-      lastLogin: '2024-01-18 09:15',
-      totalOrders: 8,
-      totalSpent: 19850000,
-      address: '789 Đường DEF, Quận 7, TP.HCM'
-    },
-    {
-      id: 4,
-      name: 'Phạm Thị D',
-      email: 'phamthid@email.com',
-      phone: '0741258963',
-      avatar: 'https://images.pexels.com/photos/1181424/pexels-photo-1181424.jpeg?auto=compress&cs=tinysrgb&w=100',
-      status: 'active',
-      role: 'admin',
-      joinDate: '2023-12-01',
-      lastLogin: '2024-01-20 14:20',
-      totalOrders: 0,
-      totalSpent: 0,
-      address: '321 Đường GHI, Quận 5, TP.HCM'
-    },
-    {
-      id: 5,
-      name: 'Hoàng Văn E',
-      email: 'hoangvane@email.com',
-      phone: '0852963741',
-      avatar: null,
-      status: 'suspended',
-      role: 'customer',
-      joinDate: '2024-01-01',
-      lastLogin: '2024-01-17 11:00',
-      totalOrders: 2,
-      totalSpent: 4380000,
-      address: '654 Đường JKL, Quận 2, TP.HCM'
-    }
-  ]; // Now using context instead
+  // Users now come from context via useUsers hook
 
   const statusOptions = [
     { value: 'all', label: 'Tất cả trạng thái' },
@@ -148,7 +77,7 @@ const Users: React.FC = () => {
           <p className="mt-2 text-gray-600">Quản lý tài khoản và thông tin khách hàng</p>
         </div>
         <div className="mt-4 sm:mt-0">
-          <button
+          <button 
             onClick={() => setIsCreateModalOpen(true)}
             className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
@@ -372,9 +301,9 @@ const Users: React.FC = () => {
                         <button className="text-green-600 hover:text-green-900" title="Chỉnh sửa">
                           <Edit className="h-4 w-4" />
                         </button>
-                        <button
+                        <button 
                           onClick={() => handleDeleteUser(user.id)}
-                          className="text-red-600 hover:text-red-900"
+                          className="text-red-600 hover:text-red-900" 
                           title="Xóa"
                         >
                           <Trash2 className="h-4 w-4" />
@@ -401,8 +330,8 @@ const Users: React.FC = () => {
 
       {/* User Detail Modal */}
       {selectedUser && (
-        <UserDetailModal
-          user={selectedUser}
+        <UserDetailModal 
+          user={selectedUser} 
           onClose={() => setSelectedUser(null)}
           onUpdateStatus={handleUpdateUserStatus}
         />
@@ -416,10 +345,10 @@ const Users: React.FC = () => {
   );
 };
 
-const UserDetailModal: React.FC<{
-  user: User | null,
+const UserDetailModal: React.FC<{ 
+  user: User | null, 
   onClose: () => void,
-  onUpdateStatus: (userId: number, status: User['status']) => void
+  onUpdateStatus: (userId: number, status: User['status']) => void 
 }> = ({ user, onClose, onUpdateStatus }) => {
   if (!user) return null;
   const statusConfig = {
@@ -567,9 +496,9 @@ const CreateUserModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     <div className="fixed inset-0 z-50 overflow-y-auto">
       <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onClick={onClose} />
-
+        
         <span className="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
-
+        
         <form onSubmit={handleSubmit} className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
           <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
             <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">
@@ -618,7 +547,7 @@ const CreateUserModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Vai trò</label>
-                  <select
+                  <select 
                     name="role"
                     value={formData.role}
                     onChange={handleInputChange}
@@ -630,7 +559,7 @@ const CreateUserModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Trạng thái</label>
-                  <select
+                  <select 
                     name="status"
                     value={formData.status}
                     onChange={handleInputChange}
