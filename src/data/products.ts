@@ -13,7 +13,8 @@ export const products: Product[] = [
     description: "Mẫu website thương mại điện tử chuyên nghiệp và hiện đại",
     features: ["Responsive Design", "Cart Integration", "Payment Gateway", "Admin Dashboard"],
     inStock: true,
-    badge: "Bestseller"
+    badge: "Bestseller",
+    demoLink: "https://ecommerce-pro-demo.netlify.app"
   },
   {
     id: 2,
@@ -27,7 +28,8 @@ export const products: Product[] = [
     description: "Mẫu website doanh nghiệp sang trọng và uy tín",
     features: ["Modern Design", "Portfolio Section", "Contact Forms", "SEO Optimized"],
     inStock: true,
-    badge: "New"
+    badge: "New",
+    demoLink: "https://corporate-business-demo.netlify.app"
   },
   {
     id: 3,
