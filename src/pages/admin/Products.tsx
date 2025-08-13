@@ -196,10 +196,18 @@ const Products: React.FC = () => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <div className="flex items-center space-x-2">
-                      <button className="text-blue-600 hover:text-blue-900" title="Xem chi tiết">
+                      <button
+                        onClick={() => handleViewProduct(product)}
+                        className="text-blue-600 hover:text-blue-900"
+                        title="Xem chi tiết"
+                      >
                         <Eye className="h-4 w-4" />
                       </button>
-                      <button className="text-green-600 hover:text-green-900" title="Chỉnh sửa">
+                      <button
+                        onClick={() => handleEditProduct(product)}
+                        className="text-green-600 hover:text-green-900"
+                        title="Chỉnh sửa"
+                      >
                         <Edit className="h-4 w-4" />
                       </button>
                       <button 
@@ -311,7 +319,7 @@ const CreateProductModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       .replace(/[èéẹẻẽêềếệểễ]/g, 'e')
       .replace(/[ìíịỉĩ]/g, 'i')
       .replace(/[òóọỏõôồốộổỗơờớợởỡ]/g, 'o')
-      .replace(/[ùúụủũưừứựửữ]/g, 'u')
+      .replace(/[ùúụủũưừứ��ửữ]/g, 'u')
       .replace(/[ỳýỵỷỹ]/g, 'y')
       .replace(/đ/g, 'd')
       .replace(/[^a-z0-9\s-]/g, '')
