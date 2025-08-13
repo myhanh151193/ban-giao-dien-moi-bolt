@@ -203,7 +203,44 @@ const Posts: React.FC = () => {
   );
 };
 
-const CreatePostModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+const CreatePostModal: React.FC<{
+  post?: BlogPost | null,
+  onClose: () => void
+}> = ({ post, onClose }) => {
+  const { addPost, updatePost } = usePosts();
+  const isEditing = !!post;
+
+  const [formData, setFormData] = useState({
+    title: post?.title || '',
+    excerpt: post?.excerpt || '',
+    category: post?.category || 'Hướng dẫn',
+    author: post?.author || '',
+    content: post?.content || '',
+    image: post?.image || '',
+    tags: post?.tags || [],
+    readTime: post?.readTime || 5
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (formData.title && formData.excerpt && formData.content) {
+      if (isEditing && post) {
+        updatePost(post.id, formData);
+      } else {
+        addPost(formData);
+      }
+      onClose();
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: name === 'readTime' ? Number(value) : value
+    }));
+  };
+
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto">
       <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
@@ -265,7 +302,7 @@ const CreatePostModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700">Ảnh đ��i diện</label>
+                <label className="block text-sm font-medium text-gray-700">Ảnh đại diện</label>
                 <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
                   <div className="space-y-1 text-center">
                     <svg className="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
