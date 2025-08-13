@@ -339,7 +339,7 @@ const CreateProductModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     return name
       .toLowerCase()
       .replace(/[àáạả��âầấậẩẫăằắặẳẵ]/g, 'a')
-      .replace(/[èéẹẻẽêềếệểễ]/g, 'e')
+      .replace(/[èéẹẻẽêềếệ��ễ]/g, 'e')
       .replace(/[ìíịỉĩ]/g, 'i')
       .replace(/[òóọỏõôồốộổỗơờớợởỡ]/g, 'o')
       .replace(/[ùúụủũưừứ��ửữ]/g, 'u')
@@ -660,8 +660,6 @@ const CreateProductModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                         <div className="mt-2">
                           <a
                             href={formData.demoLink}
-                            target="_blank"
-                            rel="noopener noreferrer"
                             className="inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200"
                           >
                             👁️ Xem demo
