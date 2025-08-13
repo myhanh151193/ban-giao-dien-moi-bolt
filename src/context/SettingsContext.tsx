@@ -186,13 +186,15 @@ export const SettingsProvider: React.FC<SettingsProviderProps> = ({ children }) 
       };
 
       setSettings(mergedSettings);
-    } catch (error) {
-      console.error('Error fetching settings:', error);
-      console.log('Using default settings for offline mode');
+    } catch (error: any) {
+      console.warn('⚠️ API không khả dụng - chuyển sang cài đặt mặc định');
+      console.log('⚙️ Đang tải cài đặt mặc định...');
 
       // Use default settings if API fails
       setSettings(defaultSettings);
       setError('API không khả dụng - sử dụng cài đặt mặc định');
+
+      console.log('✅ Đã tải cài đặt mặc định cho chế độ offline');
     } finally {
       setLoading(false);
     }
