@@ -31,7 +31,7 @@ const Header: React.FC<HeaderProps> = ({ onCartClick }) => {
           <div className="flex items-center">
             <div className="flex-shrink-0">
               <Link to="/" className="text-2xl font-bold text-blue-600 hover:text-blue-700 transition-colors duration-200">
-                TechStore
+                TemplateHub
               </Link>
             </div>
           </div>
