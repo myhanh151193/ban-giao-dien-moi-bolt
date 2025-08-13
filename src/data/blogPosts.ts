@@ -1,5 +1,6 @@
 // Fallback data when API is unavailable
-// Data is normally fetched from: https://medisosoft.com/path/api/controllers/BlogController.php
+// Data is normally fetched from: https://medisosoft.com/path/api/blog
+// Backend handles routing to controllers/ folder internally
 
 export const blogPosts = [
   {
