@@ -9,7 +9,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const location = useLocation();
   const adminToken = localStorage.getItem('adminToken');
 
-  if (!adminToken) {
+  // Check if user is logged in (simple check)
+  if (!adminToken || adminToken === 'fake-jwt-token') {
     // Redirect to login page with return url
     return <Navigate to="/admin/login" state={{ from: location }} replace />;
   }
