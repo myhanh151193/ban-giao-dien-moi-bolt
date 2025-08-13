@@ -278,6 +278,28 @@ const Products: React.FC = () => {
       {isCreateModalOpen && (
         <CreateProductModal onClose={() => setIsCreateModalOpen(false)} />
       )}
+
+      {/* View Product Modal */}
+      {isViewModalOpen && selectedProduct && (
+        <ViewProductModal
+          product={selectedProduct}
+          onClose={() => {
+            setIsViewModalOpen(false);
+            setSelectedProduct(null);
+          }}
+        />
+      )}
+
+      {/* Edit Product Modal */}
+      {isEditModalOpen && selectedProduct && (
+        <EditProductModal
+          product={selectedProduct}
+          onClose={() => {
+            setIsEditModalOpen(false);
+            setSelectedProduct(null);
+          }}
+        />
+      )}
     </div>
   );
 };
