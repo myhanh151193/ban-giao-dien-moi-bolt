@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useUsers } from '../../context/UserContext';
+import { User } from '../../types';
 import { 
   Search, 
   Filter, 
@@ -14,9 +16,11 @@ import {
 } from 'lucide-react';
 
 const Users: React.FC = () => {
+  const { users, updateUserStatus, deleteUser: deleteUserFromContext } = useUsers();
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
-  const [selectedUser, setSelectedUser] = useState<any>(null);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   const users = [
     {
@@ -89,7 +93,7 @@ const Users: React.FC = () => {
       totalSpent: 4380000,
       address: '654 Đường JKL, Quận 2, TP.HCM'
     }
-  ];
+  ]; // Now using context instead
 
   const statusOptions = [
     { value: 'all', label: 'Tất cả trạng thái' },
@@ -125,15 +129,13 @@ const Users: React.FC = () => {
     return matchesSearch && matchesStatus;
   });
 
-  const updateUserStatus = (userId: number, newStatus: string) => {
-    console.log(`Update user ${userId} to status: ${newStatus}`);
-    // Here you would implement the status update logic
+  const handleUpdateUserStatus = (userId: number, newStatus: User['status']) => {
+    updateUserStatus(userId, newStatus);
   };
 
-  const deleteUser = (userId: number) => {
+  const handleDeleteUser = (userId: number) => {
     if (window.confirm('Bạn có chắc chắn muốn xóa người dùng này?')) {
-      console.log('Delete user:', userId);
-      // Here you would implement the delete logic
+      deleteUserFromContext(userId);
     }
   };
 
@@ -143,7 +145,7 @@ const Users: React.FC = () => {
       <div className="sm:flex sm:items-center sm:justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Quản lý người dùng</h1>
-          <p className="mt-2 text-gray-600">Quản lý tài khoản và thông tin khách hàng</p>
+          <p className="mt-2 text-gray-600">Quản lý tài khoản v�� thông tin khách hàng</p>
         </div>
         <div className="mt-4 sm:mt-0">
           <button className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
@@ -461,7 +463,7 @@ const UserDetailModal: React.FC<{
 
               {/* User Details */}
               <div>
-                <h4 className="text-sm font-medium text-gray-900 mb-2">Thông tin chi tiết</h4>
+                <h4 className="text-sm font-medium text-gray-900 mb-2">Thông tin chi ti��t</h4>
                 <div className="bg-gray-50 rounded-lg p-4 space-y-2">
                   <p><strong>Ngày tham gia:</strong> {user.joinDate}</p>
                   <p><strong>Lần đăng nhập cuối:</strong> {user.lastLogin}</p>
