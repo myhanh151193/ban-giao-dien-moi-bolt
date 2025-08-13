@@ -28,14 +28,9 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       const response = await apiService.getCart();
       setItems(response.data || response || []);
     } catch (error: any) {
-      console.warn('⚠️ API không khả dụng - chuyển sang chế độ offline');
-      console.log('🛒 Sử dụng giỏ hàng trống cho chế độ offline');
-
-      // Use empty cart when API fails
+      console.error('❌ Lỗi kết nối API giỏ hàng:', error);
+      setError('Không thể tải dữ liệu giỏ hàng từ API');
       setItems([]);
-      setError('API không khả dụng - chế độ offline');
-
-      console.log('✅ Giỏ hàng offline đã sẵn sàng');
     } finally {
       setLoading(false);
     }
