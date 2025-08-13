@@ -176,7 +176,7 @@ export const SettingsProvider: React.FC<SettingsProviderProps> = ({ children }) 
       setError(null);
       const response = await apiService.getSettings();
       const apiSettings = response.data || response;
-      
+
       // Merge with default settings to ensure all fields exist
       const mergedSettings = {
         ...defaultSettings,
@@ -184,13 +184,15 @@ export const SettingsProvider: React.FC<SettingsProviderProps> = ({ children }) 
         contact: { ...defaultSettings.contact, ...apiSettings.contact },
         about: { ...defaultSettings.about, ...apiSettings.about }
       };
-      
+
       setSettings(mergedSettings);
     } catch (error) {
       console.error('Error fetching settings:', error);
-      setError('Không thể tải cài đặt');
+      console.log('Using default settings for offline mode');
+
       // Use default settings if API fails
       setSettings(defaultSettings);
+      setError('API không khả dụng - sử dụng cài đặt mặc định');
     } finally {
       setLoading(false);
     }
