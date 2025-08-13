@@ -46,10 +46,27 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   }, []);
 
   const addToCart = async (product: Product) => {
+    setError(null);
+
+    const existingItem = items.find(item => item.product.id === product.id);
+
+    // In offline mode, work directly with local state
+    if (error?.includes('offline') || error?.includes('không khả dụng')) {
+      setItems(prevItems => {
+        if (existingItem) {
+          return prevItems.map(item =>
+            item.product.id === product.id
+              ? { ...item, quantity: item.quantity + 1 }
+              : item
+          );
+        }
+        return [...prevItems, { product, quantity: 1 }];
+      });
+      return;
+    }
+
+    // Try API first, but don't show errors - just fallback silently
     try {
-      setError(null);
-      const existingItem = items.find(item => item.product.id === product.id);
-      
       if (existingItem) {
         await updateQuantity(product.id, existingItem.quantity + 1);
       } else {
@@ -57,13 +74,11 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
         const newItem = response.data || { product, quantity: 1 };
         setItems(prevItems => [...prevItems, newItem]);
       }
-    } catch (error) {
-      console.error('Error adding to cart:', error);
-      setError('Không thể thêm sản phẩm vào giỏ hàng');
-      
-      // Fallback to local state if API fails
+    } catch (apiError) {
+      // Silent fallback to local state - no error messages
+      console.log('🛒 API không khả dụng - sử dụng giỏ hàng offline');
+
       setItems(prevItems => {
-        const existingItem = prevItems.find(item => item.product.id === product.id);
         if (existingItem) {
           return prevItems.map(item =>
             item.product.id === product.id
@@ -115,7 +130,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       );
     } catch (error) {
       console.error('Error updating cart quantity:', error);
-      setError('Kh��ng thể cập nhật số lượng');
+      setError('Không thể cập nhật số lượng');
       
       // Fallback to local state if API fails
       setItems(prevItems =>
