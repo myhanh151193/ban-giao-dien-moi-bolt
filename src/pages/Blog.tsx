@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Calendar, Clock, User, ArrowRight, Search } from 'lucide-react';
 import { BlogPost } from '../types';
-import { blogPosts } from '../data/blogPosts';
+import { usePosts } from '../context/PostContext';
 import BlogDetailModal from '../components/BlogDetailModal';
 
 const Blog: React.FC = () => {
+  const { posts } = usePosts();
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
   const [isBlogDetailOpen, setIsBlogDetailOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -19,13 +20,13 @@ const Blog: React.FC = () => {
     setSelectedPost(null);
   };
 
-  const filteredPosts = blogPosts.filter(post =>
+  const filteredPosts = posts.filter(post =>
     post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     post.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
     post.category.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const categories = [...new Set(blogPosts.map(post => post.category))];
+  const categories = [...new Set(posts.map(post => post.category))];
 
   return (
     <div className="min-h-screen bg-gray-50">
