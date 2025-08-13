@@ -29,7 +29,11 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       setItems(response.data || response || []);
     } catch (error) {
       console.error('Error fetching cart:', error);
-      setError('Không thể tải giỏ hàng');
+      console.log('Using empty cart for offline mode');
+
+      // Use empty cart when API fails
+      setItems([]);
+      setError('API không khả dụng - chế độ offline');
     } finally {
       setLoading(false);
     }
