@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useOrders } from '../../context/OrderContext';
+import { OrderAdmin } from '../../types';
 import { 
   Search, 
   Filter, 
@@ -12,98 +14,12 @@ import {
 } from 'lucide-react';
 
 const Orders: React.FC = () => {
+  const { orders, updateOrderStatus, deleteOrder } = useOrders();
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
-  const [selectedOrder, setSelectedOrder] = useState<any>(null);
+  const [selectedOrder, setSelectedOrder] = useState<OrderAdmin | null>(null);
 
-  const orders = [
-    {
-      id: 'DH001',
-      customer: {
-        name: 'Nguyễn Văn A',
-        email: 'nguyenvana@email.com',
-        phone: '0123456789'
-      },
-      products: [
-        { name: 'E-commerce Pro Template', quantity: 1, price: 2390000 }
-      ],
-      total: 2390000,
-      status: 'completed',
-      createdAt: '2024-01-15 10:30',
-      shippingAddress: '123 Đường ABC, Quận 1, TP.HCM',
-      paymentMethod: 'cod',
-      notes: 'Giao vào buổi chiều'
-    },
-    {
-      id: 'DH002',
-      customer: {
-        name: 'Trần Thị B',
-        email: 'tranthib@email.com',
-        phone: '0987654321'
-      },
-      products: [
-        { name: 'Corporate Business Template', quantity: 1, price: 1890000 }
-      ],
-      total: 1890000,
-      status: 'pending',
-      createdAt: '2024-01-14 15:45',
-      shippingAddress: '456 Đường XYZ, Quận 3, TP.HCM',
-      paymentMethod: 'cod',
-      notes: ''
-    },
-    {
-      id: 'DH003',
-      customer: {
-        name: 'Lê Minh C',
-        email: 'leminhc@email.com',
-        phone: '0369852147'
-      },
-      products: [
-        { name: 'Creative Portfolio Template', quantity: 1, price: 1490000 },
-        { name: 'Blog & Magazine Template', quantity: 1, price: 1190000 }
-      ],
-      total: 2680000,
-      status: 'processing',
-      createdAt: '2024-01-13 09:15',
-      shippingAddress: '789 Đường DEF, Quận 7, TP.HCM',
-      paymentMethod: 'cod',
-      notes: 'Khách hàng VIP'
-    },
-    {
-      id: 'DH004',
-      customer: {
-        name: 'Phạm Thị D',
-        email: 'phamthid@email.com',
-        phone: '0741258963'
-      },
-      products: [
-        { name: 'Restaurant & Cafe Template', quantity: 1, price: 1690000 }
-      ],
-      total: 1690000,
-      status: 'cancelled',
-      createdAt: '2024-01-12 14:20',
-      shippingAddress: '321 Đư��ng GHI, Quận 5, TP.HCM',
-      paymentMethod: 'cod',
-      notes: 'Khách hàng hủy đơn'
-    },
-    {
-      id: 'DH005',
-      customer: {
-        name: 'Hoàng Văn E',
-        email: 'hoangvane@email.com',
-        phone: '0852963741'
-      },
-      products: [
-        { name: 'Agency Landing Page', quantity: 1, price: 2190000 }
-      ],
-      total: 2190000,
-      status: 'completed',
-      createdAt: '2024-01-11 11:00',
-      shippingAddress: '654 Đường JKL, Quận 2, TP.HCM',
-      paymentMethod: 'cod',
-      notes: ''
-    }
-  ];
+  // Orders now come from context via useOrders hook
 
   const statusOptions = [
     { value: 'all', label: 'Tất cả trạng thái' },
@@ -132,9 +48,14 @@ const Orders: React.FC = () => {
     return matchesSearch && matchesStatus;
   });
 
-  const updateOrderStatus = (orderId: string, newStatus: string) => {
-    console.log(`Update order ${orderId} to status: ${newStatus}`);
-    // Here you would implement the status update logic
+  const handleUpdateOrderStatus = (orderId: string, newStatus: OrderAdmin['status']) => {
+    updateOrderStatus(orderId, newStatus);
+  };
+
+  const handleDeleteOrder = (orderId: string) => {
+    if (window.confirm('Bạn có chắc chắn muốn xóa đơn hàng này?')) {
+      deleteOrder(orderId);
+    }
   };
 
   return (
@@ -279,18 +200,18 @@ const Orders: React.FC = () => {
                           <Eye className="h-4 w-4" />
                         </button>
                         {order.status === 'pending' && (
-                          <button 
-                            onClick={() => updateOrderStatus(order.id, 'processing')}
-                            className="text-green-600 hover:text-green-900" 
+                          <button
+                            onClick={() => handleUpdateOrderStatus(order.id, 'processing')}
+                            className="text-green-600 hover:text-green-900"
                             title="Xác nhận"
                           >
                             <Check className="h-4 w-4" />
                           </button>
                         )}
                         {(order.status === 'pending' || order.status === 'processing') && (
-                          <button 
-                            onClick={() => updateOrderStatus(order.id, 'cancelled')}
-                            className="text-red-600 hover:text-red-900" 
+                          <button
+                            onClick={() => handleUpdateOrderStatus(order.id, 'cancelled')}
+                            className="text-red-600 hover:text-red-900"
                             title="Hủy đơn"
                           >
                             <X className="h-4 w-4" />
@@ -318,21 +239,22 @@ const Orders: React.FC = () => {
 
       {/* Order Detail Modal */}
       {selectedOrder && (
-        <OrderDetailModal 
-          order={selectedOrder} 
+        <OrderDetailModal
+          order={selectedOrder}
           onClose={() => setSelectedOrder(null)}
-          onUpdateStatus={updateOrderStatus}
+          onUpdateStatus={handleUpdateOrderStatus}
         />
       )}
     </div>
   );
 };
 
-const OrderDetailModal: React.FC<{ 
-  order: any, 
+const OrderDetailModal: React.FC<{
+  order: OrderAdmin | null,
   onClose: () => void,
-  onUpdateStatus: (orderId: string, status: string) => void 
+  onUpdateStatus: (orderId: string, status: OrderAdmin['status']) => void
 }> = ({ order, onClose, onUpdateStatus }) => {
+  if (!order) return null;
   const statusConfig = {
     completed: { bg: 'bg-green-100', text: 'text-green-800', label: 'Hoàn thành' },
     pending: { bg: 'bg-yellow-100', text: 'text-yellow-800', label: 'Chờ xử lý' },

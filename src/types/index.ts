@@ -11,6 +11,17 @@ export interface Product {
   features: string[];
   inStock: boolean;
   badge?: string;
+  demoLink?: string;
+  // SEO Fields
+  slug?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  seoKeywords?: string[];
+  altText?: string;
+  openGraphTitle?: string;
+  openGraphDescription?: string;
+  openGraphImage?: string;
+  structuredData?: any;
 }
 
 export interface CartItem {
@@ -40,6 +51,17 @@ export interface BlogPost {
   slug: string;
   content: string;
   tags: string[];
+  // SEO Fields
+  seoTitle?: string;
+  seoDescription?: string;
+  seoKeywords?: string[];
+  altText?: string;
+  openGraphTitle?: string;
+  openGraphDescription?: string;
+  openGraphImage?: string;
+  canonicalUrl?: string;
+  metaRobots?: string;
+  focusKeyword?: string;
 }
 
 export interface CheckoutFormData {
@@ -57,6 +79,45 @@ export interface CheckoutFormData {
   cardCvc?: string;
   cardName?: string;
   notes?: string;
+}
+
+export interface OrderProduct {
+  name: string;
+  quantity: number;
+  price: number;
+}
+
+export interface Customer {
+  name: string;
+  email: string;
+  phone: string;
+}
+
+export interface OrderAdmin {
+  id: string;
+  customer: Customer;
+  products: OrderProduct[];
+  total: number;
+  status: 'pending' | 'processing' | 'completed' | 'cancelled';
+  createdAt: string;
+  shippingAddress: string;
+  paymentMethod: string;
+  notes: string;
+}
+
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+  avatar: string | null;
+  status: 'active' | 'inactive' | 'suspended';
+  role: 'admin' | 'customer';
+  joinDate: string;
+  lastLogin: string;
+  totalOrders: number;
+  totalSpent: number;
+  address: string;
 }
 
 export interface Order {

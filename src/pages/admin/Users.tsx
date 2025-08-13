@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useUsers } from '../../context/UserContext';
+import { User } from '../../types';
 import { 
   Search, 
   Filter, 
@@ -14,82 +16,13 @@ import {
 } from 'lucide-react';
 
 const Users: React.FC = () => {
+  const { users, updateUserStatus, deleteUser: deleteUserFromContext } = useUsers();
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
-  const [selectedUser, setSelectedUser] = useState<any>(null);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
-  const users = [
-    {
-      id: 1,
-      name: 'Nguyễn Văn A',
-      email: 'nguyenvana@email.com',
-      phone: '0123456789',
-      avatar: 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=100',
-      status: 'active',
-      role: 'customer',
-      joinDate: '2024-01-15',
-      lastLogin: '2024-01-20 10:30',
-      totalOrders: 5,
-      totalSpent: 12450000,
-      address: '123 Đường ABC, Quận 1, TP.HCM'
-    },
-    {
-      id: 2,
-      name: 'Trần Thị B',
-      email: 'tranthib@email.com',
-      phone: '0987654321',
-      avatar: 'https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=100',
-      status: 'active',
-      role: 'customer',
-      joinDate: '2024-01-10',
-      lastLogin: '2024-01-19 15:45',
-      totalOrders: 3,
-      totalSpent: 7580000,
-      address: '456 Đường XYZ, Quận 3, TP.HCM'
-    },
-    {
-      id: 3,
-      name: 'Lê Minh C',
-      email: 'leminhc@email.com',
-      phone: '0369852147',
-      avatar: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=100',
-      status: 'inactive',
-      role: 'customer',
-      joinDate: '2024-01-05',
-      lastLogin: '2024-01-18 09:15',
-      totalOrders: 8,
-      totalSpent: 19850000,
-      address: '789 Đường DEF, Quận 7, TP.HCM'
-    },
-    {
-      id: 4,
-      name: 'Phạm Thị D',
-      email: 'phamthid@email.com',
-      phone: '0741258963',
-      avatar: 'https://images.pexels.com/photos/1181424/pexels-photo-1181424.jpeg?auto=compress&cs=tinysrgb&w=100',
-      status: 'active',
-      role: 'admin',
-      joinDate: '2023-12-01',
-      lastLogin: '2024-01-20 14:20',
-      totalOrders: 0,
-      totalSpent: 0,
-      address: '321 Đường GHI, Quận 5, TP.HCM'
-    },
-    {
-      id: 5,
-      name: 'Hoàng Văn E',
-      email: 'hoangvane@email.com',
-      phone: '0852963741',
-      avatar: null,
-      status: 'suspended',
-      role: 'customer',
-      joinDate: '2024-01-01',
-      lastLogin: '2024-01-17 11:00',
-      totalOrders: 2,
-      totalSpent: 4380000,
-      address: '654 Đường JKL, Quận 2, TP.HCM'
-    }
-  ];
+  // Users now come from context via useUsers hook
 
   const statusOptions = [
     { value: 'all', label: 'Tất cả trạng thái' },
@@ -125,15 +58,13 @@ const Users: React.FC = () => {
     return matchesSearch && matchesStatus;
   });
 
-  const updateUserStatus = (userId: number, newStatus: string) => {
-    console.log(`Update user ${userId} to status: ${newStatus}`);
-    // Here you would implement the status update logic
+  const handleUpdateUserStatus = (userId: number, newStatus: User['status']) => {
+    updateUserStatus(userId, newStatus);
   };
 
-  const deleteUser = (userId: number) => {
+  const handleDeleteUser = (userId: number) => {
     if (window.confirm('Bạn có chắc chắn muốn xóa người dùng này?')) {
-      console.log('Delete user:', userId);
-      // Here you would implement the delete logic
+      deleteUserFromContext(userId);
     }
   };
 
@@ -146,7 +77,10 @@ const Users: React.FC = () => {
           <p className="mt-2 text-gray-600">Quản lý tài khoản và thông tin khách hàng</p>
         </div>
         <div className="mt-4 sm:mt-0">
-          <button className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+          <button 
+            onClick={() => setIsCreateModalOpen(true)}
+            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          >
             <UserPlus className="-ml-1 mr-2 h-5 w-5" />
             Thêm người dùng
           </button>
@@ -368,7 +302,7 @@ const Users: React.FC = () => {
                           <Edit className="h-4 w-4" />
                         </button>
                         <button 
-                          onClick={() => deleteUser(user.id)}
+                          onClick={() => handleDeleteUser(user.id)}
                           className="text-red-600 hover:text-red-900" 
                           title="Xóa"
                         >
@@ -399,18 +333,24 @@ const Users: React.FC = () => {
         <UserDetailModal 
           user={selectedUser} 
           onClose={() => setSelectedUser(null)}
-          onUpdateStatus={updateUserStatus}
+          onUpdateStatus={handleUpdateUserStatus}
         />
+      )}
+
+      {/* Create User Modal */}
+      {isCreateModalOpen && (
+        <CreateUserModal onClose={() => setIsCreateModalOpen(false)} />
       )}
     </div>
   );
 };
 
 const UserDetailModal: React.FC<{ 
-  user: any, 
+  user: User | null, 
   onClose: () => void,
-  onUpdateStatus: (userId: number, status: string) => void 
+  onUpdateStatus: (userId: number, status: User['status']) => void 
 }> = ({ user, onClose, onUpdateStatus }) => {
+  if (!user) return null;
   const statusConfig = {
     active: { bg: 'bg-green-100', text: 'text-green-800', label: 'Hoạt động' },
     inactive: { bg: 'bg-gray-100', text: 'text-gray-800', label: 'Không hoạt động' },
@@ -513,6 +453,166 @@ const UserDetailModal: React.FC<{
             </button>
           </div>
         </div>
+      </div>
+    </div>
+  );
+};
+
+const CreateUserModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+  const { addUser } = useUsers();
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    avatar: '',
+    status: 'active' as User['status'],
+    role: 'customer' as User['role'],
+    address: ''
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (formData.name && formData.email && formData.phone) {
+      addUser({
+        ...formData,
+        joinDate: new Date().toISOString().split('T')[0],
+        lastLogin: new Date().toLocaleString('vi-VN'),
+        totalOrders: 0,
+        totalSpent: 0
+      });
+      onClose();
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 overflow-y-auto">
+      <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onClick={onClose} />
+        
+        <span className="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
+        
+        <form onSubmit={handleSubmit} className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+          <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+            <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">
+              Thêm người dùng mới
+            </h3>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Họ tên</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Nhập họ tên"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Nhập email"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Số điện thoại</label>
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Nhập số điện thoại"
+                  required
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Vai trò</label>
+                  <select 
+                    name="role"
+                    value={formData.role}
+                    onChange={handleInputChange}
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  >
+                    <option value="customer">Khách hàng</option>
+                    <option value="admin">Quản trị viên</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Trạng thái</label>
+                  <select 
+                    name="status"
+                    value={formData.status}
+                    onChange={handleInputChange}
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  >
+                    <option value="active">Hoạt động</option>
+                    <option value="inactive">Không hoạt động</option>
+                    <option value="suspended">Tạm khóa</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Địa chỉ</label>
+                <input
+                  type="text"
+                  name="address"
+                  value={formData.address}
+                  onChange={handleInputChange}
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Nhập địa chỉ"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700">URL Avatar</label>
+                <input
+                  type="url"
+                  name="avatar"
+                  value={formData.avatar}
+                  onChange={handleInputChange}
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="https://example.com/avatar.jpg"
+                />
+              </div>
+            </div>
+          </div>
+          <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+            <button
+              type="submit"
+              className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
+            >
+              Tạo người dùng
+            </button>
+            <button
+              type="button"
+              onClick={onClose}
+              className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+            >
+              Hủy
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

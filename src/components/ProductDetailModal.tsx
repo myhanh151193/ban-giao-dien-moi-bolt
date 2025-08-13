@@ -223,6 +223,21 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ product, isOpen
                     </div>
                   )}
 
+                  {/* Demo Button */}
+                  {product.demoLink && (
+                    <div>
+                      <a
+                        href={product.demoLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full inline-flex items-center justify-center py-3 px-6 rounded-xl font-semibold transition-all duration-200 bg-green-600 hover:bg-green-700 text-white transform hover:scale-105 active:scale-95"
+                      >
+                        <span className="mr-2">🔗</span>
+                        Xem Demo Trực Tiếp
+                      </a>
+                    </div>
+                  )}
+
                   {/* Action Buttons */}
                   <div className="flex flex-col sm:flex-row gap-4">
                     <button
@@ -248,7 +263,7 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ product, isOpen
                         </>
                       )}
                     </button>
-                    
+
                     <button
                       onClick={() => setIsWishlisted(!isWishlisted)}
                       className={`p-4 rounded-xl border-2 transition-all duration-200 ${
@@ -259,7 +274,7 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ product, isOpen
                     >
                       <Heart className={`h-5 w-5 ${isWishlisted ? 'fill-current' : ''}`} />
                     </button>
-                    
+
                     <button className="p-4 rounded-xl border-2 border-gray-300 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-500 transition-all duration-200">
                       <Share2 className="h-5 w-5" />
                     </button>

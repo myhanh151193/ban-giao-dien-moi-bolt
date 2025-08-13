@@ -14,19 +14,30 @@ export const blogPosts: BlogPost[] = [
     content: `
       <h2>Smartphone là thiết bị không thể thiếu trong cuộc sống hiện đại</h2>
       <p>Năm 2024 đánh dấu một bước tiến vượt bậc trong công nghệ smartphone với sự xuất hiện của AI tích hợp, camera cải tiến và hiệu suất xử lý mạnh mẽ hơn bao giờ hết.</p>
-      
+
       <h3>1. iPhone 15 Pro Max - Đỉnh cao công nghệ Apple</h3>
       <p>Với chip A17 Pro được sản xuất trên tiến trình 3nm, iPhone 15 Pro Max mang đến hiệu suất vượt trội cùng khả năng chụp ảnh chuyên nghiệp với camera 48MP.</p>
-      
+
       <h3>2. Samsung Galaxy S24 Ultra - AI đột phá</h3>
       <p>Galaxy S24 Ultra tích hợp Galaxy AI với khả năng dịch thuật real-time, chỉnh sửa ảnh thông minh và S Pen cải tiến.</p>
-      
+
       <h3>3. Google Pixel 8 Pro - Nhiếp ảnh AI</h3>
       <p>Pixel 8 Pro nổi bật với khả năng chụp ảnh computational photography và tích hợp sâu với các dịch vụ Google AI.</p>
-      
+
       <p>Khi chọn smartphone năm 2024, hãy xem xét nhu cầu sử dụng, ngân sách và hệ sinh thái bạn đang sử dụng để có lựa chọn phù hợp nhất.</p>
     `,
-    tags: ["Smartphone", "Reviews", "Technology", "2024"]
+    tags: ["Smartphone", "Reviews", "Technology", "2024"],
+    // SEO Fields
+    seoTitle: "Top 10 Smartphone Tốt Nhất 2024 - Đánh Giá Chi Tiết",
+    seoDescription: "Khám phá top 10 smartphone tốt nhất năm 2024 với công nghệ AI tiên tiến, camera chuyên nghiệp và hiệu suất vượt trội. ��ánh giá chi tiết iPhone 15 Pro Max, Galaxy S24 Ultra.",
+    seoKeywords: ["smartphone 2024", "top smartphone", "iPhone 15 Pro Max", "Galaxy S24 Ultra", "điện thoại tốt nhất"],
+    altText: "Top 10 smartphone tốt nhất năm 2024",
+    openGraphTitle: "Top 10 Smartphone Tốt Nhất Năm 2024 - Đánh Giá Chi Tiết",
+    openGraphDescription: "Khám phá những chiếc smartphone hàng đầu với công nghệ tiên tiến nhất, từ camera AI đến hiệu suất xử lý vượt trội.",
+    openGraphImage: "https://images.pexels.com/photos/1092644/pexels-photo-1092644.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    canonicalUrl: "https://yourdomain.com/blog/top-10-smartphone-2024",
+    metaRobots: "index,follow",
+    focusKeyword: "smartphone 2024"
   },
   {
     id: 2,
@@ -69,7 +80,17 @@ export const blogPosts: BlogPost[] = [
         <li>Màn hình: 14-15.6 inch Full HD, IPS</li>
       </ul>
     `,
-    tags: ["Laptop", "Guides", "Buying Guide", "Work"]
+    tags: ["Laptop", "Guides", "Buying Guide", "Work"],
+    // SEO Fields
+    seoTitle: "Hướng Dẫn Chọn Laptop Phù Hợp 2024 - Văn Phòng, Thiết Kế, Lập Trình",
+    seoDescription: "Hướng dẫn chi tiết cách chọn laptop phù hợp cho công việc văn phòng, thiết kế đồ họa và lập trình. So sánh cấu hình, giá cả và hiệu suất 2024.",
+    seoKeywords: ["chọn laptop", "laptop văn phòng", "laptop thiết kế", "laptop lập trình", "mua laptop 2024"],
+    altText: "Hướng dẫn chọn laptop phù hợp cho công việc",
+    openGraphTitle: "Hướng Dẫn Chọn Laptop Phù Hợp Cho Công Việc",
+    openGraphDescription: "Tìm hiểu cách chọn laptop phù hợp với nhu cầu công việc, từ văn phòng đến thiết kế đồ họa và lập trình.",
+    openGraphImage: "https://images.pexels.com/photos/205421/pexels-photo-205421.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    metaRobots: "index,follow",
+    focusKeyword: "chọn laptop"
   },
   {
     id: 3,
@@ -123,7 +144,7 @@ export const blogPosts: BlogPost[] = [
       <p><strong>Apple Watch:</strong> Thiết kế vuông iconic, chất liệu cao cấp từ nhôm đến titanium, Digital Crown độc đáo.</p>
       <p><strong>Galaxy Watch:</strong> Thiết kế tròn truyền thống, rotating bezel tiện lợi, nhiều lựa chọn kích thước.</p>
       
-      <h3>Hệ điều hành và App</h3>
+      <h3>H��� điều hành và App</h3>
       <p><strong>watchOS:</strong> Tích hợp sâu với iPhone, App Store phong phú, Siri thông minh.</p>
       <p><strong>Wear OS:</strong> Tương thích đa nền tảng, Google Assistant, Galaxy Store.</p>
       
@@ -194,7 +215,7 @@ export const blogPosts: BlogPost[] = [
     readTime: 9,
     slug: "cong-nghe-ai-trong-smartphone",
     content: `
-      <h2>AI trong Smartphone - Khi trí tuệ nhân tạo thay đổi cách chúng ta sử dụng điện thoại</h2>
+      <h2>AI trong Smartphone - Khi trí tu��� nhân tạo thay đổi cách chúng ta sử dụng điện thoại</h2>
       <p>Trí tuệ nhân tạo đã không còn là khái niệm xa vời mà đã trở thành một phần không thể thiếu trong smartphone hiện đại.</p>
       
       <h3>AI trong nhiếp ảnh</h3>
@@ -224,7 +245,7 @@ export const blogPosts: BlogPost[] = [
         <li>Quản lý bộ nhớ tự động</li>
       </ul>
       
-      <h3>Bảo mật nâng cao</h3>
+      <h3>Bảo m���t nâng cao</h3>
       <p>AI trong bảo mật smartphone:</p>
       <ul>
         <li>Nhận diện khuôn mặt 3D chính xác và an toàn</li>

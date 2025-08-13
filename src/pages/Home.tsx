@@ -7,7 +7,7 @@ import Newsletter from '../components/Newsletter';
 import Features from '../components/Features';
 import ProductDetailModal from '../components/ProductDetailModal';
 import BlogDetailModal from '../components/BlogDetailModal';
-import { products } from '../data/products';
+import { useProducts } from '../context/ProductContext';
 import { Product, BlogPost } from '../types';
 
 interface HomeProps {
@@ -16,6 +16,7 @@ interface HomeProps {
 }
 
 const Home: React.FC<HomeProps> = ({ selectedCategory, onCategoryChange }) => {
+  const { products } = useProducts();
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isProductDetailOpen, setIsProductDetailOpen] = useState(false);
   const [selectedBlogPost, setSelectedBlogPost] = useState<BlogPost | null>(null);

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSettings } from '../../context/SettingsContext';
 import { 
   Save, 
   Upload, 
@@ -13,8 +14,11 @@ import {
 } from 'lucide-react';
 
 const Settings: React.FC = () => {
+  const { settings, updateSettings, saveSettings } = useSettings();
   const [activeTab, setActiveTab] = useState('general');
-  const [settings, setSettings] = useState({
+
+  // Remove local state management as it's now handled by context
+  /*const [settings, setSettings] = useState({
     general: {
       siteName: 'TemplateHub',
       siteDescription: 'Nền tảng cung cấp mẫu website chuyên nghiệp hàng đầu',
@@ -52,7 +56,7 @@ const Settings: React.FC = () => {
       emailOnLowStock: false,
       smsNotifications: false
     }
-  });
+  });*/
 
   const tabs = [
     { id: 'general', name: 'Tổng quan', icon: Globe },
@@ -63,17 +67,11 @@ const Settings: React.FC = () => {
   ];
 
   const handleInputChange = (section: string, field: string, value: any) => {
-    setSettings(prev => ({
-      ...prev,
-      [section]: {
-        ...prev[section as keyof typeof prev],
-        [field]: value
-      }
-    }));
+    updateSettings(section as any, field, value);
   };
 
   const handleSave = () => {
-    console.log('Saving settings:', settings);
+    saveSettings();
     alert('Cài đặt đã được lưu thành công!');
   };
 
