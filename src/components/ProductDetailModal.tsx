@@ -146,12 +146,12 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ product, isOpen
                   {/* Price */}
                   <div className="flex items-center space-x-4">
                     <span className="text-4xl font-bold text-gray-900">
-                      ${product.price}
+                      {product.price.toLocaleString('vi-VN')}₫
                     </span>
                     {product.originalPrice && (
                       <>
                         <span className="text-2xl text-gray-500 line-through">
-                          ${product.originalPrice}
+                          {product.originalPrice.toLocaleString('vi-VN')}₫
                         </span>
                         <span className="text-lg font-semibold text-red-500 bg-red-50 px-3 py-1 rounded-full">
                           -{Math.round((1 - product.price / product.originalPrice) * 100)}%
