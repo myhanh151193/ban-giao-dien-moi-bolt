@@ -59,6 +59,30 @@ export interface CheckoutFormData {
   notes?: string;
 }
 
+export interface OrderProduct {
+  name: string;
+  quantity: number;
+  price: number;
+}
+
+export interface Customer {
+  name: string;
+  email: string;
+  phone: string;
+}
+
+export interface OrderAdmin {
+  id: string;
+  customer: Customer;
+  products: OrderProduct[];
+  total: number;
+  status: 'pending' | 'processing' | 'completed' | 'cancelled';
+  createdAt: string;
+  shippingAddress: string;
+  paymentMethod: string;
+  notes: string;
+}
+
 export interface Order {
   id: string;
   items: CartItem[];
