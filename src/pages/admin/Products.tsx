@@ -13,7 +13,7 @@ import {
 import { useProducts } from '../../context/ProductContext';
 
 const Products: React.FC = () => {
-  const { products, deleteProduct } = useProducts();
+  const { products, deleteProduct, updateProduct } = useProducts();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
