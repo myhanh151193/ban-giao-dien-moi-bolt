@@ -147,6 +147,53 @@ class ApiService {
       method: 'DELETE',
     });
   }
+
+  // Settings
+  async getSettings() {
+    return this.request('/settings');
+  }
+
+  async updateSettings(settings: any) {
+    return this.request('/settings', {
+      method: 'PUT',
+      body: JSON.stringify(settings),
+    });
+  }
+
+  // User Management
+  async createUser(user: any) {
+    return this.request('/users', {
+      method: 'POST',
+      body: JSON.stringify(user),
+    });
+  }
+
+  async updateUser(id: string, user: any) {
+    return this.request(`/users/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(user),
+    });
+  }
+
+  async deleteUser(id: string) {
+    return this.request(`/users/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
+  // Order Management
+  async updateOrder(id: string, order: any) {
+    return this.request(`/orders/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(order),
+    });
+  }
+
+  async deleteOrder(id: string) {
+    return this.request(`/orders/${id}`, {
+      method: 'DELETE',
+    });
+  }
 }
 
 export const apiService = new ApiService();
