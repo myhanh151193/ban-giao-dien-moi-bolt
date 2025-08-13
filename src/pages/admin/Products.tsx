@@ -509,26 +509,60 @@ const CreateProductModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                   <div className="space-y-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700">
-                        URL hình ảnh chính
+                        Hình ảnh chính
                       </label>
+
+                      {/* Upload from device option */}
+                      <div className="mt-2">
+                        <div className="flex items-center space-x-4">
+                          <label className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
+                            <span className="bg-blue-50 border border-blue-200 rounded-md px-4 py-2 text-sm hover:bg-blue-100 transition-colors inline-flex items-center">
+                              📁 Chọn ảnh từ thiết bị
+                            </span>
+                            <input
+                              type="file"
+                              className="sr-only"
+                              accept="image/*"
+                              onChange={handleImageUpload}
+                            />
+                          </label>
+                          <span className="text-gray-500 text-sm">hoặc</span>
+                        </div>
+                      </div>
+
+                      {/* URL input option */}
                       <input
                         type="url"
                         name="image"
                         value={formData.image}
                         onChange={handleInputChange}
-                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="https://example.com/image.jpg"
+                        className="mt-2 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Hoặc nhập URL hình ảnh: https://example.com/image.jpg"
                       />
+
+                      {/* Image preview */}
                       {formData.image && (
-                        <div className="mt-2">
-                          <img
-                            src={formData.image}
-                            alt="Preview"
-                            className="w-full h-32 object-cover rounded border"
-                            onError={(e) => {
-                              e.currentTarget.style.display = 'none';
-                            }}
-                          />
+                        <div className="mt-3">
+                          <div className="relative">
+                            <img
+                              src={formData.image}
+                              alt="Preview"
+                              className="w-full h-32 object-cover rounded border"
+                              onError={(e) => {
+                                e.currentTarget.style.display = 'none';
+                              }}
+                            />
+                            <button
+                              type="button"
+                              onClick={() => setFormData(prev => ({ ...prev, image: '' }))}
+                              className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600 transition-colors"
+                            >
+                              ×
+                            </button>
+                          </div>
+                          <p className="mt-1 text-xs text-gray-500">
+                            Nhấp vào nút × để xóa ảnh
+                          </p>
                         </div>
                       )}
                     </div>
