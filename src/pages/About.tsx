@@ -1,7 +1,9 @@
 import React from 'react';
 import { Users, Target, Award, Heart, Code, Download, Headphones, RefreshCw } from 'lucide-react';
+import { useSettings } from '../context/SettingsContext';
 
 const About: React.FC = () => {
+  const { settings } = useSettings();
   const teamMembers = [
     {
       name: "Nguyễn Văn A",
@@ -13,7 +15,7 @@ const About: React.FC = () => {
       name: "Trần Thị B",
       position: "Trưởng phòng Thiết kế",
       image: "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description: "Designer giàu kinh nghiệm với hơn 100 dự án thành công"
+      description: "Designer giàu kinh nghi���m với hơn 100 dự án thành công"
     },
     {
       name: "Lê Minh C",
@@ -82,11 +84,10 @@ const About: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              Về TemplateHub
+              Về {settings.about.companyName}
             </h1>
             <p className="text-xl md:text-2xl max-w-3xl mx-auto">
-              Chúng tôi là nền tảng cung cấp mẫu website chuyên nghiệp hàng đầu,
-              giúp bạn xây dựng website đẹp và hiệu quả.
+              {settings.about.description}
             </p>
           </div>
         </div>
@@ -100,15 +101,18 @@ const About: React.FC = () => {
               <h2 className="text-3xl font-bold text-gray-900 mb-6">Câu chuyện của chúng tôi</h2>
               <div className="space-y-4 text-gray-600">
                 <p>
-                  TemplateHub được thành lập vào năm 2018 với tầm nhìn giúp các doanh nghiệp và cá nhân
-                  dễ dàng tạo ra những website chuyên nghiệp và ấn tượng.
+                  {settings.about.companyName} được thành lập vào năm {settings.about.foundedYear} với tầm nhìn:
+                </p>
+                <div className="bg-blue-50 border-l-4 border-blue-400 p-4 my-4">
+                  <p className="font-medium text-blue-800">
+                    "{settings.about.vision}"
+                  </p>
+                </div>
+                <p>
+                  <strong>Sứ mệnh của chúng tôi:</strong> {settings.about.mission}
                 </p>
                 <p>
-                  Bắt đầu với 10 mẫu website đơn giản, chúng tôi đã phát triển thành nền tảng cung cấp
-                  hơn 100 mẫu website đa dạng cho nhiều ngành nghề khác nhau.
-                </p>
-                <p>
-                  Với đội ngũ designer và developer tài năng, chúng tôi cam kết mang đến những mẫu website
+                  Với đội ngũ {settings.about.teamSize} nhân viên tài năng, chúng tôi cam kết mang đến những sản phẩm
                   chất lượng cao, hiện đại và dễ sử dụng.
                 </p>
               </div>
@@ -131,19 +135,18 @@ const About: React.FC = () => {
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Giá trị cốt lõi</h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Những giá trị định hướng hoạt động và phát triển của TemplateHub
+              Những giá trị định hướng hoạt động và phát triển của {settings.about.companyName}
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {values.map((value, index) => (
+            {settings.about.values.map((value, index) => (
               <div key={index} className="text-center group hover:transform hover:scale-105 transition-all duration-300">
                 <div className="flex justify-center mb-4">
                   <div className="p-3 bg-gray-100 rounded-full group-hover:bg-gray-200 transition-colors duration-300">
-                    {value.icon}
+                    {values[index]?.icon || <Award className="h-8 w-8 text-blue-500" />}
                   </div>
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">{value.title}</h3>
-                <p className="text-gray-600">{value.description}</p>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">{value}</h3>
               </div>
             ))}
           </div>
@@ -156,7 +159,7 @@ const About: React.FC = () => {
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Đội ngũ lãnh đạo</h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Những con người tài năng đứng sau thành công của TemplateHub
+              Những con người tài năng đứng sau thành công của {settings.about.companyName}
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -182,7 +185,7 @@ const About: React.FC = () => {
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Tại sao chọn TemplateHub?</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Tại sao chọn {settings.about.companyName}?</h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               Những ưu điểm vượt trội khiến khách hàng tin tưởng lựa chọn
             </p>
@@ -207,22 +210,16 @@ const About: React.FC = () => {
       <section className="py-16 bg-blue-600 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
-            <div>
-              <div className="text-4xl font-bold mb-2">100+</div>
-              <div className="text-blue-100">Mẫu website</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold mb-2">50K+</div>
-              <div className="text-blue-100">Khách hàng hài lòng</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold mb-2">10+</div>
-              <div className="text-blue-100">Ngành nghề</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold mb-2">6+</div>
-              <div className="text-blue-100">Năm kinh nghiệm</div>
-            </div>
+            {settings.about.achievements.map((achievement, index) => (
+              <div key={index}>
+                <div className="text-4xl font-bold mb-2">
+                  {achievement.match(/\d+[+]?/) ? achievement.match(/\d+[+]?/)[0] : '✓'}
+                </div>
+                <div className="text-blue-100">
+                  {achievement.replace(/\d+[+]?\s*/, '')}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
