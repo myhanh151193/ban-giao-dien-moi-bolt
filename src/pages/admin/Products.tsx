@@ -530,6 +530,36 @@ const CreateProductModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
                     <div>
                       <label className="block text-sm font-medium text-gray-700">
+                        Link Demo/Preview *
+                      </label>
+                      <input
+                        type="url"
+                        name="demoLink"
+                        value={formData.demoLink}
+                        onChange={handleInputChange}
+                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="https://demo.example.com"
+                        required
+                      />
+                      <p className="mt-1 text-xs text-gray-500">
+                        Link để khách hàng xem demo trực tiếp của template
+                      </p>
+                      {formData.demoLink && (
+                        <div className="mt-2">
+                          <a
+                            href={formData.demoLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200"
+                          >
+                            👁️ Xem demo
+                          </a>
+                        </div>
+                      )}
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">
                         Trạng thái
                       </label>
                       <div className="mt-2">
