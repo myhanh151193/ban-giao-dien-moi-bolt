@@ -4,6 +4,7 @@ import { CartProvider } from './context/CartContext';
 import { ProductProvider } from './context/ProductContext';
 import { OrderProvider } from './context/OrderContext';
 import { PostProvider } from './context/PostContext';
+import { UserProvider } from './context/UserContext';
 import Header from './components/Header';
 import CartSidebar from './components/CartSidebar';
 import Footer from './components/Footer';
@@ -52,7 +53,8 @@ function App() {
     <ProductProvider>
       <OrderProvider>
         <PostProvider>
-          <CartProvider>
+          <UserProvider>
+            <CartProvider>
       <Router>
         <div className="min-h-screen bg-white">
           <Header
@@ -102,7 +104,8 @@ function App() {
           />
         </div>
       </Router>
-          </CartProvider>
+            </CartProvider>
+          </UserProvider>
         </PostProvider>
       </OrderProvider>
     </ProductProvider>
