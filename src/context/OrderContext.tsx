@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { OrderAdmin } from '../types';
 
 interface OrderContextType {
@@ -8,6 +8,7 @@ interface OrderContextType {
   updateOrderStatus: (id: string, status: OrderAdmin['status']) => void;
   deleteOrder: (id: string) => void;
   getOrderById: (id: string) => OrderAdmin | undefined;
+  refreshOrders: () => void;
 }
 
 const OrderContext = createContext<OrderContextType | undefined>(undefined);
@@ -184,13 +185,43 @@ export const OrderProvider: React.FC<OrderProviderProps> = ({ children }) => {
     return orders.find(order => order.id === id);
   };
 
+  const refreshOrders = () => {
+    const savedOrders = localStorage.getItem('admin-orders');
+    if (savedOrders) {
+      try {
+        const parsed = JSON.parse(savedOrders);
+        setOrders(parsed);
+      } catch (error) {
+        console.error('Error refreshing orders:', error);
+      }
+    }
+  };
+
+  // Listen for storage changes to sync across tabs
+  useEffect(() => {
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'admin-orders' && e.newValue) {
+        try {
+          const newOrders = JSON.parse(e.newValue);
+          setOrders(newOrders);
+        } catch (error) {
+          console.error('Error syncing orders from storage:', error);
+        }
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
   const value: OrderContextType = {
     orders,
     addOrder,
     updateOrder,
     updateOrderStatus,
     deleteOrder,
-    getOrderById
+    getOrderById,
+    refreshOrders
   };
 
   return (
