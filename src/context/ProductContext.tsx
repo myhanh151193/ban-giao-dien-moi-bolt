@@ -41,6 +41,7 @@ export const ProductProvider: React.FC<ProductProviderProps> = ({ children }) =>
       if (!response.ok) throw new Error('Lỗi kết nối API');
 
       const data = await response.json();
+      console.log(data);
       setProducts(data.products || data || []);
     } catch (error: any) {
       console.warn('⚠️ API không khả dụng - chuyển sang dữ liệu offline');
