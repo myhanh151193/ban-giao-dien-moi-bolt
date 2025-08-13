@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Star, ChevronLeft, ChevronRight, Quote } from 'lucide-react';
+import { useSettings } from '../context/SettingsContext';
 
 const Testimonials: React.FC = () => {
+  const { settings } = useSettings();
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const testimonials = [
@@ -108,7 +110,7 @@ const Testimonials: React.FC = () => {
             Khách hàng nói gì về chúng tôi
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Hơn 100,000 khách hàng đã tin tưởng và hài lòng với dịch vụ của TechStore
+            Hơn 100,000 khách hàng đã tin tưởng và hài lòng với dịch vụ của {settings.general.siteName}
           </p>
         </div>
 
