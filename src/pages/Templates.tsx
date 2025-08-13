@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import { products } from '../data/products';
+import { useProducts } from '../context/ProductContext';
 import { Product } from '../types';
 import ProductCard from '../components/ProductCard';
 import ProductDetailModal from '../components/ProductDetailModal';
 
 const Templates: React.FC = () => {
+  const { products } = useProducts();
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isProductDetailOpen, setIsProductDetailOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('All');
 
-  const categories = ['All', 'E-commerce', 'Business', 'Portfolio', 'Restaurant', 'Blog', 'Landing'];
+  const categories = ['All', ...Array.from(new Set(products.map(p => p.category)))];
 
   const handleProductClick = (product: Product) => {
     setSelectedProduct(product);
