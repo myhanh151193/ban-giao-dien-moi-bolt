@@ -32,7 +32,7 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
   });
 
   const subtotal = getTotalPrice();
-  const shippingFee = subtotal > 500 ? 0 : 25;
+  const shippingFee = subtotal > 1000000 ? 0 : 50000;
   const discount = 0;
   const finalAmount = subtotal + shippingFee - discount;
 
