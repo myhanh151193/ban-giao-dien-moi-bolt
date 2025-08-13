@@ -17,6 +17,9 @@ const Products: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<any>(null);
 
   const categories = ['All', 'E-commerce', 'Business', 'Portfolio', 'Restaurant', 'Blog', 'Landing'];
 
@@ -212,7 +215,7 @@ const Products: React.FC = () => {
             <Package className="mx-auto h-12 w-12 text-gray-400" />
             <h3 className="mt-2 text-sm font-medium text-gray-900">Không có sản phẩm</h3>
             <p className="mt-1 text-sm text-gray-500">
-              Không tìm thấy sản phẩm nào phù hợp với bộ lọc.
+              Không tìm thấy sản phẩm nào phù hợp với bộ l��c.
             </p>
           </div>
         )}
