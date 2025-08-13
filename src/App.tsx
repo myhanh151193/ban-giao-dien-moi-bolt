@@ -11,6 +11,7 @@ import Header from './components/Header';
 import CartSidebar from './components/CartSidebar';
 import Footer from './components/Footer';
 import CheckoutModal from './components/CheckoutModal';
+import ApiStatusNotification from './components/ApiStatusNotification';
 import Home from './pages/Home';
 import Templates from './pages/Templates';
 import Blog from './pages/Blog';
@@ -26,6 +27,7 @@ import Users from './pages/admin/Users';
 import Settings from './pages/admin/Settings';
 import AdminLogin from './pages/admin/Login';
 import ProtectedRoute from './components/ProtectedRoute';
+import { useApiStatus } from './hooks/useApiStatus';
 import { BlogPost } from './types';
 
 function App() {
