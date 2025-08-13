@@ -28,20 +28,21 @@ const Login: React.FC = () => {
       // Try API login first
       const response = await apiService.login(username, password);
 
-      if (response.token) {
-        localStorage.setItem('adminToken', response.token);
+      if (response.success) {
+        localStorage.setItem('adminToken', 'logged-in');
+        localStorage.setItem('adminUser', JSON.stringify(response.user || { username }));
         const from = location.state?.from?.pathname || '/admin';
         navigate(from, { replace: true });
         return;
       }
     } catch (error) {
-      // Fallback to local validation if API fails
       console.log('API login failed, using local validation:', error);
     }
 
     // Local fallback validation
     if (username === 'admin' && password === 'Admin@@2025') {
-      localStorage.setItem('adminToken', 'fake-jwt-token');
+      localStorage.setItem('adminToken', 'logged-in');
+      localStorage.setItem('adminUser', JSON.stringify({ username: 'admin', role: 'admin' }));
       const from = location.state?.from?.pathname || '/admin';
       navigate(from, { replace: true });
     } else {
@@ -61,7 +62,7 @@ const Login: React.FC = () => {
           Đăng nhập Admin
         </h2>
         <p className="mt-2 text-center text-sm text-gray-600">
-          Truy cập vào bảng điều khiển quản trị
+          Truy cập vào bảng điều khiển qu���n trị
         </p>
       </div>
 
