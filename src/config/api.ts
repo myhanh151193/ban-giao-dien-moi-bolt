@@ -1,5 +1,5 @@
 export const API_CONFIG = {
-  BASE_URL: 'https://medisosoft.com/path/api',
+  BASE_URL: 'https://medisosoft.com/path/api/controllers',
   ENDPOINTS: {
     AUTH: '/auth',
     PRODUCTS: '/products',
