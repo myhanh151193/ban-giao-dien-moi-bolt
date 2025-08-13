@@ -1,13 +1,16 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { BlogPost } from '../types';
-import { blogPosts as initialPosts } from '../data/blogPosts';
+import { apiService } from '../services/apiService';
 
 interface PostContextType {
   posts: BlogPost[];
-  addPost: (post: Omit<BlogPost, 'id'>) => void;
-  updatePost: (id: number, post: Partial<BlogPost>) => void;
-  deletePost: (id: number) => void;
+  loading: boolean;
+  error: string | null;
+  addPost: (post: Omit<BlogPost, 'id'>) => Promise<void>;
+  updatePost: (id: number, post: Partial<BlogPost>) => Promise<void>;
+  deletePost: (id: number) => Promise<void>;
   getPostById: (id: number) => BlogPost | undefined;
+  refreshPosts: () => Promise<void>;
 }
 
 const PostContext = createContext<PostContextType | undefined>(undefined);
@@ -24,25 +27,28 @@ interface PostProviderProps {
   children: ReactNode;
 }
 
-const STORAGE_KEY = 'posts_data';
-
 export const PostProvider: React.FC<PostProviderProps> = ({ children }) => {
-  const [posts, setPosts] = useState<BlogPost[]>(() => {
-    const savedPosts = localStorage.getItem(STORAGE_KEY);
-    if (savedPosts) {
-      try {
-        return JSON.parse(savedPosts);
-      } catch (error) {
-        console.error('Error parsing saved posts:', error);
-        return initialPosts;
-      }
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchPosts = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await apiService.getBlogPosts();
+      setPosts(response.data || response);
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+      setError('Không thể tải danh sách bài viết');
+    } finally {
+      setLoading(false);
     }
-    return initialPosts;
-  });
+  };
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
-  }, [posts]);
+    fetchPosts();
+  }, []);
 
   const generateSlug = (title: string) => {
     return title
@@ -60,44 +66,77 @@ export const PostProvider: React.FC<PostProviderProps> = ({ children }) => {
       .trim();
   };
 
-  const addPost = (postData: Omit<BlogPost, 'id'>) => {
-    const newPost: BlogPost = {
-      ...postData,
-      id: Math.max(...posts.map(p => p.id)) + 1,
-      slug: postData.slug || generateSlug(postData.title),
-      date: new Date().toLocaleDateString('vi-VN'),
-      seoTitle: postData.seoTitle || postData.title,
-      seoDescription: postData.seoDescription || postData.excerpt.substring(0, 160),
-      altText: postData.altText || postData.title,
-      openGraphTitle: postData.openGraphTitle || postData.seoTitle || postData.title,
-      openGraphDescription: postData.openGraphDescription || postData.seoDescription || postData.excerpt.substring(0, 160),
-      openGraphImage: postData.openGraphImage || postData.image,
-    };
-    setPosts(prev => [newPost, ...prev]);
+  const addPost = async (postData: Omit<BlogPost, 'id'>) => {
+    try {
+      setError(null);
+      const postToSend = {
+        ...postData,
+        slug: postData.slug || generateSlug(postData.title),
+        date: new Date().toLocaleDateString('vi-VN'),
+        seoTitle: postData.seoTitle || postData.title,
+        seoDescription: postData.seoDescription || postData.excerpt.substring(0, 160),
+        altText: postData.altText || postData.title,
+        openGraphTitle: postData.openGraphTitle || postData.seoTitle || postData.title,
+        openGraphDescription: postData.openGraphDescription || postData.seoDescription || postData.excerpt.substring(0, 160),
+        openGraphImage: postData.openGraphImage || postData.image,
+      };
+      
+      const response = await apiService.createBlogPost(postToSend);
+      const newPost = response.data || response;
+      setPosts(prev => [newPost, ...prev]);
+    } catch (error) {
+      console.error('Error adding post:', error);
+      setError('Không thể thêm bài viết');
+      throw error;
+    }
   };
 
-  const updatePost = (id: number, postData: Partial<BlogPost>) => {
-    setPosts(prev => 
-      prev.map(post => 
-        post.id === id ? { ...post, ...postData } : post
-      )
-    );
+  const updatePost = async (id: number, postData: Partial<BlogPost>) => {
+    try {
+      setError(null);
+      const response = await apiService.updateBlogPost(id.toString(), postData);
+      const updatedPost = response.data || response;
+      setPosts(prev => 
+        prev.map(post => 
+          post.id === id ? { ...post, ...updatedPost } : post
+        )
+      );
+    } catch (error) {
+      console.error('Error updating post:', error);
+      setError('Không thể cập nhật bài viết');
+      throw error;
+    }
   };
 
-  const deletePost = (id: number) => {
-    setPosts(prev => prev.filter(post => post.id !== id));
+  const deletePost = async (id: number) => {
+    try {
+      setError(null);
+      await apiService.deleteBlogPost(id.toString());
+      setPosts(prev => prev.filter(post => post.id !== id));
+    } catch (error) {
+      console.error('Error deleting post:', error);
+      setError('Không thể xóa bài viết');
+      throw error;
+    }
   };
 
   const getPostById = (id: number) => {
     return posts.find(post => post.id === id);
   };
 
+  const refreshPosts = async () => {
+    await fetchPosts();
+  };
+
   const value: PostContextType = {
     posts,
+    loading,
+    error,
     addPost,
     updatePost,
     deletePost,
-    getPostById
+    getPostById,
+    refreshPosts
   };
 
   return (
