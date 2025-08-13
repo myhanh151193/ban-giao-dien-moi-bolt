@@ -1,73 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Star, ChevronLeft, ChevronRight, Quote } from 'lucide-react';
 import { useSettings } from '../context/SettingsContext';
+import { useTestimonials } from '../context/TestimonialContext';
 
 const Testimonials: React.FC = () => {
   const { settings } = useSettings();
+  const { getActiveTestimonials } = useTestimonials();
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const testimonials = [
-    {
-      id: 1,
-      name: "Nguyễn Minh Tuấn",
-      role: "CEO Startup công nghệ",
-      avatar: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=400",
-      rating: 5,
-      content: "Template e-commerce của TemplateHub giúp startup của tôi tiết kiệm 6 tháng phát triển. Code sạch, tích hợp thanh toán đầy đủ, và responsive hoàn hảo. Đội ngũ hỗ trợ rất chuyên nghiệp.",
-      product: "E-commerce Pro Template",
-      date: "2024-01-15"
-    },
-    {
-      id: 2,
-      name: "Trần Thị Lan",
-      role: "Giám đốc Marketing Agency",
-      avatar: "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=400",
-      rating: 5,
-      content: "Landing page template rất ấn tượng, tỷ lệ chuyển đổi của khách hàng tăng 40% sau khi sử dụng. Thiết kế đẹp, tối ưu SEO tốt. Đã giới thiệu cho nhiều đối tác khác.",
-      product: "Agency Landing Page",
-      date: "2024-01-20"
-    },
-    {
-      id: 3,
-      name: "Lê Đức Thọ",
-      role: "Freelance Developer",
-      avatar: "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=400",
-      rating: 5,
-      content: "Mua template để làm dự án cho khách hàng. Code rất clean, dễ customize và có documentation chi tiết. Giá cả hợp lý, chất lượng vượt mong đợi. Sẽ tiếp tục ủng hộ!",
-      product: "Corporate Business Template",
-      date: "2024-01-25"
-    },
-    {
-      id: 4,
-      name: "Phạm Thị Hương",
-      role: "UX/UI Designer",
-      avatar: "https://images.pexels.com/photos/1181424/pexels-photo-1181424.jpeg?auto=compress&cs=tinysrgb&w=400",
-      rating: 5,
-      content: "Portfolio template hoàn hảo cho designer. Responsive tuyệt vời, animations mượt mà. Tôi đã tùy chỉnh và tạo được portfolio ấn tượng, nhận được nhiều project mới.",
-      product: "Creative Portfolio Template",
-      date: "2024-02-01"
-    },
-    {
-      id: 5,
-      name: "Hoàng Văn Nam",
-      role: "Chủ cửa hàng online",
-      avatar: "https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&w=400",
-      rating: 5,
-      content: "Website bán hàng được làm từ template này rất chuyên nghiệp. Khách hàng tin tưởng hơn, doanh số tăng 3 lần so với website cũ. Tích hợp payment gateway rất tiện lợi.",
-      product: "E-commerce Store Template",
-      date: "2024-02-05"
-    },
-    {
-      id: 6,
-      name: "Vũ Thị Mai",
-      role: "Blogger/Content Creator",
-      avatar: "https://images.pexels.com/photos/1181519/pexels-photo-1181519.jpeg?auto=compress&cs=tinysrgb&w=400",
-      rating: 5,
-      content: "Blog template có giao diện đẹp, load nhanh và SEO-friendly. Traffic blog của tôi tăng 200% sau 3 tháng sử dụng. Hỗ trợ đa ngôn ngữ và tích hợp social media tốt.",
-      product: "Blog & Magazine Template",
-      date: "2024-02-10"
-    }
-  ];
+  // Get only active testimonials from admin
+  const testimonials = getActiveTestimonials();
+
 
   const nextTestimonial = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
@@ -78,9 +21,11 @@ const Testimonials: React.FC = () => {
   };
 
   useEffect(() => {
-    const timer = setInterval(nextTestimonial, 5000);
-    return () => clearInterval(timer);
-  }, []);
+    if (testimonials.length > 0) {
+      const timer = setInterval(nextTestimonial, 5000);
+      return () => clearInterval(timer);
+    }
+  }, [testimonials.length]);
 
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, index) => (
@@ -116,8 +61,9 @@ const Testimonials: React.FC = () => {
 
         {/* Desktop View - 3 cards */}
         <div className="hidden lg:block">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {getVisibleTestimonials().map((testimonial, index) => (
+          {testimonials.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {getVisibleTestimonials().map((testimonial, index) => (
               <div
                 key={testimonial.id}
                 className={`bg-white rounded-xl shadow-lg p-8 transform transition-all duration-500 ${
@@ -149,13 +95,19 @@ const Testimonials: React.FC = () => {
                   <p className="text-sm text-gray-500">{new Date(testimonial.date).toLocaleDateString('vi-VN')}</p>
                 </div>
               </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-gray-500">Chưa có đánh giá nào được hiển thị.</p>
+            </div>
+          )}
         </div>
 
         {/* Mobile View - 1 card with navigation */}
         <div className="lg:hidden">
-          <div className="relative">
+          {testimonials.length > 0 ? (
+            <div className="relative">
             <div className="bg-white rounded-xl shadow-lg p-8 mx-4">
               <div className="flex items-center mb-6">
                 <img
@@ -198,11 +150,17 @@ const Testimonials: React.FC = () => {
             >
               <ChevronRight className="h-6 w-6 text-gray-600" />
             </button>
-          </div>
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-gray-500">Chưa có đánh giá nào được hiển thị.</p>
+            </div>
+          )}
         </div>
 
         {/* Navigation Controls */}
-        <div className="flex justify-center items-center mt-8 space-x-4">
+        {testimonials.length > 0 && (
+          <div className="flex justify-center items-center mt-8 space-x-4">
           <button
             onClick={prevTestimonial}
             className="hidden lg:flex items-center justify-center w-10 h-10 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors duration-200"
@@ -229,7 +187,8 @@ const Testimonials: React.FC = () => {
           >
             <ChevronRight className="h-5 w-5" />
           </button>
-        </div>
+          </div>
+        )}
 
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 text-center">
