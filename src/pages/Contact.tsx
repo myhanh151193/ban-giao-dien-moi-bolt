@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { MapPin, Phone, Mail, Clock, Send, MessageCircle } from 'lucide-react';
+import { useSettings } from '../context/SettingsContext';
 
 const Contact: React.FC = () => {
+  const { settings } = useSettings();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -191,7 +193,7 @@ const Contact: React.FC = () => {
                     </div>
                     <div>
                       <h3 className="font-semibold text-gray-900">Địa chỉ trụ sở chính</h3>
-                      <p className="text-gray-600">123 Phố Digital, Quận 1, TP.HCM</p>
+                      <p className="text-gray-600">{settings.contact.address}</p>
                     </div>
                   </div>
 
@@ -201,8 +203,7 @@ const Contact: React.FC = () => {
                     </div>
                     <div>
                       <h3 className="font-semibold text-gray-900">Điện thoại</h3>
-                      <p className="text-gray-600">+84 123 456 789</p>
-                      <p className="text-gray-600">Hotline: 1900 9999</p>
+                      <p className="text-gray-600">{settings.contact.phone}</p>
                     </div>
                   </div>
 
@@ -212,8 +213,8 @@ const Contact: React.FC = () => {
                     </div>
                     <div>
                       <h3 className="font-semibold text-gray-900">Email</h3>
-                      <p className="text-gray-600">info@templatehub.com</p>
-                      <p className="text-gray-600">support@templatehub.com</p>
+                      <p className="text-gray-600">{settings.contact.email}</p>
+                      <p className="text-gray-600">{settings.general.adminEmail}</p>
                     </div>
                   </div>
 
@@ -223,8 +224,7 @@ const Contact: React.FC = () => {
                     </div>
                     <div>
                       <h3 className="font-semibold text-gray-900">Giờ làm việc</h3>
-                      <p className="text-gray-600">Thứ 2 - Thứ 6: 8:00 - 18:00</p>
-                      <p className="text-gray-600">Thứ 7 - Chủ nhật: 9:00 - 17:00</p>
+                      <p className="text-gray-600">{settings.contact.workingHours}</p>
                     </div>
                   </div>
                 </div>
@@ -233,9 +233,22 @@ const Contact: React.FC = () => {
               {/* Map placeholder */}
               <div className="bg-white rounded-lg shadow-lg p-8">
                 <h3 className="text-xl font-bold text-gray-900 mb-4">Bản đồ</h3>
-                <div className="w-full h-64 bg-gray-200 rounded-lg flex items-center justify-center">
-                  <p className="text-gray-500">Google Maps sẽ được tích hợp ở đây</p>
-                </div>
+                {settings.contact.googleMapUrl ? (
+                  <iframe
+                    src={settings.contact.googleMapUrl}
+                    width="100%"
+                    height="256"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    className="rounded-lg"
+                  />
+                ) : (
+                  <div className="w-full h-64 bg-gray-200 rounded-lg flex items-center justify-center">
+                    <p className="text-gray-500">Google Maps sẽ được tích hợp ở đây</p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -247,7 +260,7 @@ const Contact: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Văn phòng làm việc</h2>
-            <p className="text-xl text-gray-600">Các văn phòng TemplateHub trên toàn quốc</p>
+            <p className="text-xl text-gray-600">Các văn phòng {settings.general.siteName} trên toàn quốc</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

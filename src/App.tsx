@@ -6,6 +6,7 @@ import { OrderProvider } from './context/OrderContext';
 import { PostProvider } from './context/PostContext';
 import { UserProvider } from './context/UserContext';
 import { SettingsProvider } from './context/SettingsContext';
+import { TestimonialProvider } from './context/TestimonialContext';
 import Header from './components/Header';
 import CartSidebar from './components/CartSidebar';
 import Footer from './components/Footer';
@@ -20,6 +21,7 @@ import Dashboard from './pages/admin/Dashboard';
 import Products from './pages/admin/Products';
 import Orders from './pages/admin/Orders';
 import Posts from './pages/admin/Posts';
+import Reviews from './pages/admin/Reviews';
 import Users from './pages/admin/Users';
 import Settings from './pages/admin/Settings';
 import AdminLogin from './pages/admin/Login';
@@ -56,7 +58,8 @@ function App() {
         <PostProvider>
           <UserProvider>
             <SettingsProvider>
-              <CartProvider>
+              <TestimonialProvider>
+                <CartProvider>
       <Router>
         <div className="min-h-screen bg-white">
           <Header
@@ -86,6 +89,7 @@ function App() {
                 <Route path="products" element={<Products />} />
                 <Route path="orders" element={<Orders />} />
                 <Route path="posts" element={<Posts />} />
+                <Route path="reviews" element={<Reviews />} />
                 <Route path="users" element={<Users />} />
                 <Route path="settings" element={<Settings />} />
               </Route>
@@ -106,7 +110,8 @@ function App() {
           />
         </div>
       </Router>
-              </CartProvider>
+                </CartProvider>
+              </TestimonialProvider>
             </SettingsProvider>
           </UserProvider>
         </PostProvider>

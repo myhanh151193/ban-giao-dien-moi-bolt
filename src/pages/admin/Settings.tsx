@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import { useSettings } from '../../context/SettingsContext';
-import { 
-  Save, 
-  Upload, 
-  Globe, 
-  Mail, 
-  Shield, 
-  Palette, 
+import {
+  Save,
+  Upload,
+  Globe,
+  Mail,
+  Shield,
+  Palette,
   Bell,
   Database,
   Key,
-  Monitor
+  Monitor,
+  Phone,
+  Users
 } from 'lucide-react';
 
 const Settings: React.FC = () => {
@@ -64,6 +66,8 @@ const Settings: React.FC = () => {
     { id: 'email', name: 'Email', icon: Mail },
     { id: 'payments', name: 'Thanh toán', icon: Shield },
     { id: 'notifications', name: 'Thông báo', icon: Bell },
+    { id: 'contact', name: 'Liên hệ', icon: Phone },
+    { id: 'about', name: 'Về chúng tôi', icon: Users },
   ];
 
   const handleInputChange = (section: string, field: string, value: any) => {
@@ -72,7 +76,7 @@ const Settings: React.FC = () => {
 
   const handleSave = () => {
     saveSettings();
-    alert('Cài đặt đã được lưu thành công!');
+    alert('Cài đặt đã được lưu thành công! Thay đổi sẽ được áp dụng ngay lập tức trên website.');
   };
 
   return (
@@ -445,6 +449,276 @@ const Settings: React.FC = () => {
                         className="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-offset-0 focus:ring-blue-200 focus:ring-opacity-50"
                       />
                     </label>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Contact Settings */}
+            {activeTab === 'contact' && (
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">
+                    Cài đặt liên hệ
+                  </h3>
+                  <div className="space-y-6">
+                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">
+                          Địa chỉ
+                        </label>
+                        <textarea
+                          rows={3}
+                          value={settings.contact.address}
+                          onChange={(e) => handleInputChange('contact', 'address', e.target.value)}
+                          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                          placeholder="Địa chỉ công ty"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">
+                          Số điện thoại
+                        </label>
+                        <input
+                          type="text"
+                          value={settings.contact.phone}
+                          onChange={(e) => handleInputChange('contact', 'phone', e.target.value)}
+                          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                          placeholder="1900 9999"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">
+                          Email liên hệ
+                        </label>
+                        <input
+                          type="email"
+                          value={settings.contact.email}
+                          onChange={(e) => handleInputChange('contact', 'email', e.target.value)}
+                          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                          placeholder="info@company.com"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">
+                          Giờ làm việc
+                        </label>
+                        <input
+                          type="text"
+                          value={settings.contact.workingHours}
+                          onChange={(e) => handleInputChange('contact', 'workingHours', e.target.value)}
+                          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                          placeholder="Thứ 2 - Chủ nhật: 8:00 - 22:00"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">
+                        Google Maps URL
+                      </label>
+                      <input
+                        type="url"
+                        value={settings.contact.googleMapUrl}
+                        onChange={(e) => handleInputChange('contact', 'googleMapUrl', e.target.value)}
+                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="https://maps.google.com/..."
+                      />
+                    </div>
+
+                    <div>
+                      <h4 className="text-md font-medium text-gray-900 mb-3">Mạng xã hội</h4>
+                      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700">
+                            Facebook
+                          </label>
+                          <input
+                            type="url"
+                            value={settings.contact.socialMedia.facebook}
+                            onChange={(e) => {
+                              const newSocialMedia = { ...settings.contact.socialMedia, facebook: e.target.value };
+                              handleInputChange('contact', 'socialMedia', newSocialMedia);
+                            }}
+                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                            placeholder="https://facebook.com/..."
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700">
+                            Twitter
+                          </label>
+                          <input
+                            type="url"
+                            value={settings.contact.socialMedia.twitter}
+                            onChange={(e) => {
+                              const newSocialMedia = { ...settings.contact.socialMedia, twitter: e.target.value };
+                              handleInputChange('contact', 'socialMedia', newSocialMedia);
+                            }}
+                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                            placeholder="https://twitter.com/..."
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700">
+                            Instagram
+                          </label>
+                          <input
+                            type="url"
+                            value={settings.contact.socialMedia.instagram}
+                            onChange={(e) => {
+                              const newSocialMedia = { ...settings.contact.socialMedia, instagram: e.target.value };
+                              handleInputChange('contact', 'socialMedia', newSocialMedia);
+                            }}
+                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                            placeholder="https://instagram.com/..."
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700">
+                            YouTube
+                          </label>
+                          <input
+                            type="url"
+                            value={settings.contact.socialMedia.youtube}
+                            onChange={(e) => {
+                              const newSocialMedia = { ...settings.contact.socialMedia, youtube: e.target.value };
+                              handleInputChange('contact', 'socialMedia', newSocialMedia);
+                            }}
+                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                            placeholder="https://youtube.com/..."
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* About Us Settings */}
+            {activeTab === 'about' && (
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">
+                    Cài đặt về chúng tôi
+                  </h3>
+                  <div className="space-y-6">
+                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">
+                          Tên công ty
+                        </label>
+                        <input
+                          type="text"
+                          value={settings.about.companyName}
+                          onChange={(e) => handleInputChange('about', 'companyName', e.target.value)}
+                          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">
+                          Năm thành lập
+                        </label>
+                        <input
+                          type="text"
+                          value={settings.about.foundedYear}
+                          onChange={(e) => handleInputChange('about', 'foundedYear', e.target.value)}
+                          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                          placeholder="2015"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">
+                          Số lượng nhân viên
+                        </label>
+                        <input
+                          type="text"
+                          value={settings.about.teamSize}
+                          onChange={(e) => handleInputChange('about', 'teamSize', e.target.value)}
+                          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                          placeholder="50+"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">
+                        Mô tả công ty
+                      </label>
+                      <textarea
+                        rows={4}
+                        value={settings.about.description}
+                        onChange={(e) => handleInputChange('about', 'description', e.target.value)}
+                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Giới thiệu tổng quát về công ty..."
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">
+                        Sứ mệnh
+                      </label>
+                      <textarea
+                        rows={3}
+                        value={settings.about.mission}
+                        onChange={(e) => handleInputChange('about', 'mission', e.target.value)}
+                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Sứ mệnh của công ty..."
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">
+                        Tầm nhìn
+                      </label>
+                      <textarea
+                        rows={3}
+                        value={settings.about.vision}
+                        onChange={(e) => handleInputChange('about', 'vision', e.target.value)}
+                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Tầm nhìn tương lai của công ty..."
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Giá trị cốt lõi
+                      </label>
+                      <p className="text-sm text-gray-500 mb-3">Nhập mỗi giá trị trên một dòng riêng biệt</p>
+                      <textarea
+                        rows={4}
+                        value={settings.about.values.join('\n')}
+                        onChange={(e) => {
+                          const values = e.target.value.split('\n').filter(v => v.trim());
+                          handleInputChange('about', 'values', values);
+                        }}
+                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Chất lượng\nSáng tạo\nTận tâm\nĐổi mới"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Thành tích nổi bật
+                      </label>
+                      <p className="text-sm text-gray-500 mb-3">Nhập mỗi thành tích trên một dòng riêng biệt</p>
+                      <textarea
+                        rows={4}
+                        value={settings.about.achievements.join('\n')}
+                        onChange={(e) => {
+                          const achievements = e.target.value.split('\n').filter(a => a.trim());
+                          handleInputChange('about', 'achievements', achievements);
+                        }}
+                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="10,000+ khách hàng tin tưởng\n500+ mẫu thiết kế chất lượng\n99% tỷ lệ hài lòng khách hàng\n5 năm kinh nghiệm"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>

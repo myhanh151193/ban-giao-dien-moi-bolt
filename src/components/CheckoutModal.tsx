@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { X, CreditCard, Smartphone, Truck, Building2, Wallet, Shield, CheckCircle } from 'lucide-react';
 import { useCart } from '../context/CartContext';
-import { CheckoutFormData } from '../types';
+import { useSettings } from '../context/SettingsContext';
+import { useOrders } from '../context/OrderContext';
+import { CheckoutFormData, OrderAdmin } from '../types';
 
 interface CheckoutModalProps {
   isOpen: boolean;
@@ -10,14 +12,16 @@ interface CheckoutModalProps {
 
 const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
   const { items, getTotalPrice, clearCart } = useCart();
+  const { settings } = useSettings();
+  const { addOrder } = useOrders();
   const [currentStep, setCurrentStep] = useState(1);
   const [isProcessing, setIsProcessing] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
+  const [orderId, setOrderId] = useState<string>('');
   
   const [formData, setFormData] = useState<CheckoutFormData>({
     email: '',
-    firstName: '',
-    lastName: '',
+    fullName: '',
     phone: '',
     address: '',
     city: '',
@@ -32,7 +36,7 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
   });
 
   const subtotal = getTotalPrice();
-  const shippingFee = subtotal > 1000000 ? 0 : 50000;
+  const shippingFee = subtotal >= settings.payments.freeShippingThreshold ? 0 : settings.payments.shippingFee;
   const discount = 0;
   const finalAmount = subtotal + shippingFee - discount;
 
@@ -44,13 +48,46 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsProcessing(true);
-    
-    // Simulate payment processing
-    await new Promise(resolve => setTimeout(resolve, 3000));
-    
-    setIsProcessing(false);
-    setOrderComplete(true);
-    clearCart();
+
+    try {
+      // Simulate payment processing
+      await new Promise(resolve => setTimeout(resolve, 3000));
+
+      // Create order data for admin
+      const orderData: Omit<OrderAdmin, 'id'> = {
+        customer: {
+          name: formData.fullName,
+          email: formData.email,
+          phone: formData.phone
+        },
+        products: items.map(item => ({
+          name: item.product.name,
+          quantity: item.quantity,
+          price: item.product.price
+        })),
+        total: finalAmount,
+        status: 'pending',
+        createdAt: new Date().toLocaleString('vi-VN'),
+        shippingAddress: `${formData.address}, ${formData.district}, ${formData.city}`,
+        paymentMethod: formData.paymentMethod,
+        notes: formData.notes || ''
+      };
+
+      // Add order to admin context
+      addOrder(orderData);
+
+      // Generate order ID for display
+      const newOrderId = `DH${Date.now().toString().slice(-6)}`;
+      setOrderId(newOrderId);
+
+      setIsProcessing(false);
+      setOrderComplete(true);
+      clearCart();
+    } catch (error) {
+      console.error('Error processing order:', error);
+      setIsProcessing(false);
+      alert('Có lỗi xảy ra khi xử lý đơn hàng. Vui lòng thử lại.');
+    }
   };
 
   const resetAndClose = () => {
@@ -59,8 +96,7 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
     setIsProcessing(false);
     setFormData({
       email: '',
-      firstName: '',
-      lastName: '',
+      fullName: '',
       phone: '',
       address: '',
       city: '',
@@ -78,9 +114,20 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
 
   if (!isOpen) return null;
 
-  const paymentMethods = [
-    { id: 'cod', name: 'Thanh toán khi nhận hàng', icon: Truck, description: 'Trả tiền mặt khi giao hàng' }
-  ];
+  // Generate available payment methods based on settings
+  const paymentMethods = [];
+  if (settings.payments.enableCOD) {
+    paymentMethods.push({ id: 'cod', name: 'Thanh toán khi nhận hàng', icon: Truck, description: 'Trả tiền mặt khi giao hàng' });
+  }
+  if (settings.payments.enableBankTransfer) {
+    paymentMethods.push({ id: 'bank', name: 'Chuyển khoản ngân hàng', icon: Building2, description: 'Chuyển tiền qua tài khoản ngân hàng' });
+  }
+  if (settings.payments.enableMomo) {
+    paymentMethods.push({ id: 'momo', name: 'Ví điện tử MoMo', icon: Smartphone, description: 'Thanh toán qua ví MoMo' });
+  }
+  if (settings.payments.enableZaloPay) {
+    paymentMethods.push({ id: 'zalopay', name: 'ZaloPay', icon: Wallet, description: 'Thanh toán qua ZaloPay' });
+  }
 
   return (
     <>
@@ -114,14 +161,14 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
                 <div className="mb-6">
                   <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
                   <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                    Cảm ơn bạn đã đặt hàng!
+                    Cảm ơn b���n đã đặt hàng!
                   </h3>
                   <p className="text-gray-600 mb-6">
                     Đơn hàng của bạn đã được xác nhận và sẽ được xử lý trong thời gian sớm nhất.
                   </p>
                   <div className="bg-gray-50 rounded-lg p-4 mb-6">
                     <p className="text-sm text-gray-600 mb-2">Mã đơn hàng</p>
-                    <p className="text-lg font-bold text-blue-600">#DH{Date.now().toString().slice(-6)}</p>
+                    <p className="text-lg font-bold text-blue-600">#{orderId}</p>
                   </div>
                 </div>
                 <button
@@ -159,35 +206,19 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
                       <div className="space-y-6">
                         <h3 className="text-xl font-semibold text-gray-900 mb-4">Thông tin khách hàng</h3>
                         
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                              Họ *
-                            </label>
-                            <input
-                              type="text"
-                              name="firstName"
-                              value={formData.firstName}
-                              onChange={handleInputChange}
-                              required
-                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                              placeholder="Nhập họ của bạn"
-                            />
-                          </div>
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                              Tên *
-                            </label>
-                            <input
-                              type="text"
-                              name="lastName"
-                              value={formData.lastName}
-                              onChange={handleInputChange}
-                              required
-                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                              placeholder="Nhập tên của bạn"
-                            />
-                          </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Họ và tên *
+                          </label>
+                          <input
+                            type="text"
+                            name="fullName"
+                            value={formData.fullName}
+                            onChange={handleInputChange}
+                            required
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                            placeholder="Nhập họ và tên đầy đủ của bạn"
+                          />
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -311,8 +342,14 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
                       <div className="space-y-6">
                         <h3 className="text-xl font-semibold text-gray-900 mb-4">Phương thức thanh toán</h3>
                         
-                        <div className="space-y-3">
-                          {paymentMethods.map((method) => {
+                        {paymentMethods.length === 0 ? (
+                          <div className="text-center py-8">
+                            <p className="text-gray-500">Chưa có phương thức thanh toán nào được kích hoạt.</p>
+                            <p className="text-sm text-gray-400 mt-2">Vui lòng liên hệ quản trị viên để cấu hình thanh toán.</p>
+                          </div>
+                        ) : (
+                          <div className="space-y-3">
+                            {paymentMethods.map((method) => {
                             const IconComponent = method.icon;
                             return (
                               <label
@@ -347,8 +384,9 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
                                 </div>
                               </label>
                             );
-                          })}
-                        </div>
+                            })}
+                          </div>
+                        )}
 
                         <div className="flex space-x-4">
                           <button
@@ -361,7 +399,8 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
                           <button
                             type="button"
                             onClick={() => setCurrentStep(3)}
-                            className="flex-1 bg-blue-600 text-white py-3 rounded-xl font-semibold hover:bg-blue-700 transition-colors duration-200"
+                            disabled={paymentMethods.length === 0}
+                            className="flex-1 bg-blue-600 text-white py-3 rounded-xl font-semibold hover:bg-blue-700 transition-colors duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed"
                           >
                             Tiếp tục
                           </button>

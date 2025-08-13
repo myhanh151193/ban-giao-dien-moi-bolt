@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { OrderAdmin } from '../types';
 
 interface OrderContextType {
@@ -8,6 +8,7 @@ interface OrderContextType {
   updateOrderStatus: (id: string, status: OrderAdmin['status']) => void;
   deleteOrder: (id: string) => void;
   getOrderById: (id: string) => OrderAdmin | undefined;
+  refreshOrders: () => void;
 }
 
 const OrderContext = createContext<OrderContextType | undefined>(undefined);
@@ -114,22 +115,55 @@ const initialOrders: OrderAdmin[] = [
 ];
 
 export const OrderProvider: React.FC<OrderProviderProps> = ({ children }) => {
-  const [orders, setOrders] = useState<OrderAdmin[]>(initialOrders);
+  const [orders, setOrders] = useState<OrderAdmin[]>(() => {
+    // Try to load orders from localStorage
+    const savedOrders = localStorage.getItem('admin-orders');
+    if (savedOrders) {
+      try {
+        const parsed = JSON.parse(savedOrders);
+        // Merge with initial orders, but prioritize saved orders
+        const mergedOrders = [...parsed];
+        // Add any initial orders that don't exist in saved orders
+        initialOrders.forEach(initialOrder => {
+          if (!parsed.find((order: OrderAdmin) => order.id === initialOrder.id)) {
+            mergedOrders.push(initialOrder);
+          }
+        });
+        return mergedOrders;
+      } catch (error) {
+        console.error('Error loading orders from localStorage:', error);
+        return initialOrders;
+      }
+    }
+    return initialOrders;
+  });
 
   const addOrder = (orderData: Omit<OrderAdmin, 'id'>) => {
     const newOrder: OrderAdmin = {
       ...orderData,
-      id: `DH${String(orders.length + 1).padStart(3, '0')}`,
+      id: `DH${Date.now().toString().slice(-6)}`,
     };
-    setOrders(prev => [newOrder, ...prev]);
+    const updatedOrders = [newOrder, ...orders];
+    setOrders(updatedOrders);
+    // Save to localStorage
+    try {
+      localStorage.setItem('admin-orders', JSON.stringify(updatedOrders));
+    } catch (error) {
+      console.error('Error saving orders to localStorage:', error);
+    }
   };
 
   const updateOrder = (id: string, orderData: Partial<OrderAdmin>) => {
-    setOrders(prev => 
-      prev.map(order => 
-        order.id === id ? { ...order, ...orderData } : order
-      )
+    const updatedOrders = orders.map(order =>
+      order.id === id ? { ...order, ...orderData } : order
     );
+    setOrders(updatedOrders);
+    // Save to localStorage
+    try {
+      localStorage.setItem('admin-orders', JSON.stringify(updatedOrders));
+    } catch (error) {
+      console.error('Error saving orders to localStorage:', error);
+    }
   };
 
   const updateOrderStatus = (id: string, status: OrderAdmin['status']) => {
@@ -137,12 +171,48 @@ export const OrderProvider: React.FC<OrderProviderProps> = ({ children }) => {
   };
 
   const deleteOrder = (id: string) => {
-    setOrders(prev => prev.filter(order => order.id !== id));
+    const updatedOrders = orders.filter(order => order.id !== id);
+    setOrders(updatedOrders);
+    // Save to localStorage
+    try {
+      localStorage.setItem('admin-orders', JSON.stringify(updatedOrders));
+    } catch (error) {
+      console.error('Error saving orders to localStorage:', error);
+    }
   };
 
   const getOrderById = (id: string) => {
     return orders.find(order => order.id === id);
   };
+
+  const refreshOrders = () => {
+    const savedOrders = localStorage.getItem('admin-orders');
+    if (savedOrders) {
+      try {
+        const parsed = JSON.parse(savedOrders);
+        setOrders(parsed);
+      } catch (error) {
+        console.error('Error refreshing orders:', error);
+      }
+    }
+  };
+
+  // Listen for storage changes to sync across tabs
+  useEffect(() => {
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'admin-orders' && e.newValue) {
+        try {
+          const newOrders = JSON.parse(e.newValue);
+          setOrders(newOrders);
+        } catch (error) {
+          console.error('Error syncing orders from storage:', error);
+        }
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
 
   const value: OrderContextType = {
     orders,
@@ -150,7 +220,8 @@ export const OrderProvider: React.FC<OrderProviderProps> = ({ children }) => {
     updateOrder,
     updateOrderStatus,
     deleteOrder,
-    getOrderById
+    getOrderById,
+    refreshOrders
   };
 
   return (

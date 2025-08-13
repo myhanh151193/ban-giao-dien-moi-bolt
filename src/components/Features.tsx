@@ -9,8 +9,10 @@ import {
   Award,
   Palette
 } from 'lucide-react';
+import { useSettings } from '../context/SettingsContext';
 
 const Features: React.FC = () => {
+  const { settings } = useSettings();
   const mainFeatures = [
     {
       icon: <Download className="h-8 w-8 text-blue-600" />,
@@ -22,7 +24,7 @@ const Features: React.FC = () => {
     {
       icon: <Code className="h-8 w-8 text-green-600" />,
       title: "Code chất lượng cao",
-      description: "Cam kết 100% code sạch, tối ưu và dễ tùy chỉnh",
+      description: "Cam kết 100% code s���ch, tối ưu và dễ tùy chỉnh",
       details: "• HTML5, CSS3, JavaScript hiện đại\n• Tối ưu SEO và tốc độ tải\n• Tương thích nhiều trình duyệt",
       color: "green"
     },
@@ -30,7 +32,7 @@ const Features: React.FC = () => {
       icon: <Headphones className="h-8 w-8 text-purple-600" />,
       title: "Hỗ trợ kỹ thuật",
       description: "Đội ngũ kỹ thuật chuyên nghiệp hỗ trợ cài đặt",
-      details: "• Hotline: 1900 9999\n• Hướng dẫn chi tiết qua video\n• Email: support@templatehub.com",
+      details: `• Hotline: ${settings.contact.phone}\n• Hướng dẫn chi tiết qua video\n• Email: ${settings.contact.email}`,
       color: "purple"
     },
     {
@@ -101,7 +103,7 @@ const Features: React.FC = () => {
         {/* Header */}
         <div className="text-center mb-16">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            Tại sao chọn TemplateHub?
+            Tại sao chọn {settings.general.siteName}?
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Chúng tôi cung cấp những mẫu website chất lượng cao với dịch vụ hỗ trợ chuyên nghiệp
@@ -180,14 +182,14 @@ const Features: React.FC = () => {
               Bắt đầu xây dựng website ngay hôm nay!
             </h3>
             <p className="text-xl mb-6 opacity-90">
-              Hơn 50,000 khách hàng đã tin tưởng lựa chọn TemplateHub
+              Hơn 50,000 khách hàng đã tin tưởng lựa chọn {settings.general.siteName}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-200">
                 Xem mẫu
               </button>
               <button className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors duration-200">
-                Demo trực tuyến
+                Demo tr���c tuyến
               </button>
             </div>
           </div>

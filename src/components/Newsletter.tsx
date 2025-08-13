@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Mail, Send, CheckCircle, Gift, Zap, Bell } from 'lucide-react';
+import { useSettings } from '../context/SettingsContext';
 
 const Newsletter: React.FC = () => {
+  const { settings } = useSettings();
   const [email, setEmail] = useState('');
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -50,7 +52,7 @@ const Newsletter: React.FC = () => {
               Đăng ký thành công! ���
             </h2>
             <p className="text-xl text-gray-600 mb-6">
-              Cảm ơn bạn đã đăng ký nhận tin từ TechStore. Bạn sẽ nhận được email xác nhận sớm nhất.
+              Cảm ơn bạn đã đăng ký nhận tin từ {settings.general.siteName}. Bạn sẽ nhận được email xác nhận sớm nhất.
             </p>
             <div className="bg-green-50 border border-green-200 rounded-lg p-4">
               <p className="text-green-800 font-medium">
@@ -83,8 +85,8 @@ const Newsletter: React.FC = () => {
               </div>
 
               <p className="text-lg text-gray-700 mb-8">
-                Tham gia cộng đồng hơn <span className="font-bold text-blue-600">50,000</span> khách hàng 
-                đang nhận những ưu đãi độc quyền và cập nhật sản phẩm mới nhất từ TechStore.
+                Tham gia cộng đồng hơn <span className="font-bold text-blue-600">50,000</span> khách hàng
+                đang nhận những ưu đãi độc quyền và cập nhật sản phẩm mới nhất từ {settings.general.siteName}.
               </p>
 
               {/* Benefits */}

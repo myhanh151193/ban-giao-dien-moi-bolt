@@ -66,8 +66,7 @@ export interface BlogPost {
 
 export interface CheckoutFormData {
   email: string;
-  firstName: string;
-  lastName: string;
+  fullName: string;
   phone: string;
   address: string;
   city: string;
@@ -130,4 +129,16 @@ export interface Order {
   finalAmount: number;
   status: 'pending' | 'confirmed' | 'shipping' | 'delivered' | 'cancelled';
   createdAt: Date;
+}
+
+export interface Testimonial {
+  id: number;
+  name: string;
+  role: string;
+  avatar: string;
+  rating: number;
+  content: string;
+  product: string;
+  date: string;
+  isActive: boolean;
 }
