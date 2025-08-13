@@ -32,27 +32,27 @@ const Contact: React.FC = () => {
     });
   };
 
-  const stores = [
+  const offices = [
     {
-      name: "TechStore Quận 1",
-      address: "123 Phố Technology, Quận 1, TP.HCM",
+      name: "TemplateHub Hỗ trợ Khách hàng",
+      address: "123 Phố Digital, Quận 1, TP.HCM",
       phone: "+84 123 456 789",
-      email: "q1@techstore.com",
-      hours: "9:00 - 21:00 (Thứ 2 - Chủ nhật)"
+      email: "support@templatehub.com",
+      hours: "8:00 - 18:00 (Thứ 2 - Thứ 6)"
     },
     {
-      name: "TechStore Quận 7",
-      address: "456 Đường Innovation, Quận 7, TP.HCM",
+      name: "TemplateHub Studio Design",
+      address: "456 Đường Creative, Quận 7, TP.HCM",
       phone: "+84 123 456 790",
-      email: "q7@techstore.com",
-      hours: "9:00 - 21:00 (Thứ 2 - Chủ nhật)"
+      email: "design@templatehub.com",
+      hours: "9:00 - 17:00 (Thứ 2 - Thứ 6)"
     },
     {
-      name: "TechStore Hà Nội",
+      name: "TemplateHub Dev Center",
       address: "789 Phố Tech Hub, Quận Cầu Giấy, Hà Nội",
       phone: "+84 123 456 791",
-      email: "hn@techstore.com",
-      hours: "9:00 - 21:00 (Thứ 2 - Chủ nhật)"
+      email: "dev@templatehub.com",
+      hours: "8:30 - 17:30 (Thứ 2 - Thứ 6)"
     }
   ];
 
@@ -145,10 +145,10 @@ const Contact: React.FC = () => {
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200"
                   >
                     <option value="">Chọn chủ đề</option>
-                    <option value="product">Tư vấn sản phẩm</option>
-                    <option value="warranty">Bảo hành</option>
-                    <option value="order">Đặt hàng</option>
-                    <option value="complaint">Khiếu nại</option>
+                    <option value="template">Tư vấn mẫu website</option>
+                    <option value="support">Hỗ trợ kỹ thuật</option>
+                    <option value="custom">Thiết kế riêng</option>
+                    <option value="license">Giấy phép sử dụng</option>
                     <option value="other">Khác</option>
                   </select>
                 </div>
@@ -191,7 +191,7 @@ const Contact: React.FC = () => {
                     </div>
                     <div>
                       <h3 className="font-semibold text-gray-900">Địa chỉ trụ sở chính</h3>
-                      <p className="text-gray-600">123 Phố Technology, Quận 1, TP.HCM</p>
+                      <p className="text-gray-600">123 Phố Digital, Quận 1, TP.HCM</p>
                     </div>
                   </div>
 
@@ -212,8 +212,8 @@ const Contact: React.FC = () => {
                     </div>
                     <div>
                       <h3 className="font-semibold text-gray-900">Email</h3>
-                      <p className="text-gray-600">info@techstore.com</p>
-                      <p className="text-gray-600">support@techstore.com</p>
+                      <p className="text-gray-600">info@templatehub.com</p>
+                      <p className="text-gray-600">support@templatehub.com</p>
                     </div>
                   </div>
 
@@ -246,39 +246,39 @@ const Contact: React.FC = () => {
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Hệ thống cửa hàng</h2>
-            <p className="text-xl text-gray-600">Tìm cửa hàng TechStore gần bạn nhất</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Văn phòng làm việc</h2>
+            <p className="text-xl text-gray-600">Các văn phòng TemplateHub trên toàn quốc</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {stores.map((store, index) => (
+            {offices.map((office, index) => (
               <div key={index} className="bg-gray-50 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300">
-                <h3 className="text-xl font-bold text-gray-900 mb-4">{store.name}</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-4">{office.name}</h3>
                 
                 <div className="space-y-3">
                   <div className="flex items-start space-x-3">
                     <MapPin className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                    <p className="text-gray-600">{store.address}</p>
+                    <p className="text-gray-600">{office.address}</p>
                   </div>
-                  
+
                   <div className="flex items-center space-x-3">
                     <Phone className="h-5 w-5 text-blue-600" />
-                    <p className="text-gray-600">{store.phone}</p>
+                    <p className="text-gray-600">{office.phone}</p>
                   </div>
-                  
+
                   <div className="flex items-center space-x-3">
                     <Mail className="h-5 w-5 text-blue-600" />
-                    <p className="text-gray-600">{store.email}</p>
+                    <p className="text-gray-600">{office.email}</p>
                   </div>
-                  
+
                   <div className="flex items-center space-x-3">
                     <Clock className="h-5 w-5 text-blue-600" />
-                    <p className="text-gray-600">{store.hours}</p>
+                    <p className="text-gray-600">{office.hours}</p>
                   </div>
                 </div>
 
                 <button className="mt-4 w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-200">
-                  Xem đường đi
+                  Liên hệ trực tiếp
                 </button>
               </div>
             ))}
