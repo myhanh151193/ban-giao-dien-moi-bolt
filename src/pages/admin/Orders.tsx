@@ -287,18 +287,18 @@ const Orders: React.FC = () => {
                           <Eye className="h-4 w-4" />
                         </button>
                         {order.status === 'pending' && (
-                          <button 
-                            onClick={() => updateOrderStatus(order.id, 'processing')}
-                            className="text-green-600 hover:text-green-900" 
+                          <button
+                            onClick={() => handleUpdateOrderStatus(order.id, 'processing')}
+                            className="text-green-600 hover:text-green-900"
                             title="Xác nhận"
                           >
                             <Check className="h-4 w-4" />
                           </button>
                         )}
                         {(order.status === 'pending' || order.status === 'processing') && (
-                          <button 
-                            onClick={() => updateOrderStatus(order.id, 'cancelled')}
-                            className="text-red-600 hover:text-red-900" 
+                          <button
+                            onClick={() => handleUpdateOrderStatus(order.id, 'cancelled')}
+                            className="text-red-600 hover:text-red-900"
                             title="Hủy đơn"
                           >
                             <X className="h-4 w-4" />
@@ -326,10 +326,10 @@ const Orders: React.FC = () => {
 
       {/* Order Detail Modal */}
       {selectedOrder && (
-        <OrderDetailModal 
-          order={selectedOrder} 
+        <OrderDetailModal
+          order={selectedOrder}
           onClose={() => setSelectedOrder(null)}
-          onUpdateStatus={updateOrderStatus}
+          onUpdateStatus={handleUpdateOrderStatus}
         />
       )}
     </div>
