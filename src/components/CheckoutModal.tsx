@@ -197,14 +197,13 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">
-                              Email *
+                              Email
                             </label>
                             <input
                               type="email"
                               name="email"
                               value={formData.email}
                               onChange={handleInputChange}
-                              required
                               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                               placeholder="example@email.com"
                             />
@@ -227,14 +226,13 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
 
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Địa chỉ *
+                            Địa chỉ
                           </label>
                           <input
                             type="text"
                             name="address"
                             value={formData.address}
                             onChange={handleInputChange}
-                            required
                             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                             placeholder="Số nhà, tên đường"
                           />
