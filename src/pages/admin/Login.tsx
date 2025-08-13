@@ -164,8 +164,8 @@ const Login: React.FC = () => {
             <div className="mt-4 bg-blue-50 border border-blue-200 rounded-md p-4">
               <div className="text-sm text-blue-700">
                 <p className="font-medium">Tài khoản demo:</p>
-                <p>Email: admin@templatehub.com</p>
-                <p>Mật khẩu: admin123</p>
+                <p>Tên đăng nhập: admin</p>
+                <p>Mật khẩu: Admin@@2025</p>
               </div>
             </div>
           </div>
