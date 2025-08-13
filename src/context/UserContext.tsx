@@ -40,15 +40,9 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       const response = await apiService.getUsers();
       setUsers(response.data || response);
     } catch (error: any) {
-      console.warn('⚠️ API không khả dụng - chuyển sang dữ liệu offline');
-      console.log('👥 Đang tải danh sách người dùng từ fallback...');
-
-      // Import fallback data dynamically
-      const { users: fallbackUsers } = await import('../data/users');
-      setUsers(fallbackUsers);
-      setError('API không khả dụng - sử dụng dữ liệu offline');
-
-      console.log(`✅ Đã tải ${fallbackUsers.length} người dùng từ dữ liệu offline`);
+      console.error('❌ Lỗi kết nối API người dùng:', error);
+      setError('Không thể tải dữ liệu người dùng từ API');
+      setUsers([]);
     } finally {
       setLoading(false);
     }
