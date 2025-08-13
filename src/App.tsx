@@ -5,6 +5,7 @@ import { ProductProvider } from './context/ProductContext';
 import { OrderProvider } from './context/OrderContext';
 import { PostProvider } from './context/PostContext';
 import { UserProvider } from './context/UserContext';
+import { SettingsProvider } from './context/SettingsContext';
 import Header from './components/Header';
 import CartSidebar from './components/CartSidebar';
 import Footer from './components/Footer';
@@ -54,7 +55,8 @@ function App() {
       <OrderProvider>
         <PostProvider>
           <UserProvider>
-            <CartProvider>
+            <SettingsProvider>
+              <CartProvider>
       <Router>
         <div className="min-h-screen bg-white">
           <Header
@@ -104,7 +106,8 @@ function App() {
           />
         </div>
       </Router>
-            </CartProvider>
+              </CartProvider>
+            </SettingsProvider>
           </UserProvider>
         </PostProvider>
       </OrderProvider>
