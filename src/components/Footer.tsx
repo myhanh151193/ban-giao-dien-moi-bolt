@@ -159,7 +159,7 @@ const Footer: React.FC = () => {
               <div className="flex items-start space-x-3">
                 <MapPin className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: settings.appearance.primaryColor }} />
                 <div>
-                  <span className="text-gray-300">123 Phố Technology, Quận 1, TP.HCM</span>
+                  <span className="text-gray-300">{settings.contact.address}</span>
                   <br />
                   <span className="text-gray-400 text-sm">Trụ sở chính</span>
                 </div>
@@ -167,9 +167,9 @@ const Footer: React.FC = () => {
               <div className="flex items-center space-x-3">
                 <Phone className="h-5 w-5 flex-shrink-0" style={{ color: settings.appearance.primaryColor }} />
                 <div>
-                  <span className="text-gray-300">Hotline: 1900 9999</span>
+                  <span className="text-gray-300">{settings.contact.phone}</span>
                   <br />
-                  <span className="text-gray-400 text-sm">+84 123 456 789</span>
+                  <span className="text-gray-400 text-sm">{settings.contact.email}</span>
                 </div>
               </div>
               <div className="flex items-center space-x-3">
@@ -183,9 +183,7 @@ const Footer: React.FC = () => {
               <div className="flex items-center space-x-3">
                 <Clock className="h-5 w-5 flex-shrink-0" style={{ color: settings.appearance.primaryColor }} />
                 <div>
-                  <span className="text-gray-300">8:00 - 22:00</span>
-                  <br />
-                  <span className="text-gray-400 text-sm">Tất cả các ngày trong tuần</span>
+                  <span className="text-gray-300">{settings.contact.workingHours}</span>
                 </div>
               </div>
             </div>
