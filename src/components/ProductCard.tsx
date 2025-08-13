@@ -131,14 +131,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onQuickView }) => {
           <button
             onClick={handleAddToCart}
             disabled={!product.inStock}
-            className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center space-x-2 ${
+            className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center ${
               product.inStock
                 ? 'bg-blue-600 hover:bg-blue-700 text-white transform hover:scale-105 active:scale-95'
                 : 'bg-gray-300 text-gray-500 cursor-not-allowed'
             }`}
+            title={product.inStock ? 'Mua ngay' : 'Hết hàng'}
           >
-            <ShoppingCart className="h-4 w-4" />
-            <span>{product.inStock ? 'Mua ngay' : 'Hết hàng'}</span>
+            <ShoppingCart className="h-5 w-5" />
           </button>
 
           <button
