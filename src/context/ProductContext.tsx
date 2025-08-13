@@ -36,12 +36,12 @@ export const ProductProvider: React.FC<ProductProviderProps> = ({ children }) =>
     try {
       setLoading(true);
       setError(null);
-      //const response = await apiService.getProducts();
-     // setProducts(response.data || response);
+      // Try the new test endpoint first
       const response = await fetch('https://medisosoft.com/path/api/test_db.php');
       if (!response.ok) throw new Error('Lỗi kết nối API');
 
-      const data = await response.json(); // nếu trả JSON
+      const data = await response.json();
+      setProducts(data.products || data || []);
     } catch (error: any) {
       console.warn('⚠️ API không khả dụng - chuyển sang dữ liệu offline');
       console.log('📁 Đang tải dữ liệu sản phẩm từ fallback...');
