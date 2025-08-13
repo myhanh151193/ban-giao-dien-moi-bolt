@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { CartProvider } from './context/CartContext';
 import { ProductProvider } from './context/ProductContext';
 import { OrderProvider } from './context/OrderContext';
+import { PostProvider } from './context/PostContext';
 import Header from './components/Header';
 import CartSidebar from './components/CartSidebar';
 import Footer from './components/Footer';
@@ -50,7 +51,8 @@ function App() {
   return (
     <ProductProvider>
       <OrderProvider>
-        <CartProvider>
+        <PostProvider>
+          <CartProvider>
       <Router>
         <div className="min-h-screen bg-white">
           <Header
@@ -100,7 +102,8 @@ function App() {
           />
         </div>
       </Router>
-        </CartProvider>
+          </CartProvider>
+        </PostProvider>
       </OrderProvider>
     </ProductProvider>
   );
