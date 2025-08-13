@@ -23,7 +23,12 @@ class ApiService {
     const response = await fetch(url, { ...defaultOptions, ...options });
 
     if (!response.ok) {
-      throw new Error(`API Error: ${response.status} - ${response.statusText}`);
+      // More informative error for debugging
+      const error = new Error(`API Error: ${response.status} - ${response.statusText || 'Unknown error'}`);
+      error.name = 'ApiError';
+      (error as any).status = response.status;
+      (error as any).url = url;
+      throw error;
     }
 
     return response.json();
