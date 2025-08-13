@@ -1,77 +1,77 @@
 import React from 'react';
-import { Users, Target, Award, Heart, Shield, Truck, Headphones, RotateCcw } from 'lucide-react';
+import { Users, Target, Award, Heart, Code, Download, Headphones, RefreshCw } from 'lucide-react';
 
 const About: React.FC = () => {
   const teamMembers = [
     {
       name: "Nguyễn Văn A",
-      position: "Giám đốc điều hành",
+      position: "Giám đốc sáng tạo",
       image: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description: "10+ năm kinh nghiệm trong ngành công nghệ"
+      description: "12+ năm kinh nghiệm trong thiết kế web và UX/UI"
     },
     {
       name: "Trần Thị B",
-      position: "Trưởng phòng Marketing",
+      position: "Trưởng phòng Thiết kế",
       image: "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description: "Chuyên gia marketing số với 8 năm kinh nghiệm"
+      description: "Designer giàu kinh nghiệm với hơn 100 dự án thành công"
     },
     {
       name: "Lê Minh C",
-      position: "Trưởng phòng Kỹ thuật",
+      position: "Lead Developer",
       image: "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description: "Kỹ sư phần mềm với niềm đam mê công nghệ"
+      description: "Fullstack developer chuyên frontend và React/Vue"
     },
     {
       name: "Phạm Thị D",
-      position: "Trưởng phòng CSKH",
+      position: "Trưởng phòng Hỗ trợ",
       image: "https://images.pexels.com/photos/1181424/pexels-photo-1181424.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description: "Chuyên gia chăm sóc khách hàng tận tâm"
+      description: "Chuyên gia hỗ trợ kỹ thuật và tư vấn khách hàng"
     }
   ];
 
   const values = [
     {
       icon: <Heart className="h-8 w-8 text-red-500" />,
-      title: "Tận tâm",
-      description: "Chúng tôi luôn đặt khách hàng lên hàng đầu và phục vụ với trái tim"
+      title: "Sáng tạo",
+      description: "Luôn tạo ra những thiết kế độc đáo và thu hút người dùng"
     },
     {
-      icon: <Shield className="h-8 w-8 text-blue-500" />,
-      title: "Chất lượng",
-      description: "Cam kết cung cấp sản phẩm chính hãng với chất lượng cao nhất"
+      icon: <Code className="h-8 w-8 text-blue-500" />,
+      title: "Chất lượng code",
+      description: "Cam kết code sạch, tối ưu và tuân thủ chuẩn quốc tế"
     },
     {
       icon: <Target className="h-8 w-8 text-green-500" />,
       title: "Đổi mới",
-      description: "Không ngừng cập nhật và đưa ra những giải pháp công nghệ mới nhất"
+      description: "Cập nhật xu hướng thiết kế và công nghệ mới nhất"
     },
     {
       icon: <Award className="h-8 w-8 text-yellow-500" />,
       title: "Uy tín",
-      description: "Xây dựng niềm tin thông qua dịch vụ chuyên nghiệp và minh bạch"
+      description: "Hơn 50,000 khách hàng tin tưởng và hài lòng"
     }
   ];
 
   const features = [
     {
-      icon: <Truck className="h-6 w-6 text-blue-600" />,
-      title: "Giao hàng miễn phí",
-      description: "Miễn phí giao hàng cho đơn hàng trên 500k"
+      icon: <Download className="h-6 w-6 text-blue-600" />,
+      title: "Tải về ngay",
+      description: "Download mẫu website ngay sau khi thanh toán"
     },
     {
-      icon: <Shield className="h-6 w-6 text-green-600" />,
-      title: "Bảo hành chính hãng",
-      description: "Bảo hành theo tiêu chuẩn nhà sản xuất"
+      icon: <Code className="h-6 w-6 text-green-600" />,
+      title: "Code chuẩn",
+      description: "HTML5, CSS3, JavaScript hiện đại và tối ưu"
     },
     {
       icon: <Headphones className="h-6 w-6 text-purple-600" />,
-      title: "Hỗ trợ 24/7",
-      description: "Đội ngũ tư vấn luôn sẵn sàng hỗ trợ"
+      title: "Hỗ trợ kỹ thuật",
+      description: "Đội ngũ dev luôn sẵn sàng hỗ trợ"
     },
     {
-      icon: <RotateCcw className="h-6 w-6 text-orange-600" />,
-      title: "Đổi trả dễ dàng",
-      description: "Chính sách đổi trả trong 30 ngày"
+      icon: <RefreshCw className="h-6 w-6 text-orange-600" />,
+      title: "Cập nhật miễn phí",
+      description: "Cập nhật và sửa lỗi trong 1 năm"
     }
   ];
 
@@ -82,11 +82,11 @@ const About: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              Về TechStore
+              Về TemplateHub
             </h1>
             <p className="text-xl md:text-2xl max-w-3xl mx-auto">
-              Chúng tôi là cửa hàng công nghệ hàng đầu, mang đến những sản phẩm tốt nhất 
-              với dịch vụ chuyên nghiệp và tận tâm.
+              Chúng tôi là nền tảng cung cấp mẫu website chuyên nghiệp hàng đầu,
+              giúp bạn xây dựng website đẹp và hiệu quả.
             </p>
           </div>
         </div>
@@ -100,23 +100,23 @@ const About: React.FC = () => {
               <h2 className="text-3xl font-bold text-gray-900 mb-6">Câu chuyện của chúng tôi</h2>
               <div className="space-y-4 text-gray-600">
                 <p>
-                  TechStore được thành lập vào năm 2015 với mục tiêu đơn giản: mang đến những sản phẩm 
-                  công nghệ tốt nhất cho người tiêu dùng Việt Nam với giá cả hợp lý và dịch vụ tuyệt vời.
+                  TemplateHub được thành lập vào năm 2018 với tầm nhìn giúp các doanh nghiệp và cá nhân
+                  dễ dàng tạo ra những website chuyên nghiệp và ấn tượng.
                 </p>
                 <p>
-                  Từ một cửa hàng nhỏ, chúng tôi đã phát triển thành một trong những nhà bán lẻ công nghệ 
-                  uy tín nhất với hơn 50 cửa hàng trên toàn quốc và website thương mại điện tử hiện đại.
+                  Bắt đầu với 10 mẫu website đơn giản, chúng tôi đã phát triển thành nền tảng cung cấp
+                  hơn 100 mẫu website đa dạng cho nhiều ngành nghề khác nhau.
                 </p>
                 <p>
-                  Với đội ngũ hơn 200 nhân viên giàu kinh nghiệm và niềm đam mê công nghệ, chúng tôi cam kết 
-                  mang đến trải nghiệm mua sắm tuyệt vời nhất cho khách hàng.
+                  Với đội ngũ designer và developer tài năng, chúng tôi cam kết mang đến những mẫu website
+                  chất lượng cao, hiện đại và dễ sử dụng.
                 </p>
               </div>
             </div>
             <div className="relative">
               <img
-                src="https://images.pexels.com/photos/3184328/pexels-photo-3184328.jpeg?auto=compress&cs=tinysrgb&w=800"
-                alt="TechStore team"
+                src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=800"
+                alt="TemplateHub team"
                 className="rounded-lg shadow-xl"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-lg"></div>
@@ -131,7 +131,7 @@ const About: React.FC = () => {
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Giá trị cốt lõi</h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Những giá trị định hướng hoạt động và phát triển của TechStore
+              Những giá trị định hướng hoạt động và phát triển của TemplateHub
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -156,7 +156,7 @@ const About: React.FC = () => {
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Đội ngũ lãnh đạo</h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Những con người tài năng đứng sau thành công của TechStore
+              Những con người tài năng đứng sau thành công của TemplateHub
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -182,7 +182,7 @@ const About: React.FC = () => {
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Tại sao chọn TechStore?</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Tại sao chọn TemplateHub?</h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               Những ưu điểm vượt trội khiến khách hàng tin tưởng lựa chọn
             </p>
@@ -208,19 +208,19 @@ const About: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
             <div>
-              <div className="text-4xl font-bold mb-2">50+</div>
-              <div className="text-blue-100">Cửa hàng</div>
+              <div className="text-4xl font-bold mb-2">100+</div>
+              <div className="text-blue-100">Mẫu website</div>
             </div>
             <div>
-              <div className="text-4xl font-bold mb-2">100K+</div>
+              <div className="text-4xl font-bold mb-2">50K+</div>
               <div className="text-blue-100">Khách hàng hài lòng</div>
             </div>
             <div>
-              <div className="text-4xl font-bold mb-2">500+</div>
-              <div className="text-blue-100">Sản phẩm</div>
+              <div className="text-4xl font-bold mb-2">10+</div>
+              <div className="text-blue-100">Ngành nghề</div>
             </div>
             <div>
-              <div className="text-4xl font-bold mb-2">9+</div>
+              <div className="text-4xl font-bold mb-2">6+</div>
               <div className="text-blue-100">Năm kinh nghiệm</div>
             </div>
           </div>
