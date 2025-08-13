@@ -130,3 +130,15 @@ export interface Order {
   status: 'pending' | 'confirmed' | 'shipping' | 'delivered' | 'cancelled';
   createdAt: Date;
 }
+
+export interface Testimonial {
+  id: number;
+  name: string;
+  role: string;
+  avatar: string;
+  rating: number;
+  content: string;
+  product: string;
+  date: string;
+  isActive: boolean;
+}
