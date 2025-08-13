@@ -336,11 +336,12 @@ const Orders: React.FC = () => {
   );
 };
 
-const OrderDetailModal: React.FC<{ 
-  order: any, 
+const OrderDetailModal: React.FC<{
+  order: OrderAdmin | null,
   onClose: () => void,
-  onUpdateStatus: (orderId: string, status: string) => void 
+  onUpdateStatus: (orderId: string, status: OrderAdmin['status']) => void
 }> = ({ order, onClose, onUpdateStatus }) => {
+  if (!order) return null;
   const statusConfig = {
     completed: { bg: 'bg-green-100', text: 'text-green-800', label: 'Hoàn thành' },
     pending: { bg: 'bg-yellow-100', text: 'text-yellow-800', label: 'Chờ xử lý' },
