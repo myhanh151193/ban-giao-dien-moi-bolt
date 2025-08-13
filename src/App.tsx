@@ -70,6 +70,7 @@ function App() {
               <Route path="/contact" element={<Contact />} />
 
               {/* Admin Routes */}
+              <Route path="/admin/login" element={<AdminLogin />} />
               <Route path="/admin" element={<AdminLayout />}>
                 <Route index element={<Dashboard />} />
                 <Route path="products" element={<Products />} />
