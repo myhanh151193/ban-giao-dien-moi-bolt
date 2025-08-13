@@ -42,12 +42,39 @@ interface NotificationSettings {
   smsNotifications: boolean;
 }
 
+interface ContactSettings {
+  address: string;
+  phone: string;
+  email: string;
+  workingHours: string;
+  googleMapUrl: string;
+  socialMedia: {
+    facebook: string;
+    twitter: string;
+    instagram: string;
+    youtube: string;
+  };
+}
+
+interface AboutSettings {
+  companyName: string;
+  foundedYear: string;
+  description: string;
+  mission: string;
+  vision: string;
+  values: string[];
+  teamSize: string;
+  achievements: string[];
+}
+
 interface AppSettings {
   general: GeneralSettings;
   appearance: AppearanceSettings;
   email: EmailSettings;
   payments: PaymentSettings;
   notifications: NotificationSettings;
+  contact: ContactSettings;
+  about: AboutSettings;
 }
 
 interface SettingsContextType {
@@ -108,6 +135,29 @@ const defaultSettings: AppSettings = {
     emailOnStatusChange: true,
     emailOnLowStock: false,
     smsNotifications: false
+  },
+  contact: {
+    address: '123 Phố Technology, Quận 1, TP.HCM',
+    phone: '1900 9999',
+    email: 'info@templatehub.com',
+    workingHours: 'Thứ 2 - Chủ nhật: 8:00 - 22:00',
+    googleMapUrl: '',
+    socialMedia: {
+      facebook: 'https://facebook.com/templatehub',
+      twitter: 'https://twitter.com/templatehub',
+      instagram: 'https://instagram.com/templatehub',
+      youtube: 'https://youtube.com/templatehub'
+    }
+  },
+  about: {
+    companyName: 'TemplateHub',
+    foundedYear: '2015',
+    description: 'TemplateHub là nền tảng cung cấp mẫu website chuyên nghiệp hàng đầu tại Việt Nam. Chúng tôi cam kết mang đến những giải pháp thiết kế web chất lượng cao, hiện đại và phù hợp với mọi nhu cầu kinh doanh.',
+    mission: 'Giúp các doanh nghiệp xây dựng sự hiện diện trực tuyến mạnh mẽ thông qua những mẫu thiết kế website chuyên nghiệp và dễ sử dụng.',
+    vision: 'Trở thành nền tảng thiết kế website hàng đầu Đông Nam Á, nơi mọi doanh nghiệp có thể tìm thấy giải pháp phù hợp cho sự phát triển số.',
+    values: ['Chất lượng', 'Sáng tạo', 'Tận tâm', 'Đổi mới'],
+    teamSize: '50+',
+    achievements: ['10,000+ khách hàng tin tưởng', '500+ mẫu thiết kế chất lượng', '99% tỷ lệ hài lòng khách hàng', '5 năm kinh nghiệm']
   }
 };
 
@@ -117,7 +167,13 @@ export const SettingsProvider: React.FC<SettingsProviderProps> = ({ children }) 
     const savedSettings = localStorage.getItem('app-settings');
     if (savedSettings) {
       try {
-        return { ...defaultSettings, ...JSON.parse(savedSettings) };
+        const parsed = JSON.parse(savedSettings);
+        return {
+          ...defaultSettings,
+          ...parsed,
+          contact: { ...defaultSettings.contact, ...parsed.contact },
+          about: { ...defaultSettings.about, ...parsed.about }
+        };
       } catch (error) {
         console.error('Error loading settings from localStorage:', error);
         return defaultSettings;
