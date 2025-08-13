@@ -28,9 +28,29 @@ export const ProductProvider: React.FC<ProductProviderProps> = ({ children }) =>
   const [products, setProducts] = useState<Product[]>(initialProducts);
 
   const addProduct = (productData: Omit<Product, 'id'>) => {
+    const generateSlug = (name: string) => {
+      return name
+        .toLowerCase()
+        .replace(/[àáạảãâầấậẩẫăằắặẳẵ]/g, 'a')
+        .replace(/[èéẹẻẽêềếệểễ]/g, 'e')
+        .replace(/[ìíịỉĩ]/g, 'i')
+        .replace(/[òóọỏõôồốộổỗơờớợởỡ]/g, 'o')
+        .replace(/[ùúụủũưừứựửữ]/g, 'u')
+        .replace(/[ỳýỵỷỹ]/g, 'y')
+        .replace(/đ/g, 'd')
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .trim();
+    };
+
     const newProduct: Product = {
       ...productData,
       id: Math.max(...products.map(p => p.id)) + 1,
+      slug: productData.slug || generateSlug(productData.name),
+      seoTitle: productData.seoTitle || productData.name,
+      seoDescription: productData.seoDescription || productData.description.substring(0, 160),
+      altText: productData.altText || productData.name,
     };
     setProducts(prev => [...prev, newProduct]);
   };
