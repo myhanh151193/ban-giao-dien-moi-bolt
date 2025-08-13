@@ -141,7 +141,7 @@ const SidebarContent: React.FC<{
     <div className="flex-1 flex flex-col min-h-0 bg-white border-r border-gray-200">
       <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
         <div className="flex items-center flex-shrink-0 px-4">
-          <h2 className="text-2xl font-bold text-blue-600">TemplateHub</h2>
+          <h2 className="text-2xl font-bold text-blue-600">{settings.general.siteName}</h2>
           <span className="ml-2 text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">Admin</span>
         </div>
         
