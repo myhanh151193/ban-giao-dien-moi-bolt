@@ -18,8 +18,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onQuickView }) => {
 
   const handleDemo = (e: React.MouseEvent) => {
     e.stopPropagation();
-    // Open demo in new tab
-    window.open(`https://demo.templatehub.com/${product.id}`, '_blank');
+    // Open demo in new tab using product's demoLink
+    if (product.demoLink) {
+      window.open(product.demoLink, '_blank');
+    }
   };
 
   const renderStars = (rating: number) => {
