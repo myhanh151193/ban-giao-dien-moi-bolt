@@ -1,13 +1,13 @@
 export const API_CONFIG = {
-  BASE_URL: 'https://medisosoft.com/path/api/controllers',
+  BASE_URL: 'https://medisosoft.com/path/api',
   ENDPOINTS: {
-    AUTH: '/AuthController.php',
-    PRODUCTS: '/ProductController.php',
-    CATEGORIES: '/CategoryController.php',
-    USERS: '/UserController.php',
-    CART: '/CartController.php',
-    ORDERS: '/OrderController.php',
-    BLOG: '/BlogController.php'
+    AUTH: '/auth',
+    PRODUCTS: '/products',
+    CATEGORIES: '/categories',
+    USERS: '/users',
+    CART: '/cart',
+    ORDERS: '/orders',
+    BLOG: '/blog'
   }
 };
 
