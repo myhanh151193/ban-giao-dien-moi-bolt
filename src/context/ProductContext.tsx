@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Product } from '../types';
 import { products as initialProducts } from '../data/products';
 
@@ -24,8 +24,25 @@ interface ProductProviderProps {
   children: ReactNode;
 }
 
+const STORAGE_KEY = 'products_data';
+
 export const ProductProvider: React.FC<ProductProviderProps> = ({ children }) => {
-  const [products, setProducts] = useState<Product[]>(initialProducts);
+  const [products, setProducts] = useState<Product[]>(() => {
+    const savedProducts = localStorage.getItem(STORAGE_KEY);
+    if (savedProducts) {
+      try {
+        return JSON.parse(savedProducts);
+      } catch (error) {
+        console.error('Error parsing saved products:', error);
+        return initialProducts;
+      }
+    }
+    return initialProducts;
+  });
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
+  }, [products]);
 
   const addProduct = (productData: Omit<Product, 'id'>) => {
     const generateSlug = (name: string) => {
