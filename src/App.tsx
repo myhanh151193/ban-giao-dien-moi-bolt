@@ -14,6 +14,8 @@ import AdminLayout from './layouts/AdminLayout';
 import Dashboard from './pages/admin/Dashboard';
 import Products from './pages/admin/Products';
 import Orders from './pages/admin/Orders';
+import Posts from './pages/admin/Posts';
+import Users from './pages/admin/Users';
 import Settings from './pages/admin/Settings';
 import { BlogPost } from './types';
 
