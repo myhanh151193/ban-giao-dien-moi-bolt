@@ -11,16 +11,19 @@ import {
   Tag,
   FileText
 } from 'lucide-react';
-import { blogPosts } from '../../data/blogPosts';
+import { usePosts } from '../../context/PostContext';
+import { BlogPost } from '../../types';
 
 const Posts: React.FC = () => {
+  const { posts, deletePost } = usePosts();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
 
-  const categories = ['All', ...new Set(blogPosts.map(post => post.category))];
+  const categories = ['All', ...new Set(posts.map(post => post.category))];
 
-  const filteredPosts = blogPosts.filter(post => {
+  const filteredPosts = posts.filter(post => {
     const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          post.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory === 'All' || post.category === selectedCategory;
@@ -29,9 +32,18 @@ const Posts: React.FC = () => {
 
   const handleDeletePost = (id: number) => {
     if (window.confirm('Bạn có chắc chắn muốn xóa bài viết này?')) {
-      console.log('Delete post:', id);
-      // Here you would implement the delete logic
+      deletePost(id);
     }
+  };
+
+  const handleEditPost = (post: BlogPost) => {
+    setEditingPost(post);
+    setIsCreateModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsCreateModalOpen(false);
+    setEditingPost(null);
   };
 
   return (
