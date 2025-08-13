@@ -100,7 +100,7 @@ const Products: React.FC = () => {
       <div className="bg-white shadow rounded-lg overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-200">
           <h3 className="text-lg leading-6 font-medium text-gray-900">
-            Danh sách sản ph��m ({filteredProducts.length})
+            Danh sách sản phẩm ({filteredProducts.length})
           </h3>
         </div>
         
@@ -262,6 +262,40 @@ const Products: React.FC = () => {
 };
 
 const CreateProductModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+  const { addProduct } = useProducts();
+  const [formData, setFormData] = useState({
+    name: '',
+    description: '',
+    price: 0,
+    originalPrice: 0,
+    category: 'E-commerce',
+    image: '',
+    rating: 4.5,
+    reviews: 0,
+    features: [] as string[],
+    inStock: true,
+    badge: ''
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (formData.name && formData.description && formData.price > 0) {
+      addProduct({
+        ...formData,
+        image: formData.image || 'https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg?auto=compress&cs=tinysrgb&w=500'
+      });
+      onClose();
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: name === 'price' || name === 'originalPrice' ? Number(value) : value
+    }));
+  };
+
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto">
       <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
