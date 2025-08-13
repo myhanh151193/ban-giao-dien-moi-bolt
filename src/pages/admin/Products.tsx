@@ -338,7 +338,7 @@ const CreateProductModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const generateSlug = (name: string) => {
     return name
       .toLowerCase()
-      .replace(/[àáạảãâầấậẩẫăằắặẳẵ]/g, 'a')
+      .replace(/[àáạả��âầấậẩẫăằắặẳẵ]/g, 'a')
       .replace(/[èéẹẻẽêềếệểễ]/g, 'e')
       .replace(/[ìíịỉĩ]/g, 'i')
       .replace(/[òóọỏõôồốộổỗơờớợởỡ]/g, 'o')

@@ -76,7 +76,16 @@ const Settings: React.FC = () => {
 
   const handleSave = () => {
     saveSettings();
-    alert('Cài đặt đã được lưu thành công! Thay đổi sẽ được áp dụng ngay lập tức trên website.');
+    alert('Cài đặt đã được lưu thành công! Trang sẽ được làm mới để áp dụng thay đổi.');
+    setTimeout(() => {
+      // Clear any cached data and force reload
+      if ('caches' in window) {
+        caches.keys().then(names => {
+          names.forEach(name => caches.delete(name));
+        });
+      }
+      window.location.reload(true);
+    }, 1000);
   };
 
   return (

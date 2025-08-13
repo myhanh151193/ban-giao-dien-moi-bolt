@@ -1,16 +1,18 @@
 import React from 'react';
-import { 
-  TrendingUp, 
-  Package, 
-  ShoppingCart, 
-  Users, 
+import {
+  TrendingUp,
+  Package,
+  ShoppingCart,
+  Users,
   DollarSign,
   Eye,
   Download,
   Star
 } from 'lucide-react';
+import { useSettings } from '../../context/SettingsContext';
 
 const Dashboard: React.FC = () => {
+  const { settings } = useSettings();
   const stats = [
     {
       name: 'Doanh thu tháng này',
@@ -83,7 +85,7 @@ const Dashboard: React.FC = () => {
       {/* Page Header */}
       <div>
         <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-        <p className="mt-2 text-gray-600">Tổng quan hoạt động kinh doanh của TemplateHub</p>
+        <p className="mt-2 text-gray-600">Tổng quan hoạt động kinh doanh của {settings.general.siteName}</p>
       </div>
 
       {/* Stats Grid */}

@@ -194,9 +194,12 @@ export const SettingsProvider: React.FC<SettingsProviderProps> = ({ children }) 
 
   const saveSettings = () => {
     try {
-      localStorage.setItem('app-settings', JSON.stringify(settings));
-      // Show success notification
-      console.log('Settings saved successfully');
+      // Use a callback to get the latest state
+      setSettings(currentSettings => {
+        localStorage.setItem('app-settings', JSON.stringify(currentSettings));
+        console.log('Settings saved successfully');
+        return currentSettings;
+      });
     } catch (error) {
       console.error('Error saving settings:', error);
     }
