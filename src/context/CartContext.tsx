@@ -92,18 +92,25 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   };
 
   const removeFromCart = async (productId: number) => {
+    setError(null);
+
+    // In offline mode, work directly with local state
+    if (error?.includes('offline') || error?.includes('không khả dụng')) {
+      setItems(prevItems => prevItems.filter(item => item.product.id !== productId));
+      return;
+    }
+
+    // Try API first, but don't show errors - just fallback silently
     try {
-      setError(null);
       const item = items.find(item => item.product.id === productId);
       if (item) {
         await apiService.removeFromCart(item.id?.toString() || productId.toString());
       }
       setItems(prevItems => prevItems.filter(item => item.product.id !== productId));
-    } catch (error) {
-      console.error('Error removing from cart:', error);
-      setError('Không thể xóa sản phẩm khỏi giỏ hàng');
-      
-      // Fallback to local state if API fails
+    } catch (apiError) {
+      // Silent fallback to local state
+      console.log('🛒 API không khả dụng - xóa sản phẩm offline');
+
       setItems(prevItems => prevItems.filter(item => item.product.id !== productId));
     }
   };
