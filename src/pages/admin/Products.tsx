@@ -359,6 +359,35 @@ const CreateProductModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     });
   };
 
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Check file type
+      if (!file.type.startsWith('image/')) {
+        alert('Vui lòng chọn file hình ảnh!');
+        return;
+      }
+
+      // Check file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        alert('Kích thước file không được vượt quá 5MB!');
+        return;
+      }
+
+      // Convert to base64 data URL for preview
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const imageUrl = event.target?.result as string;
+        setFormData(prev => ({
+          ...prev,
+          image: imageUrl,
+          openGraphImage: prev.openGraphImage || imageUrl
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const addKeyword = () => {
     if (keywordInput.trim() && !formData.seoKeywords.includes(keywordInput.trim())) {
       setFormData(prev => ({
