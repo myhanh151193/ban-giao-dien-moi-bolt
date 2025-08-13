@@ -245,79 +245,93 @@ const CreatePostModal: React.FC<{
     <div className="fixed inset-0 z-50 overflow-y-auto">
       <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onClick={onClose} />
-        
+
         <span className="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
-        
-        <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full">
+
+        <form onSubmit={handleSubmit} className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full">
           <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
             <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">
-              Thêm bài viết mới
+              {isEditing ? 'Chỉnh sửa bài viết' : 'Thêm bài viết mới'}
             </h3>
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700">Tiêu đề</label>
                 <input
                   type="text"
+                  name="title"
+                  value={formData.title}
+                  onChange={handleInputChange}
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Nhập tiêu đề bài viết"
+                  placeholder="Nhập tiêu đề bài vi���t"
+                  required
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700">Mô tả ngắn</label>
                 <textarea
+                  name="excerpt"
+                  value={formData.excerpt}
+                  onChange={handleInputChange}
                   rows={2}
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Nhập mô tả ngắn"
+                  required
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Danh mục</label>
-                  <select className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                    <option>Hướng dẫn</option>
-                    <option>Xu hướng</option>
-                    <option>Thiết kế</option>
-                    <option>Công nghệ</option>
+                  <select
+                    name="category"
+                    value={formData.category}
+                    onChange={handleInputChange}
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  >
+                    <option value="Hướng dẫn">Hướng dẫn</option>
+                    <option value="Xu hướng">Xu h��ớng</option>
+                    <option value="Thiết kế">Thiết kế</option>
+                    <option value="Công nghệ">Công nghệ</option>
                   </select>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Tác giả</label>
                   <input
                     type="text"
+                    name="author"
+                    value={formData.author}
+                    onChange={handleInputChange}
                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Tên tác giả"
+                    required
                   />
                 </div>
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700">Nội dung</label>
                 <textarea
+                  name="content"
+                  value={formData.content}
+                  onChange={handleInputChange}
                   rows={8}
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Nhập nội dung bài viết..."
+                  required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700">Ảnh đại diện</label>
-                <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
-                  <div className="space-y-1 text-center">
-                    <svg className="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
-                      <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    <div className="flex text-sm text-gray-600">
-                      <label className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
-                        <span>Tải lên ảnh</span>
-                        <input type="file" className="sr-only" />
-                      </label>
-                      <p className="pl-1">hoặc kéo thả</p>
-                    </div>
-                    <p className="text-xs text-gray-500">PNG, JPG, GIF tối đa 10MB</p>
-                  </div>
-                </div>
+                <label className="block text-sm font-medium text-gray-700">URL ảnh đại diện</label>
+                <input
+                  type="url"
+                  name="image"
+                  value={formData.image}
+                  onChange={handleInputChange}
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="https://example.com/image.jpg"
+                />
               </div>
             </div>
           </div>
@@ -336,7 +350,7 @@ const CreatePostModal: React.FC<{
               Hủy
             </button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );
