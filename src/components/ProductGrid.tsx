@@ -32,7 +32,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ products, selectedCategory, o
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2M4 13h2m8-8v2m0 6v2" />
               </svg>
             </div>
-            <p className="text-xl text-gray-500">Không tìm thấy sản phẩm nào</p>
+            <p className="text-xl text-gray-500">Không tìm thấy mẫu website nào</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
