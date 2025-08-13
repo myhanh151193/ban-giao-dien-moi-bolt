@@ -17,6 +17,7 @@ import Orders from './pages/admin/Orders';
 import Posts from './pages/admin/Posts';
 import Users from './pages/admin/Users';
 import Settings from './pages/admin/Settings';
+import AdminLogin from './pages/admin/Login';
 import { BlogPost } from './types';
 
 function App() {
