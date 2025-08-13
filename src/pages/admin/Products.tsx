@@ -10,9 +10,10 @@ import {
   Star,
   Package
 } from 'lucide-react';
-import { products } from '../../data/products';
+import { useProducts } from '../../context/ProductContext';
 
 const Products: React.FC = () => {
+  const { products, deleteProduct } = useProducts();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -28,8 +29,7 @@ const Products: React.FC = () => {
 
   const handleDeleteProduct = (id: number) => {
     if (window.confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
-      console.log('Delete product:', id);
-      // Here you would implement the delete logic
+      deleteProduct(id);
     }
   };
 
@@ -100,7 +100,7 @@ const Products: React.FC = () => {
       <div className="bg-white shadow rounded-lg overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-200">
           <h3 className="text-lg leading-6 font-medium text-gray-900">
-            Danh sách sản phẩm ({filteredProducts.length})
+            Danh sách sản ph��m ({filteredProducts.length})
           </h3>
         </div>
         
