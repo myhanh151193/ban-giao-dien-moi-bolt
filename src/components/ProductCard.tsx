@@ -133,7 +133,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onQuickView }) => {
           <button
             onClick={handleAddToCart}
             disabled={!product.inStock}
-            className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center space-x-2 ${
+            className={`${product.demoLink ? 'flex-1' : 'w-full'} py-3 px-4 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center space-x-2 ${
               product.inStock
                 ? 'bg-blue-600 hover:bg-blue-700 text-white transform hover:scale-105 active:scale-95'
                 : 'bg-gray-300 text-gray-500 cursor-not-allowed'
@@ -143,14 +143,16 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onQuickView }) => {
             <span>{product.inStock ? 'Mua hàng' : 'Hết hàng'}</span>
           </button>
 
-          <button
-            onClick={handleDemo}
-            className="flex-shrink-0 py-3 px-4 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center space-x-2 bg-gray-100 hover:bg-gray-200 text-gray-700 transform hover:scale-105 active:scale-95"
-            title="Xem demo"
-          >
-            <ExternalLink className="h-4 w-4" />
-            <span>Demo</span>
-          </button>
+          {product.demoLink && (
+            <button
+              onClick={handleDemo}
+              className="flex-shrink-0 py-3 px-4 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center space-x-2 bg-gray-100 hover:bg-gray-200 text-gray-700 transform hover:scale-105 active:scale-95"
+              title="Xem demo"
+            >
+              <ExternalLink className="h-4 w-4" />
+              <span>Demo</span>
+            </button>
+          )}
         </div>
       </div>
     </div>
