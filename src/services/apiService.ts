@@ -11,7 +11,7 @@ class ApiService {
       },
     };
 
-    Add auth token if available
+    // Add auth token if available
     const token = localStorage.getItem('adminToken');
     if (token && token !== 'fake-jwt-token') {
       defaultOptions.headers = {
