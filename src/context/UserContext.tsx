@@ -41,7 +41,12 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       setUsers(response.data || response);
     } catch (error) {
       console.error('Error fetching users:', error);
-      setError('Không thể tải danh sách người dùng');
+      console.log('Using fallback users data');
+
+      // Import fallback data dynamically
+      const { users: fallbackUsers } = await import('../data/users');
+      setUsers(fallbackUsers);
+      setError('API không khả dụng - sử dụng dữ liệu offline');
     } finally {
       setLoading(false);
     }
