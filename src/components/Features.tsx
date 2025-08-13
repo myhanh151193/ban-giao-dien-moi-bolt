@@ -1,43 +1,43 @@
 import React from 'react';
-import { 
-  Truck, 
-  Shield, 
-  Headphones, 
-  RotateCcw, 
-  CreditCard, 
-  Clock,
+import {
+  Download,
+  Code,
+  Headphones,
+  RefreshCw,
+  CreditCard,
+  Smartphone,
   Award,
-  MapPin
+  Palette
 } from 'lucide-react';
 
 const Features: React.FC = () => {
   const mainFeatures = [
     {
-      icon: <Truck className="h-8 w-8 text-blue-600" />,
-      title: "Giao hàng miễn phí",
-      description: "Miễn phí vận chuyển cho đơn hàng từ 500K trên toàn quốc",
-      details: "• Giao hàng nhanh trong 1-2 ngày\n• Đóng gói cẩn thận, an toàn\n• Theo dõi đơn hàng real-time",
+      icon: <Download className="h-8 w-8 text-blue-600" />,
+      title: "Tải về ngay lập tức",
+      description: "Tải về mẫu website ngay sau khi hoàn tất thanh toán",
+      details: "• File zip hoàn chỉnh kèm hướng dẫn\n• Code sạch, chuẩn w3c\n• Hỗ trợ responsive tất cả thiết bị",
       color: "blue"
     },
     {
-      icon: <Shield className="h-8 w-8 text-green-600" />,
-      title: "Bảo hành chính hãng",
-      description: "Cam kết 100% sản phẩm chính hãng với bảo hành đầy đủ",
-      details: "• Bảo hành theo tiêu chuẩn quốc tế\n• Hỗ trợ bảo hành tại nhà\n• Quy trình bảo hành nhanh chóng",
+      icon: <Code className="h-8 w-8 text-green-600" />,
+      title: "Code chất lượng cao",
+      description: "Cam kết 100% code sạch, tối ưu và dễ tùy chỉnh",
+      details: "• HTML5, CSS3, JavaScript hiện đại\n• Tối ưu SEO và tốc độ tải\n• Tương thích nhiều trình duyệt",
       color: "green"
     },
     {
       icon: <Headphones className="h-8 w-8 text-purple-600" />,
-      title: "Hỗ trợ 24/7",
-      description: "Đội ngũ tư vấn chuyên nghiệp luôn sẵn sàng hỗ trợ",
-      details: "• Hotline: 1900 9999\n• Live chat trên website\n• Email: support@techstore.com",
+      title: "Hỗ trợ kỹ thuật",
+      description: "Đội ngũ kỹ thuật chuyên nghiệp hỗ trợ cài đặt",
+      details: "• Hotline: 1900 9999\n• Hướng dẫn chi tiết qua video\n• Email: support@templatehub.com",
       color: "purple"
     },
     {
-      icon: <RotateCcw className="h-8 w-8 text-orange-600" />,
-      title: "Đổi trả dễ dàng",
-      description: "Chính sách đổi trả trong 30 ngày không lý do",
-      details: "• Hoàn tiền 100% nếu không hài lòng\n• Đổi sản phẩm lỗi miễn phí\n• Quy trình đơn giản, nhanh gọn",
+      icon: <RefreshCw className="h-8 w-8 text-orange-600" />,
+      title: "Cập nhật miễn phí",
+      description: "Miễn phí cập nhật và bảo trì trong 1 năm",
+      details: "• Cập nhật bảo mật và tính năng\n• Sửa lỗi và tối ưu hiệu suất\n• Hỗ trợ migration phiên bản mới",
       color: "orange"
     }
   ];
@@ -49,19 +49,19 @@ const Features: React.FC = () => {
       description: "Hỗ trợ nhiều hình thức thanh toán an toàn"
     },
     {
-      icon: <Clock className="h-6 w-6 text-teal-600" />,
-      title: "Giao hàng nhanh",
-      description: "Giao hàng trong ngày tại TP.HCM và Hà Nội"
+      icon: <Smartphone className="h-6 w-6 text-teal-600" />,
+      title: "Responsive Design",
+      description: "Hiển thị hoàn hảo trên mọi thiết bị"
     },
     {
       icon: <Award className="h-6 w-6 text-yellow-600" />,
       title: "Chất lượng đảm bảo",
-      description: "Kiểm tra chất lượng nghiêm ngặt trước khi giao"
+      description: "Kiểm tra code và thiết kế kỹ lưỡng trước khi bán"
     },
     {
-      icon: <MapPin className="h-6 w-6 text-red-600" />,
-      title: "50+ cửa hàng",
-      description: "Hệ thống cửa hàng trên toàn quốc"
+      icon: <Palette className="h-6 w-6 text-red-600" />,
+      title: "100+ mẫu đẹp",
+      description: "Bộ sưu tập mẫu website đa dạng ngành nghề"
     }
   ];
 
@@ -101,10 +101,10 @@ const Features: React.FC = () => {
         {/* Header */}
         <div className="text-center mb-16">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            Tại sao chọn TechStore?
+            Tại sao chọn TemplateHub?
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Chúng tôi cam kết mang đến trải nghiệm mua sắm tuyệt vời nhất với những ưu điểm vượt trội
+            Chúng tôi cung cấp những mẫu website chất lượng cao với dịch vụ hỗ trợ chuyên nghiệp
           </p>
         </div>
 
@@ -177,17 +177,17 @@ const Features: React.FC = () => {
         <div className="text-center mt-16">
           <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white">
             <h3 className="text-2xl font-bold mb-4">
-              Trải nghiệm dịch vụ tuyệt vời ngay hôm nay!
+              Bắt đầu xây dựng website ngay hôm nay!
             </h3>
             <p className="text-xl mb-6 opacity-90">
-              Hơn 100,000 khách hàng đã tin tưởng lựa chọn TechStore
+              Hơn 50,000 khách hàng đã tin tưởng lựa chọn TemplateHub
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-200">
-                Mua ngay
+                Xem mẫu
               </button>
               <button className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors duration-200">
-                Tìm hiểu thêm
+                Demo trực tuyến
               </button>
             </div>
           </div>
@@ -196,19 +196,19 @@ const Features: React.FC = () => {
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 text-center">
           <div>
-            <div className="text-3xl font-bold text-blue-600 mb-2">50+</div>
-            <div className="text-gray-600">Cửa hàng</div>
+            <div className="text-3xl font-bold text-blue-600 mb-2">100+</div>
+            <div className="text-gray-600">Mẫu website</div>
           </div>
           <div>
-            <div className="text-3xl font-bold text-green-600 mb-2">100K+</div>
+            <div className="text-3xl font-bold text-green-600 mb-2">50K+</div>
             <div className="text-gray-600">Khách hàng</div>
           </div>
           <div>
-            <div className="text-3xl font-bold text-purple-600 mb-2">500+</div>
-            <div className="text-gray-600">Sản phẩm</div>
+            <div className="text-3xl font-bold text-purple-600 mb-2">10+</div>
+            <div className="text-gray-600">Ngành nghề</div>
           </div>
           <div>
-            <div className="text-3xl font-bold text-orange-600 mb-2">4.8★</div>
+            <div className="text-3xl font-bold text-orange-600 mb-2">4.9★</div>
             <div className="text-gray-600">Đánh giá</div>
           </div>
         </div>

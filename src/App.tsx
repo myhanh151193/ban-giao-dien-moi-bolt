@@ -6,8 +6,18 @@ import CartSidebar from './components/CartSidebar';
 import Footer from './components/Footer';
 import CheckoutModal from './components/CheckoutModal';
 import Home from './pages/Home';
+import Templates from './pages/Templates';
+import Blog from './pages/Blog';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import AdminLayout from './layouts/AdminLayout';
+import Dashboard from './pages/admin/Dashboard';
+import Products from './pages/admin/Products';
+import Orders from './pages/admin/Orders';
+import Posts from './pages/admin/Posts';
+import Users from './pages/admin/Users';
+import Settings from './pages/admin/Settings';
+import AdminLogin from './pages/admin/Login';
 import { BlogPost } from './types';
 
 function App() {
@@ -41,8 +51,6 @@ function App() {
         <div className="min-h-screen bg-white">
           <Header
             onCartClick={handleCartClick}
-            selectedCategory={selectedCategory}
-            onCategoryChange={handleCategoryChange}
           />
 
           <main>
@@ -56,8 +64,21 @@ function App() {
                   />
                 }
               />
+              <Route path="/templates" element={<Templates />} />
+              <Route path="/blog" element={<Blog />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
+
+              {/* Admin Routes */}
+              <Route path="/admin/login" element={<AdminLogin />} />
+              <Route path="/admin" element={<AdminLayout />}>
+                <Route index element={<Dashboard />} />
+                <Route path="products" element={<Products />} />
+                <Route path="orders" element={<Orders />} />
+                <Route path="posts" element={<Posts />} />
+                <Route path="users" element={<Users />} />
+                <Route path="settings" element={<Settings />} />
+              </Route>
             </Routes>
           </main>
 

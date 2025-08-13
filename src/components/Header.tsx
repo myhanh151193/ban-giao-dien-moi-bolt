@@ -1,24 +1,22 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Search, ShoppingCart, Menu, X, User, Heart } from 'lucide-react';
+import { ShoppingCart, Menu, X, User, Heart } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 
 interface HeaderProps {
   onCartClick: () => void;
-  selectedCategory: string;
-  onCategoryChange: (category: string) => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ onCartClick, selectedCategory, onCategoryChange }) => {
+const Header: React.FC<HeaderProps> = ({ onCartClick }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { getTotalItems } = useCart();
   const location = useLocation();
   const totalItems = getTotalItems();
 
-  const categories = ['All', 'Smartphones', 'Laptops', 'Tablets', 'Audio', 'Wearables'];
-
   const navLinks = [
     { path: '/', label: 'Trang chủ' },
+    { path: '/templates', label: 'Template' },
+    { path: '/blog', label: 'Bài viết' },
     { path: '/about', label: 'Về chúng tôi' },
     { path: '/contact', label: 'Liên hệ' }
   ];
@@ -35,7 +33,7 @@ const Header: React.FC<HeaderProps> = ({ onCartClick, selectedCategory, onCatego
           <div className="flex items-center">
             <div className="flex-shrink-0">
               <Link to="/" className="text-2xl font-bold text-blue-600 hover:text-blue-700 transition-colors duration-200">
-                TechStore
+                TemplateHub
               </Link>
             </div>
           </div>
@@ -58,39 +56,9 @@ const Header: React.FC<HeaderProps> = ({ onCartClick, selectedCategory, onCatego
                 </Link>
               ))}
 
-              {/* Divider */}
-              <div className="w-px h-6 bg-gray-300 mx-2"></div>
-
-              {/* Categories - only show on home page */}
-              {location.pathname === '/' && categories.map((category) => (
-                <button
-                  key={category}
-                  onClick={() => onCategoryChange(category)}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
-                    selectedCategory === category
-                      ? 'text-blue-600 bg-blue-50'
-                      : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
-                  }`}
-                >
-                  {category}
-                </button>
-              ))}
             </div>
           </nav>
 
-          {/* Search Bar */}
-          <div className="hidden md:block flex-1 max-w-md mx-4">
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Search className="h-5 w-5 text-gray-400" />
-              </div>
-              <input
-                type="text"
-                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                placeholder="Tìm kiếm sản phẩm..."
-              />
-            </div>
-          </div>
 
           {/* Right side buttons */}
           <div className="flex items-center space-x-4">
@@ -142,44 +110,6 @@ const Header: React.FC<HeaderProps> = ({ onCartClick, selectedCategory, onCatego
                 </Link>
               ))}
 
-              {/* Categories - only show on home page */}
-              {location.pathname === '/' && (
-                <>
-                  <div className="border-t border-gray-200 my-2"></div>
-                  <div className="px-3 py-1 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    Danh mục sản phẩm
-                  </div>
-                  {categories.map((category) => (
-                    <button
-                      key={category}
-                      onClick={() => {
-                        onCategoryChange(category);
-                        setIsMenuOpen(false);
-                      }}
-                      className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 ${
-                        selectedCategory === category
-                          ? 'text-blue-600 bg-blue-100'
-                          : 'text-gray-700 hover:text-blue-600 hover:bg-white'
-                      }`}
-                    >
-                      {category}
-                    </button>
-                  ))}
-                </>
-              )}
-            </div>
-            {/* Mobile search */}
-            <div className="mt-4 mb-4">
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Search className="h-5 w-5 text-gray-400" />
-                </div>
-                <input
-                  type="text"
-                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="Tìm kiếm sản phẩm..."
-                />
-              </div>
             </div>
           </div>
         )}

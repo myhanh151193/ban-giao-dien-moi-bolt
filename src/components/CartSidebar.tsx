@@ -78,7 +78,7 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose, onCheckout }
                       {item.product.name}
                     </h3>
                     <p className="text-sm text-gray-500 mb-2">
-                      ${item.product.price}
+                      {item.product.price.toLocaleString('vi-VN')}₫
                     </p>
                     <div className="flex items-center space-x-3">
                       <button
@@ -100,7 +100,7 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose, onCheckout }
                   </div>
                   <div className="text-right">
                     <p className="font-semibold text-gray-900 mb-2">
-                      ${(item.product.price * item.quantity).toFixed(2)}
+                      {(item.product.price * item.quantity).toLocaleString('vi-VN')}₫
                     </p>
                     <button
                       onClick={() => removeFromCart(item.product.id)}
@@ -119,8 +119,8 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose, onCheckout }
         {items.length > 0 && (
           <div className="border-t bg-gray-50 p-6 space-y-4">
             <div className="flex items-center justify-between text-lg font-semibold">
-              <span>Tổng cộng:</span>
-              <span className="text-blue-600">${totalPrice.toFixed(2)}</span>
+              <span>Tổng c��ng:</span>
+              <span className="text-blue-600">{totalPrice.toLocaleString('vi-VN')}₫</span>
             </div>
             <div className="space-y-3">
               <button 
