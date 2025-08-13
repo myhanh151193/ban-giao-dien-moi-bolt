@@ -212,7 +212,7 @@ const Products: React.FC = () => {
             <Package className="mx-auto h-12 w-12 text-gray-400" />
             <h3 className="mt-2 text-sm font-medium text-gray-900">Không có sản phẩm</h3>
             <p className="mt-1 text-sm text-gray-500">
-              Không tìm thấy sản phẩm nào phù hợp với bộ l���c.
+              Không tìm thấy sản phẩm nào phù hợp với bộ lọc.
             </p>
           </div>
         )}
@@ -239,7 +239,7 @@ const Products: React.FC = () => {
             <div>
               <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
                 <button className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                  Trư���c
+                  Trước
                 </button>
                 <button className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-blue-50 text-sm font-medium text-blue-600">
                   1
@@ -383,80 +383,418 @@ const CreateProductModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
         <span className="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
 
-        <form onSubmit={handleSubmit} className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+        <form onSubmit={handleSubmit} className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
           <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-            <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">
-              Thêm sản phẩm mới
+            <h3 className="text-lg leading-6 font-medium text-gray-900 mb-6">
+              Thêm sản phẩm mới (Chuẩn SEO)
             </h3>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Tên sản phẩm</label>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Nhập tên sản phẩm"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Mô tả</label>
-                <textarea
-                  name="description"
-                  value={formData.description}
-                  onChange={handleInputChange}
-                  rows={3}
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Nhập mô tả sản phẩm"
-                  required
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Giá (VND)</label>
-                  <input
-                    type="number"
-                    name="price"
-                    value={formData.price}
-                    onChange={handleInputChange}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="0"
-                    min="0"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Danh mục</label>
-                  <select
-                    name="category"
-                    value={formData.category}
-                    onChange={handleInputChange}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+
+            {/* Tab Navigation */}
+            <div className="border-b border-gray-200 mb-6">
+              <nav className="-mb-px flex space-x-8">
+                {tabs.map((tab) => (
+                  <button
+                    key={tab.id}
+                    type="button"
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`py-2 px-1 border-b-2 font-medium text-sm ${
+                      activeTab === tab.id
+                        ? 'border-blue-500 text-blue-600'
+                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    }`}
                   >
-                    <option value="E-commerce">E-commerce</option>
-                    <option value="Business">Business</option>
-                    <option value="Portfolio">Portfolio</option>
-                    <option value="Restaurant">Restaurant</option>
-                    <option value="Blog">Blog</option>
-                    <option value="Landing">Landing</option>
-                  </select>
+                    {tab.name}
+                  </button>
+                ))}
+              </nav>
+            </div>
+
+            {/* Tab Content */}
+            <div className="space-y-6">
+              {/* Basic Info Tab */}
+              {activeTab === 'basic' && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">
+                        Tên sản phẩm *
+                      </label>
+                      <input
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Nhập tên sản phẩm"
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">
+                        Mô tả sản phẩm *
+                      </label>
+                      <textarea
+                        name="description"
+                        value={formData.description}
+                        onChange={handleInputChange}
+                        rows={4}
+                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Mô tả chi tiết về sản phẩm"
+                        required
+                      />
+                      <p className="mt-1 text-xs text-gray-500">
+                        {formData.description.length}/500 ký tự
+                      </p>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">
+                          Giá bán (VND) *
+                        </label>
+                        <input
+                          type="number"
+                          name="price"
+                          value={formData.price}
+                          onChange={handleInputChange}
+                          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                          placeholder="0"
+                          min="0"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">
+                          Giá gốc (VND)
+                        </label>
+                        <input
+                          type="number"
+                          name="originalPrice"
+                          value={formData.originalPrice}
+                          onChange={handleInputChange}
+                          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                          placeholder="0"
+                          min="0"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">
+                        Danh mục *
+                      </label>
+                      <select
+                        name="category"
+                        value={formData.category}
+                        onChange={handleInputChange}
+                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                      >
+                        <option value="E-commerce">E-commerce</option>
+                        <option value="Business">Business</option>
+                        <option value="Portfolio">Portfolio</option>
+                        <option value="Restaurant">Restaurant</option>
+                        <option value="Blog">Blog</option>
+                        <option value="Landing">Landing</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">
+                        URL hình ảnh chính
+                      </label>
+                      <input
+                        type="url"
+                        name="image"
+                        value={formData.image}
+                        onChange={handleInputChange}
+                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="https://example.com/image.jpg"
+                      />
+                      {formData.image && (
+                        <div className="mt-2">
+                          <img
+                            src={formData.image}
+                            alt="Preview"
+                            className="w-full h-32 object-cover rounded border"
+                            onError={(e) => {
+                              e.currentTarget.style.display = 'none';
+                            }}
+                          />
+                        </div>
+                      )}
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">
+                        Trạng thái
+                      </label>
+                      <div className="mt-2">
+                        <label className="inline-flex items-center">
+                          <input
+                            type="checkbox"
+                            name="inStock"
+                            checked={formData.inStock}
+                            onChange={(e) => setFormData(prev => ({ ...prev, inStock: e.target.checked }))}
+                            className="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                          />
+                          <span className="ml-2 text-sm text-gray-700">Còn hàng</span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">
+                        Badge (tùy chọn)
+                      </label>
+                      <select
+                        name="badge"
+                        value={formData.badge}
+                        onChange={handleInputChange}
+                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                      >
+                        <option value="">Không có badge</option>
+                        <option value="New">Mới</option>
+                        <option value="Bestseller">Bán chạy</option>
+                        <option value="Sale">Giảm giá</option>
+                        <option value="Hot">Hot</option>
+                      </select>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">URL hình ảnh</label>
-                <input
-                  type="url"
-                  name="image"
-                  value={formData.image}
-                  onChange={handleInputChange}
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="https://example.com/image.jpg"
-                />
-              </div>
+              )}
+
+              {/* SEO Tab */}
+              {activeTab === 'seo' && (
+                <div className="space-y-6">
+                  <div className="bg-blue-50 border border-blue-200 rounded-md p-4">
+                    <h4 className="text-sm font-medium text-blue-800 mb-2">Tối ưu SEO</h4>
+                    <p className="text-xs text-blue-600">
+                      Các trường này giúp sản phẩm của bạn được tìm thấy dễ dàng hơn trên các công cụ tìm kiếm.
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">
+                          URL Slug
+                        </label>
+                        <input
+                          type="text"
+                          name="slug"
+                          value={formData.slug}
+                          onChange={handleInputChange}
+                          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                          placeholder="url-thong-tin-san-pham"
+                        />
+                        <p className="mt-1 text-xs text-gray-500">
+                          URL: /products/{formData.slug || 'url-slug'}
+                        </p>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">
+                          SEO Title
+                        </label>
+                        <input
+                          type="text"
+                          name="seoTitle"
+                          value={formData.seoTitle}
+                          onChange={handleInputChange}
+                          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                          placeholder="Tiêu đề tối ưu cho SEO"
+                          maxLength={60}
+                        />
+                        <p className="mt-1 text-xs text-gray-500">
+                          {formData.seoTitle.length}/60 ký tự (Tối ưu: 50-60 ký tự)
+                        </p>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">
+                          SEO Description
+                        </label>
+                        <textarea
+                          name="seoDescription"
+                          value={formData.seoDescription}
+                          onChange={handleInputChange}
+                          rows={3}
+                          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                          placeholder="Mô tả ngắn gọn về sản phẩm cho công cụ tìm kiếm"
+                          maxLength={160}
+                        />
+                        <p className="mt-1 text-xs text-gray-500">
+                          {formData.seoDescription.length}/160 ký tự (Tối ưu: 150-160 ký tự)
+                        </p>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">
+                          Alt Text cho hình ảnh
+                        </label>
+                        <input
+                          type="text"
+                          name="altText"
+                          value={formData.altText}
+                          onChange={handleInputChange}
+                          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                          placeholder="Mô tả hình ảnh cho người khiếm thị và SEO"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">
+                          Từ khóa SEO
+                        </label>
+                        <div className="flex">
+                          <input
+                            type="text"
+                            value={keywordInput}
+                            onChange={(e) => setKeywordInput(e.target.value)}
+                            className="flex-1 border border-gray-300 rounded-l-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                            placeholder="Nhập từ khóa"
+                            onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addKeyword())}
+                          />
+                          <button
+                            type="button"
+                            onClick={addKeyword}
+                            className="px-4 py-2 border border-l-0 border-gray-300 rounded-r-md bg-gray-50 text-gray-700 hover:bg-gray-100"
+                          >
+                            Thêm
+                          </button>
+                        </div>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          {formData.seoKeywords.map((keyword, index) => (
+                            <span
+                              key={index}
+                              className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
+                            >
+                              {keyword}
+                              <button
+                                type="button"
+                                onClick={() => removeKeyword(keyword)}
+                                className="ml-1 text-blue-600 hover:text-blue-800"
+                              >
+                                ×
+                              </button>
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* SEO Preview */}
+                      <div className="bg-gray-50 border border-gray-200 rounded-md p-4">
+                        <h4 className="text-sm font-medium text-gray-800 mb-2">Preview Google Search</h4>
+                        <div className="space-y-1">
+                          <div className="text-lg text-blue-600 hover:underline cursor-pointer">
+                            {formData.seoTitle || formData.name || 'Tiêu đề sản phẩm'}
+                          </div>
+                          <div className="text-sm text-green-700">
+                            https://website.com/products/{formData.slug || 'url-slug'}
+                          </div>
+                          <div className="text-sm text-gray-600">
+                            {formData.seoDescription || formData.description.substring(0, 160) || 'Mô tả sản phẩm sẽ hiển thị ở đây...'}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Social Media Tab */}
+              {activeTab === 'social' && (
+                <div className="space-y-6">
+                  <div className="bg-green-50 border border-green-200 rounded-md p-4">
+                    <h4 className="text-sm font-medium text-green-800 mb-2">Open Graph & Social Media</h4>
+                    <p className="text-xs text-green-600">
+                      Tối ưu hiển thị khi chia sẻ trên Facebook, Twitter, LinkedIn và các mạng xã hội khác.
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">
+                          Open Graph Title
+                        </label>
+                        <input
+                          type="text"
+                          name="openGraphTitle"
+                          value={formData.openGraphTitle}
+                          onChange={handleInputChange}
+                          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                          placeholder="Tiêu đề khi chia sẻ lên mạng xã hội"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">
+                          Open Graph Description
+                        </label>
+                        <textarea
+                          name="openGraphDescription"
+                          value={formData.openGraphDescription}
+                          onChange={handleInputChange}
+                          rows={3}
+                          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                          placeholder="Mô tả khi chia sẻ lên mạng xã hội"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">
+                          Open Graph Image
+                        </label>
+                        <input
+                          type="url"
+                          name="openGraphImage"
+                          value={formData.openGraphImage}
+                          onChange={handleInputChange}
+                          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                          placeholder="URL hình ảnh cho social media (1200x630px)"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      {/* Social Media Preview */}
+                      <div className="bg-gray-50 border border-gray-200 rounded-md p-4">
+                        <h4 className="text-sm font-medium text-gray-800 mb-3">Preview Facebook/LinkedIn</h4>
+                        <div className="border border-gray-300 rounded-md overflow-hidden bg-white">
+                          {(formData.openGraphImage || formData.image) && (
+                            <img
+                              src={formData.openGraphImage || formData.image}
+                              alt="OG Preview"
+                              className="w-full h-32 object-cover"
+                              onError={(e) => {
+                                e.currentTarget.style.display = 'none';
+                              }}
+                            />
+                          )}
+                          <div className="p-3">
+                            <div className="text-xs text-gray-500 uppercase mb-1">website.com</div>
+                            <div className="font-medium text-sm text-gray-900 mb-1">
+                              {formData.openGraphTitle || formData.seoTitle || formData.name || 'Tiêu đề sản phẩm'}
+                            </div>
+                            <div className="text-xs text-gray-600">
+                              {formData.openGraphDescription || formData.seoDescription || formData.description.substring(0, 100) || 'Mô tả sản phẩm...'}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
+
           <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
             <button
               type="submit"
