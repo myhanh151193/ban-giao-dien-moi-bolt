@@ -1,5 +1,6 @@
 // Fallback data when API is unavailable
-// Data is normally fetched from: https://medisosoft.com/path/api/controllers/ProductController.php
+// Data is normally fetched from: https://medisosoft.com/path/api/products
+// Backend handles routing to controllers/ folder internally
 
 export const products = [
   {
@@ -35,7 +36,7 @@ export const products = [
     description: 'Template website doanh nghiệp sang trọng, chuyên nghiệp với thiết kế hiện đại và tính năng đầy đủ.',
     features: [
       'Landing page chuyển đổi cao',
-      'Tích hợp form liên hệ',
+      'Tích h��p form liên hệ',
       'Showcase portfolio',
       'Blog tích hợp',
       'Tối ưu tốc độ'
