@@ -40,15 +40,9 @@ export const OrderProvider: React.FC<OrderProviderProps> = ({ children }) => {
       const response = await apiService.getOrders();
       setOrders(response.data || response);
     } catch (error: any) {
-      console.warn('⚠️ API không khả dụng - chuyển sang dữ liệu offline');
-      console.log('📦 Đang tải danh sách đơn hàng từ fallback...');
-
-      // Import fallback data dynamically
-      const { orders: fallbackOrders } = await import('../data/orders');
-      setOrders(fallbackOrders);
-      setError('API không khả dụng - sử dụng dữ liệu offline');
-
-      console.log(`✅ Đã tải ${fallbackOrders.length} đơn hàng từ dữ liệu offline`);
+      console.error('❌ Lỗi kết nối API đơn hàng:', error);
+      setError('Không thể tải dữ liệu đơn hàng từ API');
+      setOrders([]);
     } finally {
       setLoading(false);
     }
