@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Lock, Mail, Eye, EyeOff } from 'lucide-react';
+import { Lock, User, Eye, EyeOff } from 'lucide-react';
+import { apiService } from '../../services/apiService';
 
 const Login: React.FC = () => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -23,17 +24,29 @@ const Login: React.FC = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simulate login process
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    try {
+      // Try API login first
+      const response = await apiService.login(username, password);
 
-    // Simple validation (in real app, this would be server-side)
-    if (email === 'admin@templatehub.com' && password === 'admin123') {
-      localStorage.setItem('adminToken', 'fake-jwt-token');
-      // Redirect to the page they were trying to access, or default to /admin
+      if (response.success) {
+        localStorage.setItem('adminToken', 'logged-in');
+        localStorage.setItem('adminUser', JSON.stringify(response.user || { username }));
+        const from = location.state?.from?.pathname || '/admin';
+        navigate(from, { replace: true });
+        return;
+      }
+    } catch (error) {
+      console.log('API login failed, using local validation:', error);
+    }
+
+    // Local fallback validation
+    if (username === 'admin' && password === 'Admin@@2025') {
+      localStorage.setItem('adminToken', 'logged-in');
+      localStorage.setItem('adminUser', JSON.stringify({ username: 'admin', role: 'admin' }));
       const from = location.state?.from?.pathname || '/admin';
       navigate(from, { replace: true });
     } else {
-      alert('Email hoặc mật khẩu không đúng!');
+      alert('Tên đăng nhập hoặc mật khẩu không đúng!');
     }
 
     setIsLoading(false);
@@ -49,7 +62,7 @@ const Login: React.FC = () => {
           Đăng nhập Admin
         </h2>
         <p className="mt-2 text-center text-sm text-gray-600">
-          Truy cập vào bảng điều khiển quản trị
+          Truy cập vào bảng điều khiển qu���n trị
         </p>
       </div>
 
@@ -57,23 +70,23 @@ const Login: React.FC = () => {
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Email
+              <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+                Tên đăng nhập
               </label>
               <div className="mt-1 relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-gray-400" />
+                  <User className="h-5 w-5 text-gray-400" />
                 </div>
                 <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
+                  id="username"
+                  name="username"
+                  type="text"
+                  autoComplete="username"
                   required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                   className="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Nhập email của bạn"
+                  placeholder="Nhập tên đăng nhập"
                 />
               </div>
             </div>
@@ -164,8 +177,8 @@ const Login: React.FC = () => {
             <div className="mt-4 bg-blue-50 border border-blue-200 rounded-md p-4">
               <div className="text-sm text-blue-700">
                 <p className="font-medium">Tài khoản demo:</p>
-                <p>Email: admin@templatehub.com</p>
-                <p>Mật khẩu: admin123</p>
+                <p>Tên đăng nhập: admin</p>
+                <p>Mật khẩu: Admin@@2025</p>
               </div>
             </div>
           </div>

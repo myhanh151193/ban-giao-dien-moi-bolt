@@ -1,14 +1,17 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { OrderAdmin } from '../types';
+import { apiService } from '../services/apiService';
 
 interface OrderContextType {
   orders: OrderAdmin[];
-  addOrder: (order: Omit<OrderAdmin, 'id'>) => void;
-  updateOrder: (id: string, order: Partial<OrderAdmin>) => void;
-  updateOrderStatus: (id: string, status: OrderAdmin['status']) => void;
-  deleteOrder: (id: string) => void;
+  loading: boolean;
+  error: string | null;
+  addOrder: (order: Omit<OrderAdmin, 'id'>) => Promise<void>;
+  updateOrder: (id: string, order: Partial<OrderAdmin>) => Promise<void>;
+  updateOrderStatus: (id: string, status: OrderAdmin['status']) => Promise<void>;
+  deleteOrder: (id: string) => Promise<void>;
   getOrderById: (id: string) => OrderAdmin | undefined;
-  refreshOrders: () => void;
+  refreshOrders: () => Promise<void>;
 }
 
 const OrderContext = createContext<OrderContextType | undefined>(undefined);
@@ -25,159 +28,78 @@ interface OrderProviderProps {
   children: ReactNode;
 }
 
-const initialOrders: OrderAdmin[] = [
-  {
-    id: 'DH001',
-    customer: {
-      name: 'Nguyễn Văn A',
-      email: 'nguyenvana@email.com',
-      phone: '0123456789'
-    },
-    products: [
-      { name: 'E-commerce Pro Template', quantity: 1, price: 2390000 }
-    ],
-    total: 2390000,
-    status: 'completed',
-    createdAt: '2024-01-15 10:30',
-    shippingAddress: '123 Đường ABC, Quận 1, TP.HCM',
-    paymentMethod: 'cod',
-    notes: 'Giao vào buổi chiều'
-  },
-  {
-    id: 'DH002',
-    customer: {
-      name: 'Trần Thị B',
-      email: 'tranthib@email.com',
-      phone: '0987654321'
-    },
-    products: [
-      { name: 'Corporate Business Template', quantity: 1, price: 1890000 }
-    ],
-    total: 1890000,
-    status: 'pending',
-    createdAt: '2024-01-14 15:45',
-    shippingAddress: '456 Đường XYZ, Quận 3, TP.HCM',
-    paymentMethod: 'cod',
-    notes: ''
-  },
-  {
-    id: 'DH003',
-    customer: {
-      name: 'Lê Minh C',
-      email: 'leminhc@email.com',
-      phone: '0369852147'
-    },
-    products: [
-      { name: 'Creative Portfolio Template', quantity: 1, price: 1490000 },
-      { name: 'Blog & Magazine Template', quantity: 1, price: 1190000 }
-    ],
-    total: 2680000,
-    status: 'processing',
-    createdAt: '2024-01-13 09:15',
-    shippingAddress: '789 Đường DEF, Quận 7, TP.HCM',
-    paymentMethod: 'cod',
-    notes: 'Khách hàng VIP'
-  },
-  {
-    id: 'DH004',
-    customer: {
-      name: 'Phạm Thị D',
-      email: 'phamthid@email.com',
-      phone: '0741258963'
-    },
-    products: [
-      { name: 'Restaurant & Cafe Template', quantity: 1, price: 1690000 }
-    ],
-    total: 1690000,
-    status: 'cancelled',
-    createdAt: '2024-01-12 14:20',
-    shippingAddress: '321 Đường GHI, Quận 5, TP.HCM',
-    paymentMethod: 'cod',
-    notes: 'Khách hàng hủy đơn'
-  },
-  {
-    id: 'DH005',
-    customer: {
-      name: 'Hoàng Văn E',
-      email: 'hoangvane@email.com',
-      phone: '0852963741'
-    },
-    products: [
-      { name: 'Agency Landing Page', quantity: 1, price: 2190000 }
-    ],
-    total: 2190000,
-    status: 'completed',
-    createdAt: '2024-01-11 11:00',
-    shippingAddress: '654 Đường JKL, Quận 2, TP.HCM',
-    paymentMethod: 'cod',
-    notes: ''
-  }
-];
-
 export const OrderProvider: React.FC<OrderProviderProps> = ({ children }) => {
-  const [orders, setOrders] = useState<OrderAdmin[]>(() => {
-    // Try to load orders from localStorage
-    const savedOrders = localStorage.getItem('admin-orders');
-    if (savedOrders) {
-      try {
-        const parsed = JSON.parse(savedOrders);
-        // Merge with initial orders, but prioritize saved orders
-        const mergedOrders = [...parsed];
-        // Add any initial orders that don't exist in saved orders
-        initialOrders.forEach(initialOrder => {
-          if (!parsed.find((order: OrderAdmin) => order.id === initialOrder.id)) {
-            mergedOrders.push(initialOrder);
-          }
-        });
-        return mergedOrders;
-      } catch (error) {
-        console.error('Error loading orders from localStorage:', error);
-        return initialOrders;
-      }
-    }
-    return initialOrders;
-  });
+  const [orders, setOrders] = useState<OrderAdmin[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const addOrder = (orderData: Omit<OrderAdmin, 'id'>) => {
-    const newOrder: OrderAdmin = {
-      ...orderData,
-      id: `DH${Date.now().toString().slice(-6)}`,
-    };
-    const updatedOrders = [newOrder, ...orders];
-    setOrders(updatedOrders);
-    // Save to localStorage
+  const fetchOrders = async () => {
     try {
-      localStorage.setItem('admin-orders', JSON.stringify(updatedOrders));
-    } catch (error) {
-      console.error('Error saving orders to localStorage:', error);
+      setLoading(true);
+      setError(null);
+      const response = await apiService.getOrders();
+      setOrders(response.data || response);
+    } catch (error: any) {
+      console.error('❌ Lỗi kết nối API đơn hàng:', error);
+      setError('Không thể tải dữ liệu đơn hàng từ API');
+      setOrders([]);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const updateOrder = (id: string, orderData: Partial<OrderAdmin>) => {
-    const updatedOrders = orders.map(order =>
-      order.id === id ? { ...order, ...orderData } : order
-    );
-    setOrders(updatedOrders);
-    // Save to localStorage
+  useEffect(() => {
+    fetchOrders();
+  }, []);
+
+  const addOrder = async (orderData: Omit<OrderAdmin, 'id'>) => {
     try {
-      localStorage.setItem('admin-orders', JSON.stringify(updatedOrders));
+      setError(null);
+      const orderToSend = {
+        ...orderData,
+        createdAt: new Date().toLocaleString('vi-VN'),
+      };
+      
+      const response = await apiService.createOrder(orderToSend);
+      const newOrder = response.data || { ...orderToSend, id: `DH${Date.now().toString().slice(-6)}` };
+      setOrders(prev => [newOrder, ...prev]);
     } catch (error) {
-      console.error('Error saving orders to localStorage:', error);
+      console.error('Error adding order:', error);
+      setError('Không thể thêm đơn hàng');
+      throw error;
     }
   };
 
-  const updateOrderStatus = (id: string, status: OrderAdmin['status']) => {
-    updateOrder(id, { status });
+  const updateOrder = async (id: string, orderData: Partial<OrderAdmin>) => {
+    try {
+      setError(null);
+      const response = await apiService.updateOrder?.(id, orderData) || { data: orderData };
+      const updatedOrder = response.data || response;
+      setOrders(prev =>
+        prev.map(order =>
+          order.id === id ? { ...order, ...updatedOrder } : order
+        )
+      );
+    } catch (error) {
+      console.error('Error updating order:', error);
+      setError('Không thể cập nhật đơn hàng');
+      throw error;
+    }
   };
 
-  const deleteOrder = (id: string) => {
-    const updatedOrders = orders.filter(order => order.id !== id);
-    setOrders(updatedOrders);
-    // Save to localStorage
+  const updateOrderStatus = async (id: string, status: OrderAdmin['status']) => {
+    await updateOrder(id, { status });
+  };
+
+  const deleteOrder = async (id: string) => {
     try {
-      localStorage.setItem('admin-orders', JSON.stringify(updatedOrders));
+      setError(null);
+      await apiService.deleteOrder?.(id);
+      setOrders(prev => prev.filter(order => order.id !== id));
     } catch (error) {
-      console.error('Error saving orders to localStorage:', error);
+      console.error('Error deleting order:', error);
+      setError('Không thể xóa đơn hàng');
+      throw error;
     }
   };
 
@@ -185,37 +107,14 @@ export const OrderProvider: React.FC<OrderProviderProps> = ({ children }) => {
     return orders.find(order => order.id === id);
   };
 
-  const refreshOrders = () => {
-    const savedOrders = localStorage.getItem('admin-orders');
-    if (savedOrders) {
-      try {
-        const parsed = JSON.parse(savedOrders);
-        setOrders(parsed);
-      } catch (error) {
-        console.error('Error refreshing orders:', error);
-      }
-    }
+  const refreshOrders = async () => {
+    await fetchOrders();
   };
-
-  // Listen for storage changes to sync across tabs
-  useEffect(() => {
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === 'admin-orders' && e.newValue) {
-        try {
-          const newOrders = JSON.parse(e.newValue);
-          setOrders(newOrders);
-        } catch (error) {
-          console.error('Error syncing orders from storage:', error);
-        }
-      }
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
-  }, []);
 
   const value: OrderContextType = {
     orders,
+    loading,
+    error,
     addOrder,
     updateOrder,
     updateOrderStatus,

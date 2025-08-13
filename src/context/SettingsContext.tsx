@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { apiService } from '../services/apiService';
 
 interface GeneralSettings {
   siteName: string;
@@ -79,9 +80,12 @@ interface AppSettings {
 
 interface SettingsContextType {
   settings: AppSettings;
+  loading: boolean;
+  error: string | null;
   updateSettings: (section: keyof AppSettings, field: string, value: any) => void;
-  saveSettings: () => void;
-  resetSettings: () => void;
+  saveSettings: () => Promise<void>;
+  resetSettings: () => Promise<void>;
+  refreshSettings: () => Promise<void>;
 }
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
@@ -162,25 +166,39 @@ const defaultSettings: AppSettings = {
 };
 
 export const SettingsProvider: React.FC<SettingsProviderProps> = ({ children }) => {
-  const [settings, setSettings] = useState<AppSettings>(() => {
-    // Try to load settings from localStorage
-    const savedSettings = localStorage.getItem('app-settings');
-    if (savedSettings) {
-      try {
-        const parsed = JSON.parse(savedSettings);
-        return {
-          ...defaultSettings,
-          ...parsed,
-          contact: { ...defaultSettings.contact, ...parsed.contact },
-          about: { ...defaultSettings.about, ...parsed.about }
-        };
-      } catch (error) {
-        console.error('Error loading settings from localStorage:', error);
-        return defaultSettings;
-      }
+  const [settings, setSettings] = useState<AppSettings>(defaultSettings);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchSettings = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await apiService.getSettings();
+      const apiSettings = response.data || response;
+
+      // Merge with default settings to ensure all fields exist
+      const mergedSettings = {
+        ...defaultSettings,
+        ...apiSettings,
+        contact: { ...defaultSettings.contact, ...apiSettings.contact },
+        about: { ...defaultSettings.about, ...apiSettings.about }
+      };
+
+      setSettings(mergedSettings);
+    } catch (error: any) {
+      console.error('❌ Lỗi kết nối API cài đặt:', error);
+      setError('Không thể tải dữ liệu cài đặt từ API');
+      // Keep default settings as base structure but show error
+      setSettings(defaultSettings);
+    } finally {
+      setLoading(false);
     }
-    return defaultSettings;
-  });
+  };
+
+  useEffect(() => {
+    fetchSettings();
+  }, []);
 
   const updateSettings = (section: keyof AppSettings, field: string, value: any) => {
     setSettings(prev => ({
@@ -192,29 +210,44 @@ export const SettingsProvider: React.FC<SettingsProviderProps> = ({ children }) 
     }));
   };
 
-  const saveSettings = () => {
+  const saveSettings = async () => {
     try {
-      // Use a callback to get the latest state
-      setSettings(currentSettings => {
-        localStorage.setItem('app-settings', JSON.stringify(currentSettings));
-        console.log('Settings saved successfully');
-        return currentSettings;
-      });
+      setError(null);
+      await apiService.updateSettings(settings);
+      console.log('Settings saved successfully');
     } catch (error) {
       console.error('Error saving settings:', error);
+      setError('Không thể lưu cài đặt');
+      throw error;
     }
   };
 
-  const resetSettings = () => {
-    setSettings(defaultSettings);
-    localStorage.removeItem('app-settings');
+  const resetSettings = async () => {
+    try {
+      setError(null);
+      await apiService.updateSettings(defaultSettings);
+      setSettings(defaultSettings);
+      console.log('Settings reset successfully');
+    } catch (error) {
+      console.error('Error resetting settings:', error);
+      setError('Không thể khôi phục cài đặt');
+      // Fallback to local reset if API fails
+      setSettings(defaultSettings);
+    }
+  };
+
+  const refreshSettings = async () => {
+    await fetchSettings();
   };
 
   const value: SettingsContextType = {
     settings,
+    loading,
+    error,
     updateSettings,
     saveSettings,
-    resetSettings
+    resetSettings,
+    refreshSettings
   };
 
   return (

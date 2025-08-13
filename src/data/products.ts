@@ -1,97 +1,67 @@
-import { Product } from '../types';
+// Fallback data when API is unavailable
+// Data is normally fetched from: https://medisosoft.com/path/api/products
+// Backend handles routing to controllers/ folder internally
 
-export const products: Product[] = [
+export const products = [
   {
     id: 1,
-    name: "E-commerce Pro Template",
+    name: 'E-commerce Pro Template',
     price: 2390000,
-    originalPrice: 3590000,
-    image: "https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg?auto=compress&cs=tinysrgb&w=500",
-    category: "E-commerce",
-    rating: 4.8,
-    reviews: 2847,
-    description: "Mẫu website thương mại điện tử chuyên nghiệp và hiện đại",
-    features: ["Responsive Design", "Cart Integration", "Payment Gateway", "Admin Dashboard"],
+    originalPrice: 2990000,
+    image: 'https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg?auto=compress&cs=tinysrgb&w=600',
+    category: 'E-commerce',
+    rating: 5,
+    reviews: 127,
+    description: 'Template website thương mại điện tử chuyên nghiệp với đầy đủ tính năng quản lý sản phẩm, giỏ hàng, thanh toán và báo cáo.',
+    features: [
+      'Responsive design cho mọi thiết bị',
+      'Tích hợp thanh toán trực tuyến',
+      'Quản lý inventory tự động',
+      'SEO tối ưu',
+      'Dashboard analytics'
+    ],
     inStock: true,
-    badge: "Bestseller",
-    demoLink: "https://ecommerce-pro-demo.netlify.app"
+    badge: 'Bestseller',
+    demoLink: 'https://example.com/demo/ecommerce',
+    slug: 'e-commerce-pro-template'
   },
   {
     id: 2,
-    name: "Corporate Business Template",
+    name: 'Corporate Business Template',
     price: 1890000,
-    originalPrice: 2890000,
-    image: "https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=500",
-    category: "Business",
-    rating: 4.9,
-    reviews: 1523,
-    description: "Mẫu website doanh nghiệp sang trọng và uy tín",
-    features: ["Modern Design", "Portfolio Section", "Contact Forms", "SEO Optimized"],
+    image: 'https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=600',
+    category: 'Business',
+    rating: 4.8,
+    reviews: 89,
+    description: 'Template website doanh nghiệp sang trọng, chuyên nghiệp với thiết kế hiện đại và tính năng đầy đủ.',
+    features: [
+      'Landing page chuyển đổi cao',
+      'Tích h��p form liên hệ',
+      'Showcase portfolio',
+      'Blog tích hợp',
+      'Tối ưu tốc độ'
+    ],
     inStock: true,
-    badge: "New",
-    demoLink: "https://corporate-business-demo.netlify.app"
+    slug: 'corporate-business-template'
   },
   {
     id: 3,
-    name: "Creative Portfolio Template",
+    name: 'Creative Portfolio Template',
     price: 1490000,
-    image: "https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=500",
-    category: "Portfolio",
-    rating: 4.7,
-    reviews: 892,
-    description: "Mẫu website portfolio sáng tạo cho designer và artist",
-    features: ["Gallery Showcase", "Animation Effects", "Blog Integration", "Dark Mode"],
+    image: 'https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=600',
+    category: 'Portfolio',
+    rating: 4.9,
+    reviews: 156,
+    description: 'Template portfolio sáng tạo cho designers, artists và creative professionals.',
+    features: [
+      'Gallery responsive',
+      'Animation mượt mà',
+      'Dark/Light mode',
+      'Contact form',
+      'Social media integration'
+    ],
     inStock: true,
-    demoLink: "https://creative-portfolio-demo.netlify.app"
-  },
-  {
-    id: 4,
-    name: "Restaurant & Cafe Template",
-    price: 1690000,
-    image: "https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=500",
-    category: "Restaurant",
-    rating: 4.6,
-    reviews: 1247,
-    description: "Mẫu website nhà hàng với menu và đặt bàn online",
-    features: ["Menu Display", "Table Booking", "Food Gallery", "Location Map"],
-    inStock: true,
-    demoLink: "https://restaurant-cafe-demo.netlify.app"
-  },
-  {
-    id: 5,
-    name: "Blog & Magazine Template",
-    price: 1190000,
-    image: "https://images.pexels.com/photos/261662/pexels-photo-261662.jpeg?auto=compress&cs=tinysrgb&w=500",
-    category: "Blog",
-    rating: 4.5,
-    reviews: 674,
-    description: "Mẫu website blog và tạp chí trực tuyến",
-    features: ["Article Management", "Comment System", "Social Share", "Newsletter"],
-    inStock: false,
-    demoLink: "https://blog-magazine-demo.netlify.app"
-  },
-  {
-    id: 6,
-    name: "Agency Landing Page",
-    price: 2190000,
-    image: "https://images.pexels.com/photos/265087/pexels-photo-265087.jpeg?auto=compress&cs=tinysrgb&w=500",
-    category: "Landing",
-    rating: 4.7,
-    reviews: 1834,
-    description: "Landing page chuyển đổi cao cho agency",
-    features: ["Conversion Optimized", "Lead Forms", "Service Showcase", "Testimonials"],
-    inStock: true,
-    badge: "High Convert",
-    demoLink: "https://agency-landing-demo.netlify.app"
+    badge: 'New',
+    slug: 'creative-portfolio-template'
   }
-];
-
-export const categories = [
-  "All",
-  "E-commerce",
-  "Business",
-  "Portfolio",
-  "Restaurant",
-  "Blog",
-  "Landing"
 ];

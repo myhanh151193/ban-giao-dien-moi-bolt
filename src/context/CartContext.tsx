@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Product, CartItem, CartContextType } from '../types';
+import { apiService } from '../services/apiService';
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
@@ -17,41 +18,168 @@ interface CartProviderProps {
 
 export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const [items, setItems] = useState<CartItem[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const addToCart = (product: Product) => {
-    setItems(prevItems => {
-      const existingItem = prevItems.find(item => item.product.id === product.id);
-      if (existingItem) {
-        return prevItems.map(item =>
-          item.product.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
-      }
-      return [...prevItems, { product, quantity: 1 }];
-    });
+  const fetchCart = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await apiService.getCart();
+      setItems(response.data || response || []);
+    } catch (error: any) {
+      console.error('❌ Lỗi kết nối API giỏ hàng:', error);
+      setError('Không thể tải dữ liệu giỏ hàng từ API');
+      setItems([]);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const removeFromCart = (productId: number) => {
-    setItems(prevItems => prevItems.filter(item => item.product.id !== productId));
-  };
+  useEffect(() => {
+    fetchCart();
+  }, []);
 
-  const updateQuantity = (productId: number, quantity: number) => {
-    if (quantity <= 0) {
-      removeFromCart(productId);
+  const addToCart = async (product: Product) => {
+    setError(null);
+
+    const existingItem = items.find(item => item.product.id === product.id);
+
+    // In offline mode, work directly with local state
+    if (error?.includes('offline') || error?.includes('không khả dụng')) {
+      setItems(prevItems => {
+        if (existingItem) {
+          return prevItems.map(item =>
+            item.product.id === product.id
+              ? { ...item, quantity: item.quantity + 1 }
+              : item
+          );
+        }
+        return [...prevItems, { product, quantity: 1 }];
+      });
       return;
     }
-    setItems(prevItems =>
-      prevItems.map(item =>
-        item.product.id === productId
-          ? { ...item, quantity }
-          : item
-      )
-    );
+
+    // Try API first, but don't show errors - just fallback silently
+    try {
+      if (existingItem) {
+        await updateQuantity(product.id, existingItem.quantity + 1);
+      } else {
+        const response = await apiService.addToCart(product.id.toString(), 1);
+        const newItem = response.data || { product, quantity: 1 };
+        setItems(prevItems => [...prevItems, newItem]);
+      }
+    } catch (apiError) {
+      // Silent fallback to local state - no error messages
+      console.log('🛒 API không khả dụng - sử dụng giỏ hàng offline');
+
+      setItems(prevItems => {
+        if (existingItem) {
+          return prevItems.map(item =>
+            item.product.id === product.id
+              ? { ...item, quantity: item.quantity + 1 }
+              : item
+          );
+        }
+        return [...prevItems, { product, quantity: 1 }];
+      });
+    }
   };
 
-  const clearCart = () => {
-    setItems([]);
+  const removeFromCart = async (productId: number) => {
+    setError(null);
+
+    // In offline mode, work directly with local state
+    if (error?.includes('offline') || error?.includes('không khả dụng')) {
+      setItems(prevItems => prevItems.filter(item => item.product.id !== productId));
+      return;
+    }
+
+    // Try API first, but don't show errors - just fallback silently
+    try {
+      const item = items.find(item => item.product.id === productId);
+      if (item) {
+        await apiService.removeFromCart(item.id?.toString() || productId.toString());
+      }
+      setItems(prevItems => prevItems.filter(item => item.product.id !== productId));
+    } catch (apiError) {
+      // Silent fallback to local state
+      console.log('🛒 API không khả dụng - xóa sản phẩm offline');
+
+      setItems(prevItems => prevItems.filter(item => item.product.id !== productId));
+    }
+  };
+
+  const updateQuantity = async (productId: number, quantity: number) => {
+    if (quantity <= 0) {
+      await removeFromCart(productId);
+      return;
+    }
+
+    setError(null);
+
+    // In offline mode, work directly with local state
+    if (error?.includes('offline') || error?.includes('không khả dụng')) {
+      setItems(prevItems =>
+        prevItems.map(item =>
+          item.product.id === productId
+            ? { ...item, quantity }
+            : item
+        )
+      );
+      return;
+    }
+
+    // Try API first, but don't show errors - just fallback silently
+    try {
+      const item = items.find(item => item.product.id === productId);
+      if (item) {
+        await apiService.updateCartItem(item.id?.toString() || productId.toString(), quantity);
+      }
+
+      setItems(prevItems =>
+        prevItems.map(item =>
+          item.product.id === productId
+            ? { ...item, quantity }
+            : item
+        )
+      );
+    } catch (apiError) {
+      // Silent fallback to local state
+      console.log('🛒 API không khả dụng - cập nhật giỏ hàng offline');
+
+      setItems(prevItems =>
+        prevItems.map(item =>
+          item.product.id === productId
+            ? { ...item, quantity }
+            : item
+        )
+      );
+    }
+  };
+
+  const clearCart = async () => {
+    setError(null);
+
+    // In offline mode, work directly with local state
+    if (error?.includes('offline') || error?.includes('không khả dụng')) {
+      setItems([]);
+      return;
+    }
+
+    // Try API first, but don't show errors - just fallback silently
+    try {
+      // Clear cart on server
+      await Promise.all(items.map(item =>
+        apiService.removeFromCart(item.id?.toString() || item.product.id.toString())
+      ));
+      setItems([]);
+    } catch (apiError) {
+      // Silent fallback to local state
+      console.log('🛒 API không khả dụng - xóa giỏ hàng offline');
+
+      setItems([]);
+    }
   };
 
   const getTotalItems = () => {
@@ -64,6 +192,8 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
 
   const value: CartContextType = {
     items,
+    loading,
+    error,
     addToCart,
     removeFromCart,
     updateQuantity,

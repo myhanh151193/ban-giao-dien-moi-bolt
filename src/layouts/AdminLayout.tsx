@@ -25,7 +25,7 @@ const AdminLayout: React.FC = () => {
     { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
     { name: 'Sản phẩm', href: '/admin/products', icon: Package },
     { name: 'Đơn hàng', href: '/admin/orders', icon: ShoppingCart },
-    { name: 'B��i viết', href: '/admin/posts', icon: FileText },
+    { name: 'Bài viết', href: '/admin/posts', icon: FileText },
     { name: 'Đánh giá', href: '/admin/reviews', icon: Star },
     { name: 'Người dùng', href: '/admin/users', icon: Users },
     { name: 'Cài đặt', href: '/admin/settings', icon: Settings },

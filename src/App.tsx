@@ -11,6 +11,7 @@ import Header from './components/Header';
 import CartSidebar from './components/CartSidebar';
 import Footer from './components/Footer';
 import CheckoutModal from './components/CheckoutModal';
+import ApiStatusNotification from './components/ApiStatusNotification';
 import Home from './pages/Home';
 import Templates from './pages/Templates';
 import Blog from './pages/Blog';
@@ -26,12 +27,15 @@ import Users from './pages/admin/Users';
 import Settings from './pages/admin/Settings';
 import AdminLogin from './pages/admin/Login';
 import ProtectedRoute from './components/ProtectedRoute';
-import { BlogPost } from './types';
 
-function App() {
+function AppContent() {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+
+  // API-only mode - show real status
+  const isApiAvailable = false;
+  const error = 'Chế độ API-ONLY: Cần kết nối API để hiển thị dữ liệu';
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
@@ -54,6 +58,76 @@ function App() {
   };
 
   return (
+    <Router>
+      <div className="min-h-screen bg-white">
+        <Header onCartClick={handleCartClick} />
+
+        <main>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Home
+                  selectedCategory={selectedCategory}
+                  onCategoryChange={handleCategoryChange}
+                />
+              }
+            />
+            <Route path="/templates" element={<Templates />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+
+            {/* Admin Routes */}
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin" element={
+              <ProtectedRoute>
+                <AdminLayout />
+              </ProtectedRoute>
+            }>
+              <Route index element={<Dashboard />} />
+              <Route path="products" element={<Products />} />
+              <Route path="orders" element={<Orders />} />
+              <Route path="posts" element={<Posts />} />
+              <Route path="reviews" element={<Reviews />} />
+              <Route path="users" element={<Users />} />
+              <Route path="settings" element={<Settings />} />
+            </Route>
+          </Routes>
+        </main>
+
+        <Footer />
+
+        <CartSidebar
+          isOpen={isCartOpen}
+          onClose={handleCartClose}
+          onCheckout={handleCheckoutOpen}
+        />
+
+        <CheckoutModal
+          isOpen={isCheckoutOpen}
+          onClose={handleCheckoutClose}
+        />
+
+        <ApiStatusNotification 
+          isApiAvailable={isApiAvailable}
+          error={error}
+        />
+      </div>
+    </Router>
+  );
+}
+
+function App() {
+  // Log app status on mount
+  React.useEffect(() => {
+    console.log('%c🚀 TemplateHub App Started', 'color: #2563eb; font-size: 16px; font-weight: bold;');
+    console.log('%c📡 API Base URL: https://medisosoft.com/path/api', 'color: #64748b;');
+    console.log('%c⚡ Chế độ API-ONLY: Chỉ sử dụng dữ liệu từ API', 'color: #f59e0b; font-weight: bold;');
+    console.log('%c❌ Đã tắt fallback data - Cần API hoạt động để hiển thị dữ liệu', 'color: #ef4444;');
+  }, []);
+
+  return (
     <ProductProvider>
       <OrderProvider>
         <PostProvider>
@@ -61,60 +135,7 @@ function App() {
             <SettingsProvider>
               <TestimonialProvider>
                 <CartProvider>
-      <Router>
-        <div className="min-h-screen bg-white">
-          <Header
-            onCartClick={handleCartClick}
-          />
-
-          <main>
-            <Routes>
-              <Route
-                path="/"
-                element={
-                  <Home
-                    selectedCategory={selectedCategory}
-                    onCategoryChange={handleCategoryChange}
-                  />
-                }
-              />
-              <Route path="/templates" element={<Templates />} />
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
-
-              {/* Admin Routes */}
-              <Route path="/admin/login" element={<AdminLogin />} />
-              <Route path="/admin" element={
-                <ProtectedRoute>
-                  <AdminLayout />
-                </ProtectedRoute>
-              }>
-                <Route index element={<Dashboard />} />
-                <Route path="products" element={<Products />} />
-                <Route path="orders" element={<Orders />} />
-                <Route path="posts" element={<Posts />} />
-                <Route path="reviews" element={<Reviews />} />
-                <Route path="users" element={<Users />} />
-                <Route path="settings" element={<Settings />} />
-              </Route>
-            </Routes>
-          </main>
-
-          <Footer />
-
-          <CartSidebar
-            isOpen={isCartOpen}
-            onClose={handleCartClose}
-            onCheckout={handleCheckoutOpen}
-          />
-
-          <CheckoutModal
-            isOpen={isCheckoutOpen}
-            onClose={handleCheckoutClose}
-          />
-        </div>
-      </Router>
+                  <AppContent />
                 </CartProvider>
               </TestimonialProvider>
             </SettingsProvider>

@@ -1,13 +1,16 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Product } from '../types';
-import { products as initialProducts } from '../data/products';
+import { apiService } from '../services/apiService';
 
 interface ProductContextType {
   products: Product[];
-  addProduct: (product: Omit<Product, 'id'>) => void;
-  updateProduct: (id: number, product: Partial<Product>) => void;
-  deleteProduct: (id: number) => void;
+  loading: boolean;
+  error: string | null;
+  addProduct: (product: Omit<Product, 'id'>) => Promise<void>;
+  updateProduct: (id: number, product: Partial<Product>) => Promise<void>;
+  deleteProduct: (id: number) => Promise<void>;
   getProductById: (id: number) => Product | undefined;
+  refreshProducts: () => Promise<void>;
 }
 
 const ProductContext = createContext<ProductContextType | undefined>(undefined);
@@ -24,76 +27,114 @@ interface ProductProviderProps {
   children: ReactNode;
 }
 
-const STORAGE_KEY = 'products_data';
-
 export const ProductProvider: React.FC<ProductProviderProps> = ({ children }) => {
-  const [products, setProducts] = useState<Product[]>(() => {
-    const savedProducts = localStorage.getItem(STORAGE_KEY);
-    if (savedProducts) {
-      try {
-        return JSON.parse(savedProducts);
-      } catch (error) {
-        console.error('Error parsing saved products:', error);
-        return initialProducts;
-      }
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchProducts = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      // Use the proper API service
+      const response = await apiService.getProducts();
+      setProducts(response.data || response || []);
+    } catch (error: any) {
+      console.error('❌ Lỗi kết nối API sản phẩm:', error);
+      setError('Không thể tải dữ liệu sản phẩm từ API');
+      setProducts([]);
+    } finally {
+      setLoading(false);
     }
-    return initialProducts;
-  });
+  };
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
-  }, [products]);
+    fetchProducts();
+  }, []);
 
-  const addProduct = (productData: Omit<Product, 'id'>) => {
-    const generateSlug = (name: string) => {
-      return name
-        .toLowerCase()
-        .replace(/[àáạảãâầấậẩẫăằắặẳẵ]/g, 'a')
-        .replace(/[èéẹẻẽêềếệểễ]/g, 'e')
-        .replace(/[ìíịỉĩ]/g, 'i')
-        .replace(/[òóọỏõôồốộổỗơờớợởỡ]/g, 'o')
-        .replace(/[ùúụủũưừứựửữ]/g, 'u')
-        .replace(/[ỳýỵỷỹ]/g, 'y')
-        .replace(/đ/g, 'd')
-        .replace(/[^a-z0-9\s-]/g, '')
-        .replace(/\s+/g, '-')
-        .replace(/-+/g, '-')
-        .trim();
-    };
-
-    const newProduct: Product = {
-      ...productData,
-      id: Math.max(...products.map(p => p.id)) + 1,
-      slug: productData.slug || generateSlug(productData.name),
-      seoTitle: productData.seoTitle || productData.name,
-      seoDescription: productData.seoDescription || productData.description.substring(0, 160),
-      altText: productData.altText || productData.name,
-    };
-    setProducts(prev => [...prev, newProduct]);
+  const generateSlug = (name: string) => {
+    return name
+      .toLowerCase()
+      .replace(/[àáạảãâầấậẩẫăằắặẳẵ]/g, 'a')
+      .replace(/[èéẹẻẽêềếệểễ]/g, 'e')
+      .replace(/[ìíịỉĩ]/g, 'i')
+      .replace(/[òóọỏõôồốộổ��ơờớợởỡ]/g, 'o')
+      .replace(/[ùúụủũưừứựửữ]/g, 'u')
+      .replace(/[ỳýỵỷỹ]/g, 'y')
+      .replace(/đ/g, 'd')
+      .replace(/[^a-z0-9\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .trim();
   };
 
-  const updateProduct = (id: number, productData: Partial<Product>) => {
-    setProducts(prev => 
-      prev.map(product => 
-        product.id === id ? { ...product, ...productData } : product
-      )
-    );
+  const addProduct = async (productData: Omit<Product, 'id'>) => {
+    try {
+      setError(null);
+      const productToSend = {
+        ...productData,
+        slug: productData.slug || generateSlug(productData.name),
+        seoTitle: productData.seoTitle || productData.name,
+        seoDescription: productData.seoDescription || productData.description.substring(0, 160),
+        altText: productData.altText || productData.name,
+      };
+      
+      const response = await apiService.createProduct(productToSend);
+      const newProduct = response.data || response;
+      setProducts(prev => [...prev, newProduct]);
+    } catch (error) {
+      console.error('Error adding product:', error);
+      setError('Không thể thêm sản phẩm');
+      throw error;
+    }
   };
 
-  const deleteProduct = (id: number) => {
-    setProducts(prev => prev.filter(product => product.id !== id));
+  const updateProduct = async (id: number, productData: Partial<Product>) => {
+    try {
+      setError(null);
+      const response = await apiService.updateProduct(id.toString(), productData);
+      const updatedProduct = response.data || response;
+      setProducts(prev => 
+        prev.map(product => 
+          product.id === id ? { ...product, ...updatedProduct } : product
+        )
+      );
+    } catch (error) {
+      console.error('Error updating product:', error);
+      setError('Không thể cập nhật sản phẩm');
+      throw error;
+    }
+  };
+
+  const deleteProduct = async (id: number) => {
+    try {
+      setError(null);
+      await apiService.deleteProduct(id.toString());
+      setProducts(prev => prev.filter(product => product.id !== id));
+    } catch (error) {
+      console.error('Error deleting product:', error);
+      setError('Không thể xóa sản phẩm');
+      throw error;
+    }
   };
 
   const getProductById = (id: number) => {
     return products.find(product => product.id === id);
   };
 
+  const refreshProducts = async () => {
+    await fetchProducts();
+  };
+
   const value: ProductContextType = {
     products,
+    loading,
+    error,
     addProduct,
     updateProduct,
     deleteProduct,
-    getProductById
+    getProductById,
+    refreshProducts
   };
 
   return (
