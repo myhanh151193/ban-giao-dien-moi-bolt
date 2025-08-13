@@ -1,6 +1,7 @@
 import React from 'react';
 import { BookOpen, TrendingUp } from 'lucide-react';
-import { blogPosts } from '../data/blogPosts';
+import { BlogPost } from '../types';
+import { usePosts } from '../context/PostContext';
 import BlogCard from './BlogCard';
 
 interface BlogSectionProps {
@@ -8,7 +9,8 @@ interface BlogSectionProps {
 }
 
 const BlogSection: React.FC<BlogSectionProps> = ({ onBlogClick }) => {
-  const featuredPosts = blogPosts.slice(0, 6);
+  const { posts } = usePosts();
+  const featuredPosts = posts.slice(0, 6);
 
   return (
     <section className="py-16 bg-gray-50">
