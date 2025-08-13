@@ -158,7 +158,11 @@ const Posts: React.FC = () => {
                     <button className="text-blue-600 hover:text-blue-900" title="Xem chi tiết">
                       <Eye className="h-4 w-4" />
                     </button>
-                    <button className="text-green-600 hover:text-green-900" title="Chỉnh sửa">
+                    <button
+                      onClick={() => handleEditPost(post)}
+                      className="text-green-600 hover:text-green-900"
+                      title="Chỉnh sửa"
+                    >
                       <Edit className="h-4 w-4" />
                     </button>
                     <button 
@@ -190,7 +194,10 @@ const Posts: React.FC = () => {
 
       {/* Create Post Modal */}
       {isCreateModalOpen && (
-        <CreatePostModal onClose={() => setIsCreateModalOpen(false)} />
+        <CreatePostModal
+          post={editingPost}
+          onClose={handleCloseModal}
+        />
       )}
     </div>
   );
@@ -258,7 +265,7 @@ const CreatePostModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700">Ảnh đại diện</label>
+                <label className="block text-sm font-medium text-gray-700">Ảnh đ��i diện</label>
                 <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
                   <div className="space-y-1 text-center">
                     <svg className="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
