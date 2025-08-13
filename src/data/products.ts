@@ -41,7 +41,8 @@ export const products: Product[] = [
     reviews: 892,
     description: "Mẫu website portfolio sáng tạo cho designer và artist",
     features: ["Gallery Showcase", "Animation Effects", "Blog Integration", "Dark Mode"],
-    inStock: true
+    inStock: true,
+    demoLink: "https://creative-portfolio-demo.netlify.app"
   },
   {
     id: 4,
@@ -53,7 +54,8 @@ export const products: Product[] = [
     reviews: 1247,
     description: "Mẫu website nhà hàng với menu và đặt bàn online",
     features: ["Menu Display", "Table Booking", "Food Gallery", "Location Map"],
-    inStock: true
+    inStock: true,
+    demoLink: "https://restaurant-cafe-demo.netlify.app"
   },
   {
     id: 5,
@@ -65,7 +67,8 @@ export const products: Product[] = [
     reviews: 674,
     description: "Mẫu website blog và tạp chí trực tuyến",
     features: ["Article Management", "Comment System", "Social Share", "Newsletter"],
-    inStock: false
+    inStock: false,
+    demoLink: "https://blog-magazine-demo.netlify.app"
   },
   {
     id: 6,
@@ -78,7 +81,8 @@ export const products: Product[] = [
     description: "Landing page chuyển đổi cao cho agency",
     features: ["Conversion Optimized", "Lead Forms", "Service Showcase", "Testimonials"],
     inStock: true,
-    badge: "High Convert"
+    badge: "High Convert",
+    demoLink: "https://agency-landing-demo.netlify.app"
   }
 ];
 
