@@ -11,6 +11,16 @@ export interface Product {
   features: string[];
   inStock: boolean;
   badge?: string;
+  // SEO Fields
+  slug?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  seoKeywords?: string[];
+  altText?: string;
+  openGraphTitle?: string;
+  openGraphDescription?: string;
+  openGraphImage?: string;
+  structuredData?: any;
 }
 
 export interface CartItem {
