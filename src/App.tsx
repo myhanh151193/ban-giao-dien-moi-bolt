@@ -117,6 +117,14 @@ function AppContent() {
 }
 
 function App() {
+  // Log app status on mount
+  React.useEffect(() => {
+    console.log('%c🚀 TemplateHub App Started', 'color: #2563eb; font-size: 16px; font-weight: bold;');
+    console.log('%c📡 Đang kết nối với API: https://medisosoft.com/path/api', 'color: #64748b;');
+    console.log('%c💡 Nếu API không khả dụng, app sẽ tự động chuyển sang chế độ offline', 'color: #64748b;');
+    console.log('%c🛡️ Tất cả dữ liệu fallback đã sẵn sàng', 'color: #16a34a;');
+  }, []);
+
   return (
     <ProductProvider>
       <OrderProvider>
