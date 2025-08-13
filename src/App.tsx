@@ -25,6 +25,7 @@ import Reviews from './pages/admin/Reviews';
 import Users from './pages/admin/Users';
 import Settings from './pages/admin/Settings';
 import AdminLogin from './pages/admin/Login';
+import ProtectedRoute from './components/ProtectedRoute';
 import { BlogPost } from './types';
 
 function App() {
@@ -84,7 +85,11 @@ function App() {
 
               {/* Admin Routes */}
               <Route path="/admin/login" element={<AdminLogin />} />
-              <Route path="/admin" element={<AdminLayout />}>
+              <Route path="/admin" element={
+                <ProtectedRoute>
+                  <AdminLayout />
+                </ProtectedRoute>
+              }>
                 <Route index element={<Dashboard />} />
                 <Route path="products" element={<Products />} />
                 <Route path="orders" element={<Orders />} />
