@@ -1,14 +1,15 @@
 import React from 'react';
-import { 
-  TrendingUp, 
-  Package, 
-  ShoppingCart, 
-  Users, 
+import {
+  TrendingUp,
+  Package,
+  ShoppingCart,
+  Users,
   DollarSign,
   Eye,
   Download,
   Star
 } from 'lucide-react';
+import { useSettings } from '../../context/SettingsContext';
 
 const Dashboard: React.FC = () => {
   const stats = [
