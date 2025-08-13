@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { BlogPost } from '../types';
 import { blogPosts as initialPosts } from '../data/blogPosts';
 
@@ -24,8 +24,25 @@ interface PostProviderProps {
   children: ReactNode;
 }
 
+const STORAGE_KEY = 'posts_data';
+
 export const PostProvider: React.FC<PostProviderProps> = ({ children }) => {
-  const [posts, setPosts] = useState<BlogPost[]>(initialPosts);
+  const [posts, setPosts] = useState<BlogPost[]>(() => {
+    const savedPosts = localStorage.getItem(STORAGE_KEY);
+    if (savedPosts) {
+      try {
+        return JSON.parse(savedPosts);
+      } catch (error) {
+        console.error('Error parsing saved posts:', error);
+        return initialPosts;
+      }
+    }
+    return initialPosts;
+  });
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
+  }, [posts]);
 
   const addPost = (postData: Omit<BlogPost, 'id'>) => {
     const newPost: BlogPost = {
