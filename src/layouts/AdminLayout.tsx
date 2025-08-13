@@ -56,14 +56,14 @@ const AdminLayout: React.FC = () => {
                 <X className="h-6 w-6 text-white" />
               </button>
             </div>
-            <SidebarContent navigation={navigation} isActivePage={isActivePage} />
+            <SidebarContent navigation={navigation} isActivePage={isActivePage} settings={settings} />
           </div>
         </div>
       )}
 
       {/* Desktop sidebar */}
       <div className="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0">
-        <SidebarContent navigation={navigation} isActivePage={isActivePage} />
+        <SidebarContent navigation={navigation} isActivePage={isActivePage} settings={settings} />
       </div>
 
       {/* Main content */}
@@ -133,10 +133,11 @@ const AdminLayout: React.FC = () => {
   );
 };
 
-const SidebarContent: React.FC<{ 
-  navigation: any[], 
-  isActivePage: (href: string) => boolean 
-}> = ({ navigation, isActivePage }) => {
+const SidebarContent: React.FC<{
+  navigation: any[],
+  isActivePage: (href: string) => boolean,
+  settings: any
+}> = ({ navigation, isActivePage, settings }) => {
   return (
     <div className="flex-1 flex flex-col min-h-0 bg-white border-r border-gray-200">
       <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
