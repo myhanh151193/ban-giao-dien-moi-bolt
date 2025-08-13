@@ -120,7 +120,7 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose, onCheckout }
           <div className="border-t bg-gray-50 p-6 space-y-4">
             <div className="flex items-center justify-between text-lg font-semibold">
               <span>Tổng c��ng:</span>
-              <span className="text-blue-600">${totalPrice.toFixed(2)}</span>
+              <span className="text-blue-600">{totalPrice.toLocaleString('vi-VN')}₫</span>
             </div>
             <div className="space-y-3">
               <button 
