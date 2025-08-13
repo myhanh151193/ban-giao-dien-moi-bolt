@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation, Outlet } from 'react-router-dom';
+import { useSettings } from '../context/SettingsContext';
 import {
   LayoutDashboard,
   Package,
