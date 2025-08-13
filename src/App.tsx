@@ -47,7 +47,8 @@ function App() {
   };
 
   return (
-    <CartProvider>
+    <ProductProvider>
+      <CartProvider>
       <Router>
         <div className="min-h-screen bg-white">
           <Header
@@ -97,7 +98,8 @@ function App() {
           />
         </div>
       </Router>
-    </CartProvider>
+      </CartProvider>
+    </ProductProvider>
   );
 }
 
