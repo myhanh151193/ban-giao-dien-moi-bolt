@@ -40,7 +40,12 @@ export const ProductProvider: React.FC<ProductProviderProps> = ({ children }) =>
       setProducts(response.data || response);
     } catch (error) {
       console.error('Error fetching products:', error);
-      setError('Không thể tải danh sách sản phẩm');
+      console.log('Using fallback products data');
+
+      // Import fallback data dynamically
+      const { products: fallbackProducts } = await import('../data/products');
+      setProducts(fallbackProducts);
+      setError('API không khả dụng - sử dụng dữ liệu offline');
     } finally {
       setLoading(false);
     }
