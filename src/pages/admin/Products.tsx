@@ -300,10 +300,10 @@ const CreateProductModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     <div className="fixed inset-0 z-50 overflow-y-auto">
       <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onClick={onClose} />
-        
+
         <span className="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
-        
-        <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+
+        <form onSubmit={handleSubmit} className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
           <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
             <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">
               Thêm sản phẩm mới
@@ -313,16 +313,24 @@ const CreateProductModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                 <label className="block text-sm font-medium text-gray-700">Tên sản phẩm</label>
                 <input
                   type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Nhập tên sản phẩm"
+                  required
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700">Mô tả</label>
                 <textarea
+                  name="description"
+                  value={formData.description}
+                  onChange={handleInputChange}
                   rows={3}
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Nhập mô tả sản phẩm"
+                  required
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
@@ -330,21 +338,42 @@ const CreateProductModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                   <label className="block text-sm font-medium text-gray-700">Giá (VND)</label>
                   <input
                     type="number"
+                    name="price"
+                    value={formData.price}
+                    onChange={handleInputChange}
                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                     placeholder="0"
+                    min="0"
+                    required
                   />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Danh mục</label>
-                  <select className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                    <option>E-commerce</option>
-                    <option>Business</option>
-                    <option>Portfolio</option>
-                    <option>Restaurant</option>
-                    <option>Blog</option>
-                    <option>Landing</option>
+                  <select
+                    name="category"
+                    value={formData.category}
+                    onChange={handleInputChange}
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  >
+                    <option value="E-commerce">E-commerce</option>
+                    <option value="Business">Business</option>
+                    <option value="Portfolio">Portfolio</option>
+                    <option value="Restaurant">Restaurant</option>
+                    <option value="Blog">Blog</option>
+                    <option value="Landing">Landing</option>
                   </select>
                 </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">URL hình ảnh</label>
+                <input
+                  type="url"
+                  name="image"
+                  value={formData.image}
+                  onChange={handleInputChange}
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="https://example.com/image.jpg"
+                />
               </div>
             </div>
           </div>
@@ -363,7 +392,7 @@ const CreateProductModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               Hủy
             </button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );
