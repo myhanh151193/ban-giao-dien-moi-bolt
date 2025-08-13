@@ -4,8 +4,8 @@ export const products: Product[] = [
   {
     id: 1,
     name: "E-commerce Pro Template",
-    price: 99,
-    originalPrice: 149,
+    price: 2390000,
+    originalPrice: 3590000,
     image: "https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg?auto=compress&cs=tinysrgb&w=500",
     category: "E-commerce",
     rating: 4.8,
@@ -18,8 +18,8 @@ export const products: Product[] = [
   {
     id: 2,
     name: "Corporate Business Template",
-    price: 79,
-    originalPrice: 119,
+    price: 1890000,
+    originalPrice: 2890000,
     image: "https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=500",
     category: "Business",
     rating: 4.9,
@@ -32,7 +32,7 @@ export const products: Product[] = [
   {
     id: 3,
     name: "Creative Portfolio Template",
-    price: 59,
+    price: 1490000,
     image: "https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=500",
     category: "Portfolio",
     rating: 4.7,
@@ -44,7 +44,7 @@ export const products: Product[] = [
   {
     id: 4,
     name: "Restaurant & Cafe Template",
-    price: 69,
+    price: 1690000,
     image: "https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=500",
     category: "Restaurant",
     rating: 4.6,
@@ -56,7 +56,7 @@ export const products: Product[] = [
   {
     id: 5,
     name: "Blog & Magazine Template",
-    price: 49,
+    price: 1190000,
     image: "https://images.pexels.com/photos/261662/pexels-photo-261662.jpeg?auto=compress&cs=tinysrgb&w=500",
     category: "Blog",
     rating: 4.5,
@@ -68,7 +68,7 @@ export const products: Product[] = [
   {
     id: 6,
     name: "Agency Landing Page",
-    price: 89,
+    price: 2190000,
     image: "https://images.pexels.com/photos/265087/pexels-photo-265087.jpeg?auto=compress&cs=tinysrgb&w=500",
     category: "Landing",
     rating: 4.7,
