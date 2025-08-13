@@ -72,7 +72,7 @@ const Settings: React.FC = () => {
 
   const handleSave = () => {
     saveSettings();
-    alert('Cài đặt đã được lưu thành công!');
+    alert('Cài đặt đã được lưu thành công! Thay đổi sẽ được áp dụng ngay lập tức trên website.');
   };
 
   return (
