@@ -79,10 +79,6 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   const paymentMethods = [
-    { id: 'credit-card', name: 'Thẻ tín dụng/ghi nợ', icon: CreditCard, description: 'Visa, Mastercard, JCB' },
-    { id: 'bank-transfer', name: 'Chuyển khoản ngân hàng', icon: Building2, description: 'Vietcombank, Techcombank, BIDV' },
-    { id: 'momo', name: 'Ví MoMo', icon: Smartphone, description: 'Thanh toán qua ví điện tử MoMo' },
-    { id: 'zalopay', name: 'ZaloPay', icon: Wallet, description: 'Thanh toán qua ví ZaloPay' },
     { id: 'cod', name: 'Thanh toán khi nhận hàng', icon: Truck, description: 'Trả tiền mặt khi giao hàng' }
   ];
 
