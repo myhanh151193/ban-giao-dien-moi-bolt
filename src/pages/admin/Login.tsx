@@ -27,13 +27,13 @@ const Login: React.FC = () => {
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     // Simple validation (in real app, this would be server-side)
-    if (email === 'admin@templatehub.com' && password === 'admin123') {
+    if (username === 'admin' && password === 'Admin@@2025') {
       localStorage.setItem('adminToken', 'fake-jwt-token');
       // Redirect to the page they were trying to access, or default to /admin
       const from = location.state?.from?.pathname || '/admin';
       navigate(from, { replace: true });
     } else {
-      alert('Email hoặc mật khẩu không đúng!');
+      alert('Tên đăng nhập hoặc mật khẩu không đúng!');
     }
 
     setIsLoading(false);
