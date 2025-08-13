@@ -25,7 +25,7 @@ const AdminLayout: React.FC = () => {
     { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
     { name: 'Sản phẩm', href: '/admin/products', icon: Package },
     { name: 'Đơn hàng', href: '/admin/orders', icon: ShoppingCart },
-    { name: 'Bài viết', href: '/admin/posts', icon: FileText },
+    { name: 'B��i viết', href: '/admin/posts', icon: FileText },
     { name: 'Đánh giá', href: '/admin/reviews', icon: Star },
     { name: 'Người dùng', href: '/admin/users', icon: Users },
     { name: 'Cài đặt', href: '/admin/settings', icon: Settings },
@@ -171,7 +171,17 @@ const SidebarContent: React.FC<{
         </nav>
       </div>
       
-      <div className="flex-shrink-0 flex border-t border-gray-200 p-4">
+      <div className="flex-shrink-0 flex flex-col border-t border-gray-200 p-4 space-y-2">
+        <button
+          onClick={() => {
+            localStorage.removeItem('adminToken');
+            window.location.href = '/admin/login';
+          }}
+          className="flex items-center w-full text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-200 text-left"
+        >
+          <LogOut className="mr-3 h-5 w-5 text-gray-400" />
+          Đăng xuất
+        </button>
         <Link
           to="/"
           className="flex items-center w-full text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-200"
