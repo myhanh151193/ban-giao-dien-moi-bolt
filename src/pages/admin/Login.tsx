@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Lock, Mail, Eye, EyeOff } from 'lucide-react';
 
 const Login: React.FC = () => {
@@ -8,6 +8,16 @@ const Login: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Check if user is already logged in
+  useEffect(() => {
+    const adminToken = localStorage.getItem('adminToken');
+    if (adminToken) {
+      const from = location.state?.from?.pathname || '/admin';
+      navigate(from, { replace: true });
+    }
+  }, [navigate, location]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,7 +29,9 @@ const Login: React.FC = () => {
     // Simple validation (in real app, this would be server-side)
     if (email === 'admin@templatehub.com' && password === 'admin123') {
       localStorage.setItem('adminToken', 'fake-jwt-token');
-      navigate('/admin');
+      // Redirect to the page they were trying to access, or default to /admin
+      const from = location.state?.from?.pathname || '/admin';
+      navigate(from, { replace: true });
     } else {
       alert('Email hoặc mật khẩu không đúng!');
     }
