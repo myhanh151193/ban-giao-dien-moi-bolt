@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ShoppingCart, Menu, X, User, Heart } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import { useSettings } from '../context/SettingsContext';
 
 interface HeaderProps {
   onCartClick: () => void;
@@ -10,6 +11,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ onCartClick }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { getTotalItems } = useCart();
+  const { settings } = useSettings();
   const location = useLocation();
   const totalItems = getTotalItems();
 
@@ -32,8 +34,19 @@ const Header: React.FC<HeaderProps> = ({ onCartClick }) => {
           {/* Logo */}
           <div className="flex items-center">
             <div className="flex-shrink-0">
-              <Link to="/" className="text-2xl font-bold text-blue-600 hover:text-blue-700 transition-colors duration-200">
-                TemplateHub
+              <Link
+                to="/"
+                className="text-2xl font-bold transition-colors duration-200"
+                style={{ color: settings.appearance.primaryColor }}
+                onMouseEnter={(e) => {
+                  const hoverColor = settings.appearance.primaryColor + 'dd';
+                  e.currentTarget.style.color = hoverColor;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = settings.appearance.primaryColor;
+                }}
+              >
+                {settings.general.siteName}
               </Link>
             </div>
           </div>
@@ -48,9 +61,22 @@ const Header: React.FC<HeaderProps> = ({ onCartClick }) => {
                   to={link.path}
                   className={`px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
                     isActivePath(link.path)
-                      ? 'text-blue-600 bg-blue-50'
-                      : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
+                      ? 'bg-blue-50'
+                      : 'text-gray-700 hover:bg-gray-50'
                   }`}
+                  style={{
+                    color: isActivePath(link.path) ? settings.appearance.primaryColor : undefined
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isActivePath(link.path)) {
+                      e.currentTarget.style.color = settings.appearance.primaryColor;
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isActivePath(link.path)) {
+                      e.currentTarget.style.color = '';
+                    }
+                  }}
                 >
                   {link.label}
                 </Link>
@@ -62,15 +88,25 @@ const Header: React.FC<HeaderProps> = ({ onCartClick }) => {
 
           {/* Right side buttons */}
           <div className="flex items-center space-x-4">
-            <button className="p-2 text-gray-700 hover:text-blue-600 transition-colors duration-200">
+            <button
+              className="p-2 text-gray-700 transition-colors duration-200"
+              onMouseEnter={(e) => e.currentTarget.style.color = settings.appearance.primaryColor}
+              onMouseLeave={(e) => e.currentTarget.style.color = ''}
+            >
               <Heart className="h-6 w-6" />
             </button>
-            <button className="p-2 text-gray-700 hover:text-blue-600 transition-colors duration-200">
+            <button
+              className="p-2 text-gray-700 transition-colors duration-200"
+              onMouseEnter={(e) => e.currentTarget.style.color = settings.appearance.primaryColor}
+              onMouseLeave={(e) => e.currentTarget.style.color = ''}
+            >
               <User className="h-6 w-6" />
             </button>
             <button
               onClick={onCartClick}
-              className="relative p-2 text-gray-700 hover:text-blue-600 transition-colors duration-200"
+              className="relative p-2 text-gray-700 transition-colors duration-200"
+              onMouseEnter={(e) => e.currentTarget.style.color = settings.appearance.primaryColor}
+              onMouseLeave={(e) => e.currentTarget.style.color = ''}
             >
               <ShoppingCart className="h-6 w-6" />
               {totalItems > 0 && (
@@ -83,7 +119,9 @@ const Header: React.FC<HeaderProps> = ({ onCartClick }) => {
             {/* Mobile menu button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="lg:hidden p-2 text-gray-700 hover:text-blue-600 transition-colors duration-200"
+              className="lg:hidden p-2 text-gray-700 transition-colors duration-200"
+              onMouseEnter={(e) => e.currentTarget.style.color = settings.appearance.primaryColor}
+              onMouseLeave={(e) => e.currentTarget.style.color = ''}
             >
               {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
@@ -102,9 +140,22 @@ const Header: React.FC<HeaderProps> = ({ onCartClick }) => {
                   onClick={() => setIsMenuOpen(false)}
                   className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 ${
                     isActivePath(link.path)
-                      ? 'text-blue-600 bg-blue-100'
-                      : 'text-gray-700 hover:text-blue-600 hover:bg-white'
+                      ? 'bg-blue-100'
+                      : 'text-gray-700 hover:bg-white'
                   }`}
+                  style={{
+                    color: isActivePath(link.path) ? settings.appearance.primaryColor : undefined
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isActivePath(link.path)) {
+                      e.currentTarget.style.color = settings.appearance.primaryColor;
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isActivePath(link.path)) {
+                      e.currentTarget.style.color = '';
+                    }
+                  }}
                 >
                   {link.label}
                 </Link>
