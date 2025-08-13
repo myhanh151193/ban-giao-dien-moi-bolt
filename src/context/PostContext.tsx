@@ -40,7 +40,12 @@ export const PostProvider: React.FC<PostProviderProps> = ({ children }) => {
       setPosts(response.data || response);
     } catch (error) {
       console.error('Error fetching posts:', error);
-      setError('Không thể tải danh sách bài viết');
+      console.log('Using fallback blog posts data');
+
+      // Import fallback data dynamically
+      const { blogPosts: fallbackPosts } = await import('../data/blogPosts');
+      setPosts(fallbackPosts);
+      setError('API không khả dụng - sử dụng dữ liệu offline');
     } finally {
       setLoading(false);
     }
