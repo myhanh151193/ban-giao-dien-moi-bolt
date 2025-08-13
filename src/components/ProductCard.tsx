@@ -18,9 +18,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onQuickView }) => {
 
   const handleDemo = (e: React.MouseEvent) => {
     e.stopPropagation();
-    // Open demo in same tab using product's demoLink
+    // Open demo in new tab using product's demoLink
     if (product.demoLink) {
-      window.location.href = product.demoLink;
+      window.open(product.demoLink, '_blank');
     }
   };
 
