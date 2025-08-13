@@ -11,6 +11,7 @@ export interface Product {
   features: string[];
   inStock: boolean;
   badge?: string;
+  demoLink?: string;
   // SEO Fields
   slug?: string;
   seoTitle?: string;
