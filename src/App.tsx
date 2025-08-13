@@ -21,6 +21,7 @@ import Dashboard from './pages/admin/Dashboard';
 import Products from './pages/admin/Products';
 import Orders from './pages/admin/Orders';
 import Posts from './pages/admin/Posts';
+import Reviews from './pages/admin/Reviews';
 import Users from './pages/admin/Users';
 import Settings from './pages/admin/Settings';
 import AdminLogin from './pages/admin/Login';
