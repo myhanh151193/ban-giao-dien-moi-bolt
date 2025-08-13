@@ -14,19 +14,30 @@ export const blogPosts: BlogPost[] = [
     content: `
       <h2>Smartphone là thiết bị không thể thiếu trong cuộc sống hiện đại</h2>
       <p>Năm 2024 đánh dấu một bước tiến vượt bậc trong công nghệ smartphone với sự xuất hiện của AI tích hợp, camera cải tiến và hiệu suất xử lý mạnh mẽ hơn bao giờ hết.</p>
-      
+
       <h3>1. iPhone 15 Pro Max - Đỉnh cao công nghệ Apple</h3>
       <p>Với chip A17 Pro được sản xuất trên tiến trình 3nm, iPhone 15 Pro Max mang đến hiệu suất vượt trội cùng khả năng chụp ảnh chuyên nghiệp với camera 48MP.</p>
-      
+
       <h3>2. Samsung Galaxy S24 Ultra - AI đột phá</h3>
       <p>Galaxy S24 Ultra tích hợp Galaxy AI với khả năng dịch thuật real-time, chỉnh sửa ảnh thông minh và S Pen cải tiến.</p>
-      
+
       <h3>3. Google Pixel 8 Pro - Nhiếp ảnh AI</h3>
       <p>Pixel 8 Pro nổi bật với khả năng chụp ảnh computational photography và tích hợp sâu với các dịch vụ Google AI.</p>
-      
+
       <p>Khi chọn smartphone năm 2024, hãy xem xét nhu cầu sử dụng, ngân sách và hệ sinh thái bạn đang sử dụng để có lựa chọn phù hợp nhất.</p>
     `,
-    tags: ["Smartphone", "Reviews", "Technology", "2024"]
+    tags: ["Smartphone", "Reviews", "Technology", "2024"],
+    // SEO Fields
+    seoTitle: "Top 10 Smartphone Tốt Nhất 2024 - Đánh Giá Chi Tiết",
+    seoDescription: "Khám phá top 10 smartphone tốt nhất năm 2024 với công nghệ AI tiên tiến, camera chuyên nghiệp và hiệu suất vượt trội. Đánh giá chi tiết iPhone 15 Pro Max, Galaxy S24 Ultra.",
+    seoKeywords: ["smartphone 2024", "top smartphone", "iPhone 15 Pro Max", "Galaxy S24 Ultra", "điện thoại tốt nhất"],
+    altText: "Top 10 smartphone tốt nhất năm 2024",
+    openGraphTitle: "Top 10 Smartphone Tốt Nhất Năm 2024 - Đánh Giá Chi Tiết",
+    openGraphDescription: "Khám phá những chiếc smartphone hàng đầu với công nghệ tiên tiến nhất, từ camera AI đến hiệu suất xử lý vượt trội.",
+    openGraphImage: "https://images.pexels.com/photos/1092644/pexels-photo-1092644.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    canonicalUrl: "https://yourdomain.com/blog/top-10-smartphone-2024",
+    metaRobots: "index,follow",
+    focusKeyword: "smartphone 2024"
   },
   {
     id: 2,
