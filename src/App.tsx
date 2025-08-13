@@ -73,6 +73,8 @@ function App() {
                 <Route index element={<Dashboard />} />
                 <Route path="products" element={<Products />} />
                 <Route path="orders" element={<Orders />} />
+                <Route path="posts" element={<Posts />} />
+                <Route path="users" element={<Users />} />
                 <Route path="settings" element={<Settings />} />
               </Route>
             </Routes>
