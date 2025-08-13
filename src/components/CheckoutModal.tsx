@@ -372,101 +372,32 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
                     {/* Step 3: Payment Details */}
                     {currentStep === 3 && (
                       <div className="space-y-6">
-                        <h3 className="text-xl font-semibold text-gray-900 mb-4">Chi tiết thanh toán</h3>
-                        
-                        {formData.paymentMethod === 'credit-card' && (
-                          <div className="space-y-4">
+                        <h3 className="text-xl font-semibold text-gray-900 mb-4">Xác nhận thanh toán</h3>
+
+                        <div className="bg-yellow-50 border border-yellow-200 p-6 rounded-lg">
+                          <div className="flex items-center mb-4">
+                            <Truck className="h-8 w-8 text-yellow-600 mr-3" />
                             <div>
-                              <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Tên trên thẻ *
-                              </label>
-                              <input
-                                type="text"
-                                name="cardName"
-                                value={formData.cardName}
-                                onChange={handleInputChange}
-                                required
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                                placeholder="NGUYEN VAN A"
-                              />
-                            </div>
-                            <div>
-                              <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Số thẻ *
-                              </label>
-                              <input
-                                type="text"
-                                name="cardNumber"
-                                value={formData.cardNumber}
-                                onChange={handleInputChange}
-                                required
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                                placeholder="1234 5678 9012 3456"
-                                maxLength={19}
-                              />
-                            </div>
-                            <div className="grid grid-cols-2 gap-4">
-                              <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                  Ngày hết hạn *
-                                </label>
-                                <input
-                                  type="text"
-                                  name="cardExpiry"
-                                  value={formData.cardExpiry}
-                                  onChange={handleInputChange}
-                                  required
-                                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                                  placeholder="MM/YY"
-                                  maxLength={5}
-                                />
-                              </div>
-                              <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                  CVC *
-                                </label>
-                                <input
-                                  type="text"
-                                  name="cardCvc"
-                                  value={formData.cardCvc}
-                                  onChange={handleInputChange}
-                                  required
-                                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                                  placeholder="123"
-                                  maxLength={4}
-                                />
-                              </div>
+                              <h4 className="font-semibold text-gray-900">Thanh toán khi nhận hàng</h4>
+                              <p className="text-sm text-gray-600">Trả tiền mặt khi giao hàng</p>
                             </div>
                           </div>
-                        )}
 
-                        {formData.paymentMethod === 'bank-transfer' && (
-                          <div className="bg-blue-50 p-4 rounded-lg">
-                            <h4 className="font-semibold text-gray-900 mb-2">Thông tin chuyển khoản</h4>
-                            <div className="text-sm text-gray-700 space-y-1">
-                              <p><strong>Ngân hàng:</strong> Vietcombank</p>
-                              <p><strong>Số tài khoản:</strong> 1234567890</p>
-                              <p><strong>Chủ tài khoản:</strong> CONG TY TECHSTORE</p>
-                              <p><strong>Nội dung:</strong> DH{Date.now().toString().slice(-6)} {formData.firstName} {formData.lastName}</p>
+                          <div className="space-y-3 text-sm text-gray-700">
+                            <div className="flex items-start space-x-3">
+                              <Shield className="h-5 w-5 text-yellow-600 mt-0.5 flex-shrink-0" />
+                              <p>Bạn sẽ thanh toán bằng tiền mặt khi nhận hàng tại địa chỉ đã cung cấp.</p>
+                            </div>
+                            <div className="flex items-start space-x-3">
+                              <CheckCircle className="h-5 w-5 text-yellow-600 mt-0.5 flex-shrink-0" />
+                              <p>Vui lòng chuẩn bị đủ tiền theo đúng số tiền đơn hàng: <strong>{finalAmount.toLocaleString('vi-VN')}₫</strong></p>
+                            </div>
+                            <div className="flex items-start space-x-3">
+                              <Shield className="h-5 w-5 text-yellow-600 mt-0.5 flex-shrink-0" />
+                              <p>Đơn hàng sẽ được giao trong vòng 2-3 ngày làm việc.</p>
                             </div>
                           </div>
-                        )}
-
-                        {(formData.paymentMethod === 'momo' || formData.paymentMethod === 'zalopay') && (
-                          <div className="bg-green-50 p-4 rounded-lg text-center">
-                            <p className="text-gray-700 mb-2">
-                              Bạn sẽ được chuyển đến ứng dụng {formData.paymentMethod === 'momo' ? 'MoMo' : 'ZaloPay'} để hoàn tất thanh toán
-                            </p>
-                          </div>
-                        )}
-
-                        {formData.paymentMethod === 'cod' && (
-                          <div className="bg-yellow-50 p-4 rounded-lg">
-                            <p className="text-gray-700">
-                              Bạn sẽ thanh toán bằng tiền mặt khi nhận hàng. Vui lòng chuẩn bị đủ tiền theo đúng số tiền đơn hàng.
-                            </p>
-                          </div>
-                        )}
+                        </div>
 
                         <div className="flex space-x-4">
                           <button
