@@ -6,6 +6,8 @@ import CartSidebar from './components/CartSidebar';
 import Footer from './components/Footer';
 import CheckoutModal from './components/CheckoutModal';
 import Home from './pages/Home';
+import Templates from './pages/Templates';
+import Blog from './pages/Blog';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import { BlogPost } from './types';
@@ -54,6 +56,8 @@ function App() {
                   />
                 }
               />
+              <Route path="/templates" element={<Templates />} />
+              <Route path="/blog" element={<Blog />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
             </Routes>
