@@ -44,12 +44,34 @@ export const PostProvider: React.FC<PostProviderProps> = ({ children }) => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
   }, [posts]);
 
+  const generateSlug = (title: string) => {
+    return title
+      .toLowerCase()
+      .replace(/[àáạảãâầấậẩẫăằắặẳẵ]/g, 'a')
+      .replace(/[èéẹẻẽêềếệểễ]/g, 'e')
+      .replace(/[ìíịỉĩ]/g, 'i')
+      .replace(/[òóọỏõôồốộổỗơờớợởỡ]/g, 'o')
+      .replace(/[ùúụủũưừứựửữ]/g, 'u')
+      .replace(/[ỳýỵỷỹ]/g, 'y')
+      .replace(/đ/g, 'd')
+      .replace(/[^a-z0-9\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .trim();
+  };
+
   const addPost = (postData: Omit<BlogPost, 'id'>) => {
     const newPost: BlogPost = {
       ...postData,
       id: Math.max(...posts.map(p => p.id)) + 1,
-      slug: postData.title.toLowerCase().replace(/\s+/g, '-'),
+      slug: postData.slug || generateSlug(postData.title),
       date: new Date().toLocaleDateString('vi-VN'),
+      seoTitle: postData.seoTitle || postData.title,
+      seoDescription: postData.seoDescription || postData.excerpt.substring(0, 160),
+      altText: postData.altText || postData.title,
+      openGraphTitle: postData.openGraphTitle || postData.seoTitle || postData.title,
+      openGraphDescription: postData.openGraphDescription || postData.seoDescription || postData.excerpt.substring(0, 160),
+      openGraphImage: postData.openGraphImage || postData.image,
     };
     setPosts(prev => [newPost, ...prev]);
   };
