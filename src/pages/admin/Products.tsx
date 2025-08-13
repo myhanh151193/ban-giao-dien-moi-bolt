@@ -272,6 +272,7 @@ const CreateProductModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     originalPrice: 0,
     category: 'E-commerce',
     image: '',
+    demoLink: '',
     rating: 4.5,
     reviews: 0,
     features: [] as string[],
