@@ -407,6 +407,11 @@ const Users: React.FC = () => {
           onUpdateStatus={handleUpdateUserStatus}
         />
       )}
+
+      {/* Create User Modal */}
+      {isCreateModalOpen && (
+        <CreateUserModal onClose={() => setIsCreateModalOpen(false)} />
+      )}
     </div>
   );
 };
