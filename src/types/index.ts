@@ -51,6 +51,17 @@ export interface BlogPost {
   slug: string;
   content: string;
   tags: string[];
+  // SEO Fields
+  seoTitle?: string;
+  seoDescription?: string;
+  seoKeywords?: string[];
+  altText?: string;
+  openGraphTitle?: string;
+  openGraphDescription?: string;
+  openGraphImage?: string;
+  canonicalUrl?: string;
+  metaRobots?: string;
+  focusKeyword?: string;
 }
 
 export interface CheckoutFormData {
