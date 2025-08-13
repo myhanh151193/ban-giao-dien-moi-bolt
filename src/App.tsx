@@ -122,11 +122,7 @@ function App() {
   // Log app status on mount
   React.useEffect(() => {
     console.log('%c🚀 TemplateHub App Started', 'color: #2563eb; font-size: 16px; font-weight: bold;');
-    console.log('%c📡 API Structure:', 'color: #64748b; font-weight: bold;');
-    console.log('%c   • Base: https://medisosoft.com/path/api/controllers/', 'color: #64748b;');
-    console.log('%c   • Products: ProductController.php', 'color: #64748b;');
-    console.log('%c   • Users: UserController.php', 'color: #64748b;');
-    console.log('%c   • Orders: OrderController.php', 'color: #64748b;');
+    console.log('%c📡 API Base URL: https://medisosoft.com/path/api', 'color: #64748b;');
     console.log('%c💡 Nếu API không khả dụng, app sẽ tự động chuyển sang chế độ offline', 'color: #64748b;');
     console.log('%c🛡️ Tất cả dữ liệu fallback đã sẵn sàng', 'color: #16a34a;');
   }, []);
