@@ -122,7 +122,7 @@ const Footer: React.FC = () => {
           <div className="space-y-4">
             <h4 className="text-lg font-semibold">Danh mục</h4>
             <ul className="space-y-2">
-              {['Smartphones', 'Laptops', 'Tablets', 'Audio', 'Wearables', 'Phụ kiện'].map((category) => (
+              {['Landing Page', 'E-commerce', 'Portfolio', 'Blog', 'Corporate', 'Dashboard'].map((category) => (
                 <li key={category}>
                   <a 
                     href="#" 
@@ -223,7 +223,7 @@ const Footer: React.FC = () => {
           <div className="flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0">
             <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-6 text-sm">
               <p className="text-gray-400">
-                © 2024 {settings.general.siteName}. Tất cả quyền được bảo lưu.
+                © 2024 {settings.general.siteName}. Tất cả quyền đ��ợc bảo lưu.
               </p>
               <div className="flex items-center space-x-1 text-gray-400">
                 <span>MST: 0123456789 |</span>
